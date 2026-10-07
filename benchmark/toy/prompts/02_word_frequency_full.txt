@@ -1,0 +1,3 @@
+Implémente word_frequency(text) : dictionnaire mot : occurrences, insensible à la casse, en ignorant la ponctuation.
+
+Pour cette variante du benchmark, les espaces blancs et les caractères de ponctuation ASCII délimitent les mots. Les apostrophes et les traits d'union sont aussi des séparateurs. La casse est normalisée en minuscules ; les accents et les chiffres sont conservés. Une entrée vide ou composée uniquement de séparateurs renvoie un dictionnaire vide.

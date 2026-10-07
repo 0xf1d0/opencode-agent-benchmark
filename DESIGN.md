@@ -2,10 +2,14 @@
 
 ## Status and scope
 
-This is a proposed design, not an implemented benchmark. The repository currently
-contains `AGENTS.md`, `.gitignore`, the methodology note in `references/tp/README.md`,
-and a locally available, ignored TP PDF. There is no implementation, dependency
-manifest, test suite, or Git commit history. This stage adds documentation only.
+This is a proposed design, not an implemented benchmark runner. The initial
+documentation phase added this design and the methodology to the repository's
+guide and references. Level 1 materials are now being added under `benchmark/toy/`:
+the owner-supplied unsolved fixture, source public tests from TutoOpenCode, prompts
+and separate oracle tests. Its public baseline is verified: two passes and the
+intended space-handling failure; see the [Level 1 status](benchmark/toy/README.md).
+Provider integration and scored runs
+remain unimplemented.
 
 **System under evaluation:** a pinned OpenCode release operating with a declared
 model through a declared inference provider. Results describe that complete
@@ -49,9 +53,10 @@ not verified current provider configurations.
 | Existing/new tests, review, prompt journal, error analysis | §2, p. 2; §5, p. 11 | Structured event records, evidence taxonomy, blinded review |
 | Sovereignty, security, responsibility, code ownership | §1, p. 1; §5.2, p. 11 | Deployment-specific evidence cards and release policy |
 
-The supplied repository does not contain the TP's Edunao `TutoOpenCode` archive,
-the exercise Git repository, or its issue texts. We cannot claim to reproduce
-those original fixtures. New fixtures will be explicitly identified as adaptations.
+The owner subsequently supplied the TP's `TutoOpenCode` archive, enabling exact
+reproduction of its public Level 1 palindrome tests. The exercise Git repository
+and its issue texts remain unavailable. Any new fixtures or oracle contracts
+must be explicitly identified as adaptations or benchmark extensions.
 The suggested upstream PRs (pp. 7–10) are candidate leads, not validated tasks.
 
 ## Questions and comparison matrix
@@ -192,9 +197,10 @@ broader languages and service-dependent tasks require new versioned strata.
 
 ## Proposed repository architecture
 
-Everything below except the existing guide, references, `.gitignore` and the two
-design documents is **planned**. No directory, fixture, script or provider
-configuration in this tree is created in this phase.
+The tree below is the **proposed complete architecture**, rather than an inventory
+of implemented files. Current Level 1 materials use `benchmark/toy/fixture/`,
+`benchmark/toy/prompts/` and `benchmark/toy/oracle/`; adopting the generalized
+task registry below is future work. Provider configurations remain unimplemented.
 
 ```text
 AGENTS.md                         contributor guide, outside task workspaces

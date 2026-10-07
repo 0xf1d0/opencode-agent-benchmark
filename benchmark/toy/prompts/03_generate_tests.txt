@@ -1,0 +1,1 @@
+Écris des tests pour la fonction word_frequency dans un nouveau fichier test_word_frequency.py, en respectant sa spécification. Couvre aussi les cas limites, puis lance pytest. Ne modifie pas toolbox.py ni les tests existants.

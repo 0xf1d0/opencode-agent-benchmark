@@ -1,0 +1,1 @@
+Implémente celsius_to_fahrenheit(celsius), qui convertit une température de Celsius en Fahrenheit.

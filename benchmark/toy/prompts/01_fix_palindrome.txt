@@ -1,0 +1,1 @@
+Le test test_is_palindrome_with_spaces échoue, explique pourquoi et corrige is_palindrome.

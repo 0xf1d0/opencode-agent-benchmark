@@ -43,8 +43,10 @@ level reports are the default; any combined weighting must be frozen in advance.
 
 ### Level 1 contracts
 
-Create new fixtures inspired by the TP; the original archive is absent. Define
-normalization, punctuation, Unicode and empty-input behavior explicitly wherever
+Level 1 uses the owner's unsolved fixture and byte-for-byte public palindrome
+tests from the supplied TutoOpenCode archive; see [its provenance](benchmark/toy/README.md).
+New oracle cases and more precise specification variants are benchmark extensions.
+Define normalization, punctuation, Unicode and empty-input behavior explicitly wherever
 required by a fully specified task. Each specification variant begins from a
 fresh snapshot. The benchmark must not silently reward requirements absent from
 an underspecified prompt.
