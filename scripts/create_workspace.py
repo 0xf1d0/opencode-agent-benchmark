@@ -262,7 +262,7 @@ def create_workspace(*, benchmark, provider, model, run_id, config_path=None,
         raise WorkspaceError("Codex must not participate in benchmark runs.")
     repository_root = Path(repository_root).resolve()
     catalog_sha256 = None
-    if provider in {"albert", "aristote", "mistral"}:
+    if provider in {"albert", "aristote", "mistral", "nvidia"}:
         catalog_module = importlib.import_module(("scripts." if __package__ else "") + provider + "_catalog")
         catalog_models, catalog_sha256 = catalog_module.read_catalog(
             repository_root / "providers" / provider / "catalog-snapshots/2026-10-08.json"
@@ -271,7 +271,8 @@ def create_workspace(*, benchmark, provider, model, run_id, config_path=None,
         provider_metadata = load_json(read_regular_file(repository_root / "providers" / provider / "metadata.json"))
         if provider_metadata["catalog"]["sha256"] != catalog_sha256:
             raise WorkspaceError("Provider catalog hash differs from its evidence card.")
-        default_config = repository_root / "providers" / provider / model / "opencode.json"
+        relative = catalog_module.registered_profile(provider_metadata, model) if provider == "nvidia" else model + "/opencode.json"
+        default_config = repository_root / "providers" / provider / relative
     else:
         default_config = repository_root / "providers" / provider / "opencode.json"
     config_path = Path(config_path) if config_path else default_config
@@ -280,6 +281,8 @@ def create_workspace(*, benchmark, provider, model, run_id, config_path=None,
     except FileNotFoundError:
         raise WorkspaceError("Selected config is missing; provide a secret-free JSON file with --config.") from None
     validate_config(config_bytes, provider, model)
+    if provider == "nvidia" and digest(config_bytes) != provider_metadata["configs"][relative]["sha256"]:
+        raise WorkspaceError("NVIDIA configuration hash differs from its registered profile.")
 
     manifest_path = repository_root / "benchmark" / "toy" / "fixture_manifest.json"
     manifest_bytes = read_regular_file(manifest_path)
@@ -363,7 +366,7 @@ def main(argv=None):
     parser.add_argument("--provider", required=True)
     parser.add_argument("--model", required=True)
     parser.add_argument("--run-id", required=True)
-    parser.add_argument("--config", type=Path, help="Secret-free OpenCode v1 JSON; catalog-backed providers default to providers/<provider>/<preferred-model>/opencode.json, NVIDIA to providers/nvidia/opencode.json")
+    parser.add_argument("--config", type=Path, help="Secret-free OpenCode v1 JSON; catalog-backed profiles are selected by exact canonical ID; NVIDIA uses an explicit safe-directory mapping")
     parser.add_argument("--output-root", type=Path, help="External output directory; defaults to the system temporary directory/opencode-benchmark-workspaces")
     args = parser.parse_args(argv)
     try:

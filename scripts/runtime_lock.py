@@ -50,8 +50,10 @@ def build_lock(*, provider, model, prompt_id, run_id, campaign_id, opencode_vers
     if digest(config_bytes) != metadata["configs"][matches[0]]["sha256"]:
         raise WorkspaceError("Provider configuration hash differs from metadata.")
     catalog_sha = None
-    if provider in {"albert", "aristote", "mistral"}:
+    if provider in {"albert", "aristote", "mistral", "nvidia"}:
         catalog_module = importlib.import_module(("scripts." if __package__ else "") + provider + "_catalog")
+        if provider == "nvidia" and catalog_module.registered_profile(metadata, model) != matches[0]:
+            raise WorkspaceError("NVIDIA runtime profile mapping differs from registration.")
         models, catalog_sha = catalog_module.read_catalog()
         catalog_module.canonical_candidate(models, model)
         if catalog_sha != metadata["catalog"]["sha256"]:

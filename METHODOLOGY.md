@@ -532,3 +532,32 @@ The new Mistral restricted template is wholly `not_run`, `scored_ready: false`.
 no shell execution, scoring or hidden tests. Such observations remain separate
 from full formal qualification until runtime, evidence, routing, permissions and
 all campaign gates are established. Codex neither performs nor grades the preflight.
+
+
+### NVIDIA sparse-catalog evidence policy
+
+The exact owner-authenticated 2026-10-08 HTTP 200 catalog has 80 records and
+SHA-256 `2e7d19e2a7d4d8602a2b039de78b4af3e8b45920d34f50393947e53457d6849d`.
+Retain every raw record. Neither `owned_by` nor repeated raw `created=735790403`
+establishes operator evidence or upstream release dates. Missing capability,
+context, output, price and deployment fields remain null. Public NVIDIA cards
+are separately hashed dated claim records, never substituted into API fields.
+Even explicit public endpoint claims are not observations of exact hosted weights.
+
+Freeze the three initial cells (Ultra, Lightning, GLM 5.3) before any outcomes.
+First owner-only non-scored preflight uses Lightning; all formal checks remain
+`not_run` until independently evidenced. Five optional candidates do not expand
+the initial matrix. Explicit specialized-ID exclusions and unreviewed entries
+are documented in [NVIDIA review](docs/nvidia-review.md). Unknown/non-selected
+IDs cannot prepare workspaces, even with a config override. Exact canonical IDs
+with namespaces are preserved; safe profile paths are explicit mappings.
+
+The 32768-context/4096-output common cap is
+`benchmark_extension_provisional_common_cap`, not a NVIDIA service ceiling.
+NVIDIA/Albert Gemma 4 31B matching is **model-family-only**, not checkpoint or
+serving equivalence. GPT OSS sizes and DeepSeek version labels differ; no exact
+provider comparison is claimed. NVIDIA/direct-Mistral GLM remains unavailable.
+All four providers have owner catalog evidence, Albert/Aristote basic owner
+observations are separate, and no cell is formally preflight-qualified/scored-ready.
+The sandbox remains unimplemented; smoke observations cannot establish OS
+isolation or substitute for the formal runtime/qualification gates.

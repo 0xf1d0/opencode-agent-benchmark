@@ -174,7 +174,7 @@ identical bytes and recorded migration hashes.
 python scripts/create_workspace.py --benchmark toy --provider albert \
   --model qwen3-coder-30b-a3b-instruct --run-id preparation-001
 python scripts/create_workspace.py --benchmark toy --provider nvidia \
-  --model z-ai/glm-5.3 --run-id preparation-001
+  --model nvidia/nemotron-3.5-lightning-30b-a3b --run-id nvidia-lightning-preflight-001
 python scripts/create_workspace.py --benchmark toy --provider aristote \
   --model qwen-3.6-35b-instruct --run-id aristote-preflight-001
 ```
@@ -213,3 +213,39 @@ hosting, verified certification and retention evidence separate from capability.
 For the first owner-only Mistral restricted smoke observation, use the
 [exact manual steps](../docs/preflight-mistral.md). This is not a scored campaign
 or a substitute for the reviewed OS boundary and complete formal qualification.
+
+
+## NVIDIA Build owner catalog
+
+All four providers now have dated owner-authenticated catalogs. The exact
+[NVIDIA snapshot](nvidia/catalog-snapshots/2026-10-08.json) has 80 records, HTTP
+200 reported by the owner, and SHA-256
+`2e7d19e2a7d4d8602a2b039de78b4af3e8b45920d34f50393947e53457d6849d`.
+Only sparse raw fields are present. `created=735790403` has unverified semantics;
+`owned_by` is not operator/hosting evidence. Aliases and absent service metadata
+remain null. [Public card facts](nvidia/evidence/2026-10-08-public-model-cards.json)
+are separate hashed evidence, not additional authenticated API fields.
+
+| Canonical API ID | Registered directory | Role |
+| --- | --- | --- |
+| `nvidia/nemotron-3-ultra-550b-a55b` | `nvidia-nemotron-3-ultra-550b-a55b` | Primary |
+| `nvidia/nemotron-3.5-lightning-30b-a3b` | `nvidia-nemotron-3.5-lightning-30b-a3b` | Primary; first manual preflight |
+| `z-ai/glm-5.3` | `z-ai-glm-5.3` | Primary |
+
+Each directory contains exactly one selected-model `opencode.json`. OpenCode's
+model selector is `<provider>/<canonical API ID>`, e.g.
+`nvidia/nvidia/nemotron-3.5-lightning-30b-a3b`; preserve both namespaces. The old
+root GLM profile is migrated with its previous hash recorded. Preparation uses
+explicit mappings, rejects unknown/non-selected IDs and config drift, and records
+the catalog hash outside the workspace. Authentication remains opaque external
+OpenCode-managed state under provider ID `nvidia`; no key mechanism is added.
+All profiles retain restricted tool policy and provisional benchmark caps.
+
+Five optional candidates, 18 specialized exclusions and 53 unreviewed entries
+are listed in the [complete review](../docs/nvidia-review.md). NVIDIA/Albert Gemma
+4 31B is a future **model-family-only** candidate. GPT OSS 20B/120B and differing
+DeepSeek labels are not identical-model pairs. Direct-Mistral GLM remains absent.
+No NVIDIA runtime checks have run. Follow the [owner Lightning protocol](../docs/preflight-nvidia.md);
+the [blank template](../runtime/preflight.nvidia.example.json) stays entirely
+`not_run`/null/false. Catalog-qualified does not mean formally preflight-qualified
+or scored-ready; no cell is scored-ready.

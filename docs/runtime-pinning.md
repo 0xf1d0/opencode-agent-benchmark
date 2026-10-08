@@ -36,6 +36,20 @@ All fields are required; unknown observations are null. No committed campaign
 lock or scored-ready runtime is supplied. Locks are canonical indented JSON when
 created; preflight hashes always cover the exact lock bytes, including whitespace.
 
+## Canonical provider selection
+
+All four providers have hashed owner catalogs. NVIDIA IDs contain `/`;
+preparation resolves only the explicit safe-directory registry in
+`providers/nvidia/metadata.json` and `scripts/nvidia_catalog.py`. It never treats
+the raw API ID as a relative filesystem path. Runtime locks retain the exact
+canonical ID, registered profile path/hash and NVIDIA catalog hash. Unknown or
+non-selected IDs fail closed, including explicit config overrides. Current
+selected profiles are restricted with the provisional 32768/4096 benchmark cap.
+[Mappings and review](nvidia-review.md) document every active cell.
+
+Task locks bind task prompts; do not use a toy prompt to manufacture linkage for
+a non-task smoke preflight. See [owner Lightning instructions](preflight-nvidia.md).
+
 ## Field reference
 
 | Field | Meaning |

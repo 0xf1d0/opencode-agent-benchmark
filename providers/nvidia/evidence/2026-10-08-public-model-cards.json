@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-10-08",
+  "kind": "maintainer_authored_public_documentation_fact_record",
+  "not_an_authenticated_catalog": true,
+  "hosted_identity_verified": false,
+  "sources": [
+    {
+      "model_id": "nvidia/nemotron-3-ultra-550b-a55b",
+      "url": "https://build.nvidia.com/nvidia/nemotron-3-ultra-550b-a55b/modelcard",
+      "advertised": {
+        "total_parameters": "550B",
+        "active_parameters": "55B",
+        "context_label": "Up to 1M tokens",
+        "architecture": "Mamba-2 / MoE / attention hybrid with MTP",
+        "intended_use": "Code reasoning, tool use and complex agentic workloads",
+        "model_developer": "NVIDIA Corporation",
+        "release_date_label": "June 4, 2026"
+      },
+      "scope": "Public model-card claims, not proof of hosted checkpoint/quantization or account runtime behavior."
+    },
+    {
+      "model_id": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "url": "https://build.nvidia.com/nvidia/nemotron-3.5-lightning-30b-a3b/modelcard",
+      "advertised": {
+        "total_parameters": "30B",
+        "active_parameters": "3B",
+        "context_label": "Up to 1M tokens",
+        "architecture": "Mamba-2 / MoE / attention hybrid",
+        "intended_use": "Long-running agents and agentic workflows",
+        "model_developer": "NVIDIA Corporation",
+        "release_date_label": "August 11, 2026"
+      },
+      "scope": "Public model-card claims; no relative benchmark superiority or hosted weight identity inferred."
+    },
+    {
+      "model_id": "z-ai/glm-5.3",
+      "url": "https://build.nvidia.com/z-ai/glm-5-3/modelcard",
+      "advertised": {
+        "context_tokens": 1048576,
+        "reasoning": true,
+        "tool_use": true,
+        "model_developer": "Z.ai",
+        "intended_use": "Coding and long-horizon agents",
+        "endpoint_quantization_claim": "NVFP4",
+        "endpoint_runtime_claim": "vLLM on NVIDIA Dynamo"
+      },
+      "scope": "The card explicitly describes endpoint quantization/runtime. Preserve as public claims separately; observed hosted identity/revision remains null."
+    }
+  ],
+  "evidence_conflicts": [],
+  "limitations": [
+    "Sparse authenticated catalog contains none of these capability/context fields.",
+    "No authenticated inference or tool preflight performed.",
+    "Public card release labels are independent of raw API created timestamps."
+  ],
+  "specialized_service_review": [
+    {
+      "model_id": "nvidia/nemotron-parse",
+      "url": "https://build.nvidia.com/nvidia/nemotron-parse/modelcard",
+      "advertised_function": "Document image text/structure extraction; not a general coding-agent service."
+    }
+  ]
+}

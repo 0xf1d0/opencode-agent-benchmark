@@ -208,6 +208,8 @@ loading, trivial inference and file creation succeeded; a `pwd` request produced
 no shell execution/stdout and used permitted file/search tools. No evidence hash,
 time, runtime linkage or routing proof is inferred. Formal templates remain
 unperformed. Mistral has catalog evidence and its own unperformed Medium template.
+NVIDIA now also has an owner-authenticated catalog and an unperformed Lightning
+template; no model has formal preflight qualification.
 No provider is scored-ready.
 
 Authentication for all four IDs is `opencode_managed_persistent_credential`.
@@ -415,3 +417,39 @@ input provenance; [preflight records](docs/preflight.md) distinguish nine owner
 checks from catalog availability. Both are infrastructure contracts, not evidence
 of an implemented runtime or successful inference. Stop before sandbox
 implementation until the owner reviews this architecture and selects a release.
+
+
+## NVIDIA catalog-backed restricted cells
+
+The owner supplied the exact sanitized HTTP 200 response from
+`https://integrate.api.nvidia.com/v1/models` on 2026-10-08: 80 records, SHA-256
+`2e7d19e2a7d4d8602a2b039de78b4af3e8b45920d34f50393947e53457d6849d`.
+Sparse raw `id/object/created/owned_by` fields establish dated account visibility,
+not capabilities, operator/hosting proof or release chronology. `created` is raw
+735790403 with semantics unverified. Missing catalog values remain null.
+
+Three primary IDs have versioned restricted profiles: Nemotron 3 Ultra
+`nvidia/nemotron-3-ultra-550b-a55b`, Nemotron 3.5 Lightning
+`nvidia/nemotron-3.5-lightning-30b-a3b`, and `z-ai/glm-5.3`. Lightning is the first
+owner-only smoke candidate. An explicit one-to-one safe-directory registry
+preserves namespaces and prevents traversal; the old root profile is migrated
+with its historical hash retained. Unknown and non-selected IDs fail closed.
+All profiles retain the provisional 32768/4096 benchmark cap and existing denies.
+
+Dated [public model-card facts](providers/nvidia/evidence/2026-10-08-public-model-cards.json)
+are separate hashed evidence. They advertise intended agentic/coding use; they
+never overwrite the authenticated catalog or establish observed hosted weights.
+GLM's card explicitly claims an NVFP4 endpoint/runtime; that remains a public
+claim, separate from unknown observed serving identity. No superiority is inferred.
+
+Five reviewed optional models have no active profiles; 18 explicit specialized
+service IDs are excluded, and 53 entries remain unreviewed. These classifications
+are explicit reviewed ID policy, not fabricated API capability fields. Gemma 4
+31B NVIDIA/Albert is a future **model-family-only** pair. GPT OSS 20B/120B are
+different sizes; DeepSeek 4.1 Flash/V4 Flash carry different version labels.
+Neither is an identical-model comparison. The direct-Mistral GLM pair stays retired.
+See [complete NVIDIA review](docs/nvidia-review.md) and
+[manual preflight protocol](docs/preflight-nvidia.md). All four catalogs are
+qualified as dated evidence; none of their cells is formally qualified or
+scored-ready. Filesystem/process/credential/network sandbox architecture remains
+design-only; provider permission settings do not constitute an OS firewall.

@@ -39,10 +39,17 @@ comparisons are useful where supported, but do not prove identical checkpoints.
 
 | Provider | Current candidates | Qualification |
 | --- | --- | --- |
-| NVIDIA Build | `z-ai/glm-5.3` | Documented identifier; runtime unqualified |
+| NVIDIA Build | Nemotron 3 Ultra, Nemotron 3.5 Lightning (first preflight), `z-ai/glm-5.3` | Owner catalog qualified; 80 records; runtime preflight unperformed |
 | Mistral AI direct | `mistral-medium-3-5`, `mistral-small-2603`, `codestral-2508` | Owner catalog qualified; 46 records clustered; runtime preflight unperformed |
 | Albert | Qwen3 Coder first, GPT OSS, DeepSeek V4 Flash, Mistral Small 3.2 | Owner catalog qualified; Qwen3 Coder basic inference/editing owner-observed; formal qualification incomplete |
 | Aristote | Standard/reasoning-high Qwen 3.6, Qwen 3.8, Mistral Small 3.2/4 | Owner catalog qualified; basic restricted inference/file creation owner-observed; formal qualification incomplete |
+
+All four providers have dated owner-authenticated catalog evidence. Albert and
+Aristote have separate basic owner observations; no cell is formally
+preflight-qualified or scored-ready. Catalog qualification proves account
+visibility only. NVIDIA/Albert Gemma 4 31B is a **model-family-only** future
+comparison candidate; GPT OSS 20B/120B and the differing DeepSeek version labels
+are not identical-model pairs. See [NVIDIA catalog review](docs/nvidia-review.md).
 
 NVIDIA/Mistral GLM 5.3 is **not currently executable** for the owner account:
 `zai-glm-5-3` is absent from its Mistral snapshot. Mistral/Aristote Small 4 is a
@@ -77,6 +84,8 @@ python scripts/create_workspace.py --benchmark toy --provider aristote \
   --model qwen-3.6-35b-instruct --run-id aristote-preflight-001
 python scripts/create_workspace.py --benchmark toy --provider mistral \
   --model mistral-medium-3-5 --run-id mistral-preflight-001
+python scripts/create_workspace.py --benchmark toy --provider nvidia \
+  --model nvidia/nemotron-3.5-lightning-30b-a3b --run-id nvidia-lightning-preflight-001
 ```
 
 Only fixture code, public tests, selected config and a new Git baseline enter the
@@ -94,7 +103,8 @@ its OS sandbox requires architecture review before implementation. See
 [runtime design](docs/runtime.md) and [runtime locks](docs/runtime-pinning.md).
 
 For an owner-only non-scored smoke observation, follow the
-[manual Mistral steps](docs/preflight-mistral.md); Codex does not execute them.
+[manual Mistral steps](docs/preflight-mistral.md) or
+[manual NVIDIA Lightning steps](docs/preflight-nvidia.md); Codex does not execute them.
 Formal preflight requires selecting and pinning an exact release, reviewing the isolation
 boundary and implementing/auditing the required runtime. Before scoring: complete
 owner-driven per-cell qualification, freeze budgets/task manifests, implement

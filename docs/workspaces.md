@@ -17,12 +17,18 @@ python scripts/create_workspace.py \
     --run-id 001
 ```
 
-This selects `providers/nvidia/opencode.json`. Albert, Aristote and Mistral select
+This selects `providers/nvidia/z-ai-glm-5.3/opencode.json` through the explicit
+canonical-ID registry; raw namespaced IDs are never treated as filesystem paths.
+NVIDIA also supports `nvidia/nemotron-3-ultra-550b-a55b` and
+`nvidia/nemotron-3.5-lightning-30b-a3b` (first manual preflight candidate).
+Albert, Aristote and Mistral select
 `providers/<provider>/<preferred-model-id>/opencode.json`; non-preferred aliases, floating and excluded IDs
 are rejected using the owner's sanitized catalog. Catalog SHA-256 is retained
-outside the workspace. See the [provider profiles](../providers/README.md).
-Supply another audited
-configuration explicitly when needed:
+outside the workspace. All four providers have owner-account catalog snapshots;
+unknown/non-selected NVIDIA IDs fail closed. See the [provider profiles](../providers/README.md).
+An explicit config must still pass identity and policy validation. NVIDIA also
+requires its exact registered config hash; this override may select an identical
+copy, not an unregistered or changed NVIDIA profile:
 
 ```sh
 python scripts/create_workspace.py \
@@ -62,6 +68,10 @@ prove the agent sandbox is secure.
 
 ## Credential handling
 
+All active project profiles omit `apiKey` and authorization headers, using opaque
+OpenCode-managed persistent credentials under the fixed provider ID. No benchmark
+environment-variable credential mechanism is required or introduced. The generic
+validator also accepts synthetic unresolved references for compatibility tests:
 `apiKey` must contain only an unresolved `{env:VARIABLE_NAME}` reference when
 present. Header values also require an environment reference; `Authorization`
 may use `Bearer {env:VARIABLE_NAME}`. Only `Accept`/`Content-Type` may alternatively

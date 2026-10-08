@@ -23,7 +23,12 @@ The first Mistral cell is `mistral/mistral-medium-3-5`, `restricted`.
 [Its unperformed template](../runtime/preflight.mistral.example.json) keeps every
 check `not_run` and `scored_ready: false`. Follow the
 [manual owner instructions](preflight-mistral.md) for a basic non-scored observation.
-All three catalog-backed providers remain short of full scored qualification.
+The first NVIDIA cell is `nvidia/nvidia/nemotron-3.5-lightning-30b-a3b`,
+`restricted`: the first component is the OpenCode provider ID, followed by the
+exact namespaced API model ID. [Its unperformed template](../runtime/preflight.nvidia.example.json)
+keeps every check `not_run` and `scored_ready: false`. Follow the
+[manual NVIDIA instructions](preflight-nvidia.md). All four providers now have
+owner-authenticated catalogs. None is formally preflight-qualified or scored-ready.
 
 Authentication is external OpenCode-managed persistent state. Project provider
 IDs remain fixed. Loading a custom provider definition may be necessary for it to
