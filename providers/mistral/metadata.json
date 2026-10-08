@@ -6,7 +6,7 @@
   "reviewed_at": "2026-10-08",
   "config_format": "opencode_v1",
   "runtime_version_verified": null,
-  "default_model_id": "mistral-medium-3-5",
+  "default_model_id": "codestral-2508",
   "authentication": {
     "mode": "opencode_managed_persistent_credential",
     "provider_id": "mistral",
@@ -4183,13 +4183,140 @@
     "Capabilities are provider-advertised, not observed OpenCode tool reliability.",
     "Created is raw metadata with unverified semantics, not an inferred upstream release timestamp.",
     "Codestral catalog context 256000 conflicts with public card label 128k; both preserved and unresolved.",
-    "Local 32768/4096 limits remain benchmark_extension_provisional_common_cap; service output ceilings are null."
+    "Local 32768/4096 limits remain benchmark_extension_provisional_common_cap; service output ceilings are null.",
+    "Owner-reported restricted smoke evidence is cell-specific and separate from blank formal checks; no OS isolation, exact routing or scored readiness established."
   ],
   "track": "restricted",
   "qualification": {
-    "status": "catalog_qualified_inference_unqualified",
+    "status": "restricted_smoke_observed",
     "preflight_record": null,
-    "scored_ready": false
+    "scored_ready": false,
+    "status_scope": "first_preflight_model_id_only",
+    "first_preflight_model_id": "codestral-2508",
+    "formal_preflight_qualified": false,
+    "model_states": {
+      "mistral-medium-3-5": {
+        "catalog_qualified": true,
+        "inference_observed": false,
+        "restricted_smoke_observed": null,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "catalog_qualified"
+      },
+      "mistral-small-2603": {
+        "catalog_qualified": true,
+        "inference_observed": false,
+        "restricted_smoke_observed": null,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "catalog_qualified"
+      },
+      "codestral-2508": {
+        "catalog_qualified": true,
+        "inference_observed": true,
+        "restricted_smoke_observed": true,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "restricted_smoke_observed"
+      }
+    },
+    "first_preflight_selection_reason": "Stable catalog ID with positive owner direct-API inference and OpenCode restricted smoke evidence; operational qualification, not intrinsic model ranking.",
+    "owner_api_probes": [
+      {
+        "model_id": "mistral-medium-3-5",
+        "catalog_visible": true,
+        "inference_probe_attempted": true,
+        "direct_api_inference_observed": false,
+        "inference_result": "rate_limited",
+        "http_status": 429,
+        "provider_error": "Rate limit exceeded",
+        "provider_error_code": 1300,
+        "response_model_id": null,
+        "response_content": null,
+        "inference_qualified_at_smoke_level": false,
+        "unavailable": null,
+        "rate_limit_cause": null,
+        "source_kind": "repository_owner_statement",
+        "observed_at": null,
+        "evidence_sha256": null
+      },
+      {
+        "model_id": "mistral-small-2603",
+        "catalog_visible": true,
+        "inference_probe_attempted": true,
+        "direct_api_inference_observed": false,
+        "inference_result": "rate_limited",
+        "http_status": 429,
+        "provider_error": "Rate limit exceeded",
+        "provider_error_code": 1300,
+        "response_model_id": null,
+        "response_content": null,
+        "inference_qualified_at_smoke_level": false,
+        "unavailable": null,
+        "rate_limit_cause": null,
+        "source_kind": "repository_owner_statement",
+        "observed_at": null,
+        "evidence_sha256": null
+      },
+      {
+        "model_id": "codestral-2508",
+        "catalog_visible": true,
+        "inference_probe_attempted": true,
+        "direct_api_inference_observed": true,
+        "inference_result": "success",
+        "http_status": 200,
+        "provider_error": null,
+        "provider_error_code": null,
+        "response_model_id": "codestral-2508",
+        "response_content": "ACCESS_OK",
+        "inference_qualified_at_smoke_level": true,
+        "unavailable": false,
+        "rate_limit_cause": null,
+        "source_kind": "repository_owner_statement",
+        "observed_at": null,
+        "evidence_sha256": null
+      }
+    ],
+    "owner_observation": {
+      "model_id": "codestral-2508",
+      "protocol_track": "restricted",
+      "workspace_kind": "fresh_generated_restricted",
+      "source_kind": "repository_owner_statement",
+      "provider_model_loading": "owner_reported_success",
+      "trivial_inference": "owner_reported_expected_response",
+      "file_creation": "owner_reported_basic_write_capability",
+      "shell_probe_status": "restricted_shell_execution_not_observed",
+      "probes": [
+        {
+          "prompt": "Réponds uniquement par PREFLIGHT_OK.",
+          "response": "PREFLIGHT_OK",
+          "displayed_label": "Build · codestral-2508"
+        },
+        {
+          "prompt": "Crée un fichier preflight_probe.txt contenant exactement PREFLIGHT_FILE_OK suivi d'un saut de ligne. Ne modifie aucun autre fichier.",
+          "reported_written_file": "preflight_probe.txt",
+          "displayed_content": "PREFLIGHT_FILE_OK",
+          "external_file_sha256": null,
+          "other_requested_modification": false,
+          "external_filesystem_audit": null
+        },
+        {
+          "prompt": "Exécute la commande shell pwd et donne sa sortie standard. Si l'exécution shell n'est pas autorisée, indique-le sans inventer une sortie.",
+          "response_summary": "Shell execution stated to be unavailable.",
+          "shell_tool_execution_observed": false,
+          "shell_stdout_observed": false
+        }
+      ],
+      "formal_preflight_complete": false,
+      "scored_ready": false,
+      "limits": "Owner statement only; no OS/firewall/network isolation, exhaustive tool enforcement or exact routing proof. Not formal qualification or scored readiness.",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "runtime_lock_sha256": null,
+      "effective_configuration_sha256": null,
+      "routing_proof": null,
+      "opencode_version": null
+    }
   },
   "sovereignty": {
     "provider_operator": null,

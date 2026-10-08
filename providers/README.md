@@ -180,7 +180,9 @@ python scripts/create_workspace.py --benchmark toy --provider aristote \
 ```
 
 Mistral automatically resolves `mistral-medium-3-5`, `mistral-small-2603` and
-`codestral-2508` into their model directories. Its default candidate is Medium.
+`codestral-2508` into their model directories. Its first/default restricted smoke candidate is Codestral, based on positive
+owner API/OpenCode observations. Medium and Small remain catalog-qualified; their
+current API probes returned HTTP 429/code 1300, not proven unavailability.
 Unknown, floating, excluded and non-preferred returned IDs fail closed, even with
 an explicit config override. Default Aristote is
 `qwen-3.6-35b-instruct`. Preparing a workspace establishes no runtime readiness.
@@ -245,7 +247,14 @@ Five optional candidates, 18 specialized exclusions and 53 unreviewed entries
 are listed in the [complete review](../docs/nvidia-review.md). NVIDIA/Albert Gemma
 4 31B is a future **model-family-only** candidate. GPT OSS 20B/120B and differing
 DeepSeek labels are not identical-model pairs. Direct-Mistral GLM remains absent.
-No NVIDIA runtime checks have run. Follow the [owner Lightning protocol](../docs/preflight-nvidia.md);
+NVIDIA Lightning restricted smoke is owner-observed; formal checks remain blank.
+The earlier textual `pwd` result is ambiguous, not a confirmed bypass; the explicit
+probe had no observed shell execution, not complete enforcement proof. Follow the [owner Lightning protocol](../docs/preflight-nvidia.md);
 the [blank template](../runtime/preflight.nvidia.example.json) stays entirely
 `not_run`/null/false. Catalog-qualified does not mean formally preflight-qualified
 or scored-ready; no cell is scored-ready.
+
+
+[Shared qualification vocabulary and owner smoke matrix](../docs/provider-smoke.md)
+distinguish catalog qualification, observed inference, restricted smoke, formal
+preflight qualification and scored readiness. No cell satisfies the last two.

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "provider": "mistral",
-  "model_id": "mistral-medium-3-5",
+  "model_id": "codestral-2508",
   "protocol_track": "restricted",
   "runtime_lock_sha256": null,
   "performed_by": null,
@@ -73,5 +73,5 @@
   "observed_provider": null,
   "observed_model_id": null,
   "scored_ready": false,
-  "notes": "Unperformed owner-driven first Mistral restricted preflight template; no provider calls performed by Codex."
+  "notes": "Blank formal owner-driven Codestral restricted preflight template. Separate owner smoke observations do not populate these checks; no provider calls performed by Codex."
 }

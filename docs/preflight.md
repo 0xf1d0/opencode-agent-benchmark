@@ -19,7 +19,7 @@ and file creation, plus a `pwd` request that produced no shell execution/stdout 
 used permitted file/search tools. This is recorded separately in provider metadata,
 with missing times/hashes/linkage/routing proof null, not formal passed checks.
 
-The first Mistral cell is `mistral/mistral-medium-3-5`, `restricted`.
+The first Mistral cell is `mistral/codestral-2508`, `restricted`.
 [Its unperformed template](../runtime/preflight.mistral.example.json) keeps every
 check `not_run` and `scored_ready: false`. Follow the
 [manual owner instructions](preflight-mistral.md) for a basic non-scored observation.
@@ -29,6 +29,14 @@ exact namespaced API model ID. [Its unperformed template](../runtime/preflight.n
 keeps every check `not_run` and `scored_ready: false`. Follow the
 [manual NVIDIA instructions](preflight-nvidia.md). All four providers now have
 owner-authenticated catalogs. None is formally preflight-qualified or scored-ready.
+
+All four first candidates now have owner-reported restricted smoke observations.
+Mistral Codestral has positive direct API and OpenCode evidence; Medium/Small
+remain catalog-visible with HTTP 429/code 1300 probes. NVIDIA Lightning has an
+ambiguous earlier shell-text observation and a later explicit probe without
+observed shell execution; neither proves security enforcement or a bypass.
+[Qualification vocabulary and cell-specific observations](provider-smoke.md)
+keep all formal checks blank and all cells below scored readiness.
 
 Authentication is external OpenCode-managed persistent state. Project provider
 IDs remain fixed. Loading a custom provider definition may be necessary for it to

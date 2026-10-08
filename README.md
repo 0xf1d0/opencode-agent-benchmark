@@ -39,13 +39,13 @@ comparisons are useful where supported, but do not prove identical checkpoints.
 
 | Provider | Current candidates | Qualification |
 | --- | --- | --- |
-| NVIDIA Build | Nemotron 3 Ultra, Nemotron 3.5 Lightning (first preflight), `z-ai/glm-5.3` | Owner catalog qualified; 80 records; runtime preflight unperformed |
-| Mistral AI direct | `mistral-medium-3-5`, `mistral-small-2603`, `codestral-2508` | Owner catalog qualified; 46 records clustered; runtime preflight unperformed |
+| NVIDIA Build | Nemotron 3 Ultra, Nemotron 3.5 Lightning (first preflight), `z-ai/glm-5.3` | Catalog-qualified; Lightning restricted smoke owner-observed; formal qualification pending |
+| Mistral AI direct | `mistral-medium-3-5`, `mistral-small-2603`, `codestral-2508` | Catalog-qualified; Codestral direct inference/restricted smoke owner-observed; Medium/Small rate limited |
 | Albert | Qwen3 Coder first, GPT OSS, DeepSeek V4 Flash, Mistral Small 3.2 | Owner catalog qualified; Qwen3 Coder basic inference/editing owner-observed; formal qualification incomplete |
 | Aristote | Standard/reasoning-high Qwen 3.6, Qwen 3.8, Mistral Small 3.2/4 | Owner catalog qualified; basic restricted inference/file creation owner-observed; formal qualification incomplete |
 
-All four providers have dated owner-authenticated catalog evidence. Albert and
-Aristote have separate basic owner observations; no cell is formally
+All four providers have dated owner-authenticated catalog evidence and
+cell-specific basic owner smoke observations; no cell is formally
 preflight-qualified or scored-ready. Catalog qualification proves account
 visibility only. NVIDIA/Albert Gemma 4 31B is a **model-family-only** future
 comparison candidate; GPT OSS 20B/120B and the differing DeepSeek version labels
@@ -61,7 +61,10 @@ is not a three-provider comparison. Aristote's `mistral-medium-latest` is floati
 and not eligible as a pinned Medium 3.5 match. Albert and Aristote remain separate deployments.
 French ownership, hosting, certification and retention require separate evidence;
 sovereignty is not a capability score. See [provider metadata](providers/README.md).
-**No provider/model cell is scored-ready.**
+**No provider/model cell is scored-ready.** The current smoke matrix is Albert
+Qwen3 Coder, Aristote standard Qwen 3.6, Mistral Codestral, and NVIDIA Lightning.
+It is not the final scored matrix or a model ranking. See
+[qualification states and owner observations](docs/provider-smoke.md).
 
 ## Reproduce infrastructure validation
 
@@ -83,7 +86,7 @@ python scripts/create_workspace.py --benchmark toy --provider albert \
 python scripts/create_workspace.py --benchmark toy --provider aristote \
   --model qwen-3.6-35b-instruct --run-id aristote-preflight-001
 python scripts/create_workspace.py --benchmark toy --provider mistral \
-  --model mistral-medium-3-5 --run-id mistral-preflight-001
+  --model codestral-2508 --run-id mistral-preflight-001
 python scripts/create_workspace.py --benchmark toy --provider nvidia \
   --model nvidia/nemotron-3.5-lightning-30b-a3b --run-id nvidia-lightning-preflight-001
 ```

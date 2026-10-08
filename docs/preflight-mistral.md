@@ -1,11 +1,18 @@
 # Owner-only Mistral restricted smoke preflight
 
 Status: **instructions only; not executed by Codex**. This is a manual, non-scored
-observation of `mistral/mistral-medium-3-5`, not a scored toy task or complete
+observation of `mistral/codestral-2508`, not a scored toy task or complete
 qualification. The owner uses external OpenCode-managed persistent credentials;
 never inspect/copy their storage or put keys in files, commands, logs or metadata.
 The selected profile has no shell/web tools. No sandbox is implemented: this smoke
 observation cannot establish OS isolation or make the cell scored-ready.
+
+Codestral is the first candidate because the owner observed HTTP 200 direct
+inference and a basic OpenCode restricted smoke session. Medium 3.5 and Small
+2603 remain catalog-qualified candidates whose current probes returned HTTP 429
+(code 1300); neither is classified unavailable. This is operational selection,
+not a quality ranking. See [recorded observations](provider-smoke.md). These
+instructions are for a fresh observation; the committed formal template stays blank.
 
 ## Prepare and pin
 
@@ -17,7 +24,7 @@ observation cannot establish OS isolation or make the cell scored-ready.
 
 ```sh
 python scripts/create_workspace.py --benchmark toy --provider mistral \
-  --model mistral-medium-3-5 --run-id mistral-preflight-001 \
+  --model codestral-2508 --run-id mistral-preflight-001 \
   --output-root /tmp/opencode-benchmark-workspaces
 ```
 
@@ -47,7 +54,7 @@ opencode
 ```
 
 5. Use OpenCode's model selector to choose exactly
-   `mistral/mistral-medium-3-5`. Record the displayed provider/model. Existing
+   `mistral/codestral-2508`. Record the displayed provider/model. Existing
    `/connect` authentication should remain available for provider ID `mistral`;
    if authentication fails, record the failure. Do not switch models/providers or
    expose credentials to a benchmark-maintenance agent. Do not run `/init`, toy

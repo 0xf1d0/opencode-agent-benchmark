@@ -561,3 +561,23 @@ All four providers have owner catalog evidence, Albert/Aristote basic owner
 observations are separate, and no cell is formally preflight-qualified/scored-ready.
 The sandbox remains unimplemented; smoke observations cannot establish OS
 isolation or substitute for the formal runtime/qualification gates.
+
+
+### Owner observations and qualification vocabulary
+
+Use the five distinct, cell-specific states documented in
+[owner smoke observations](docs/provider-smoke.md): `catalog_qualified`,
+`inference_observed`, `restricted_smoke_observed`, `formal_preflight_qualified`,
+and `scored_ready`. Unknown inference/smoke measurements remain null; no cell
+satisfies formal qualification or scored readiness. Keep owner statements separate
+from blank dated-evidence formal templates. No timestamp, hash or routing proof
+is retroactively fabricated. Shell execution not observed is smoke evidence only.
+
+Codestral is Mistral's first operational smoke candidate after owner HTTP 200 and
+restricted OpenCode observations. Medium 3.5 and Small 2603 HTTP 429/code 1300
+probes retain catalog qualification without inferred unavailability or rate-limit
+cause. Scientific candidate roles/configurations are unchanged. The NVIDIA
+ambiguous textual pwd interaction is unconfirmed; the later explicit probe had
+no observed shell execution, establishing neither a bypass nor complete security.
+The owner-observed four-provider smoke matrix precedes a separate campaign freeze
+and does not establish provider winners or intrinsic model superiority.

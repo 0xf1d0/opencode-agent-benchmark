@@ -358,11 +358,12 @@
     "Raw owned_by=openai does not establish upstream model ownership; raw created values do not establish release dates.",
     "Absent mode remains null; priority selection is a reviewed candidate policy, not proof of chat/tool support.",
     "Conversation-model context/output ceilings, pricing and served identity are unverified; local caps are benchmark extensions.",
-    "Floating mistral-medium-latest is not a pinned candidate or an established match to Mistral Medium 3.5 direct."
+    "Floating mistral-medium-latest is not a pinned candidate or an established match to Mistral Medium 3.5 direct.",
+    "Owner-reported restricted smoke evidence is cell-specific and separate from blank formal checks; no OS isolation, exact routing or scored readiness established."
   ],
   "track": "restricted",
   "qualification": {
-    "status": "owner_observed_basic_restricted_formal_incomplete",
+    "status": "restricted_smoke_observed",
     "preflight_record": null,
     "scored_ready": false,
     "owner_observation": {
@@ -383,7 +384,53 @@
       "opencode_version": null,
       "formal_preflight_complete": false,
       "scored_ready": false,
-      "limits": "One observed request does not prove all permission paths or OS isolation."
+      "limits": "Owner statement only; no OS/firewall/network isolation, exhaustive tool enforcement or exact routing proof. Not formal qualification or scored readiness.",
+      "shell_probe_status": "restricted_shell_execution_not_observed"
+    },
+    "status_scope": "first_preflight_model_id_only",
+    "first_preflight_model_id": "qwen-3.6-35b-instruct",
+    "formal_preflight_qualified": false,
+    "model_states": {
+      "qwen-3.6-35b-instruct": {
+        "catalog_qualified": true,
+        "inference_observed": true,
+        "restricted_smoke_observed": true,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "restricted_smoke_observed"
+      },
+      "qwen-3.6-35b-instruct-reasoning-high": {
+        "catalog_qualified": true,
+        "inference_observed": null,
+        "restricted_smoke_observed": null,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "catalog_qualified"
+      },
+      "qwen-3.8-27b": {
+        "catalog_qualified": true,
+        "inference_observed": null,
+        "restricted_smoke_observed": null,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "catalog_qualified"
+      },
+      "mistral-small-3.2-24b": {
+        "catalog_qualified": true,
+        "inference_observed": null,
+        "restricted_smoke_observed": null,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "catalog_qualified"
+      },
+      "mistral-small-4-119b": {
+        "catalog_qualified": true,
+        "inference_observed": null,
+        "restricted_smoke_observed": null,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "catalog_qualified"
+      }
     }
   },
   "sovereignty": {

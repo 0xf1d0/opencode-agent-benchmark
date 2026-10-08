@@ -258,7 +258,7 @@
   "notes": [
     "Catalog availability is established only for the owner account at retrieval date, not current or universal availability.",
     "Zero advertised costs reproduce catalog values; currency/unit and actual billing remain unknown.",
-    "Inference, tool calling, runtime compatibility, and exact served identity are unverified."
+    "Owner-reported restricted smoke evidence is cell-specific and separate from blank formal checks; no OS isolation, exact routing or scored readiness established."
   ],
   "excluded_models": [
     {
@@ -448,7 +448,7 @@
   ],
   "track": "restricted",
   "qualification": {
-    "status": "owner_observed_basic_inference_editing_formal_incomplete",
+    "status": "restricted_smoke_observed",
     "preflight_record": null,
     "scored_ready": false,
     "owner_observation": {
@@ -461,7 +461,49 @@
       "evidence_sha256": null,
       "opencode_version": null,
       "formal_preflight_complete": false,
-      "scored_ready": false
+      "scored_ready": false,
+      "shell_probe_status": null,
+      "limits": "Owner statement only; no OS/firewall/network isolation, exhaustive tool enforcement or exact routing proof. Not formal qualification or scored readiness.",
+      "runtime_lock_sha256": null,
+      "effective_configuration_sha256": null,
+      "routing_proof": null
+    },
+    "status_scope": "first_preflight_model_id_only",
+    "first_preflight_model_id": "qwen3-coder-30b-a3b-instruct",
+    "formal_preflight_qualified": false,
+    "model_states": {
+      "qwen3-coder-30b-a3b-instruct": {
+        "catalog_qualified": true,
+        "inference_observed": true,
+        "restricted_smoke_observed": true,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "restricted_smoke_observed"
+      },
+      "gpt-oss-120b": {
+        "catalog_qualified": true,
+        "inference_observed": null,
+        "restricted_smoke_observed": null,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "catalog_qualified"
+      },
+      "deepseek-v4-flash-0731": {
+        "catalog_qualified": true,
+        "inference_observed": null,
+        "restricted_smoke_observed": null,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "catalog_qualified"
+      },
+      "mistral-small-3-2-24b-instruct-2506": {
+        "catalog_qualified": true,
+        "inference_observed": null,
+        "restricted_smoke_observed": null,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "catalog_qualified"
+      }
     }
   },
   "sovereignty": {

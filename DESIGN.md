@@ -207,7 +207,7 @@ not full formal qualification. The owner also reports Aristote standard Qwen
 loading, trivial inference and file creation succeeded; a `pwd` request produced
 no shell execution/stdout and used permitted file/search tools. No evidence hash,
 time, runtime linkage or routing proof is inferred. Formal templates remain
-unperformed. Mistral has catalog evidence and its own unperformed Medium template.
+unperformed. Mistral has catalog evidence and its own blank Codestral formal template.
 NVIDIA now also has an owner-authenticated catalog and an unperformed Lightning
 template; no model has formal preflight qualification.
 No provider is scored-ready.
@@ -453,3 +453,19 @@ See [complete NVIDIA review](docs/nvidia-review.md) and
 qualified as dated evidence; none of their cells is formally qualified or
 scored-ready. Filesystem/process/credential/network sandbox architecture remains
 design-only; provider permission settings do not constitute an OS firewall.
+
+
+## Owner smoke consolidation before matrix freeze
+
+All four selected smoke candidates have owner observations, recorded separately
+from blank formal checks. [Shared vocabulary and evidence](docs/provider-smoke.md)
+use catalog qualification, inference observation, restricted smoke observation,
+formal preflight qualification and scored readiness as distinct states per cell.
+Codestral replaces Medium as Mistral's first/default smoke candidate for positive
+operational evidence; Medium/Small remain candidates with rate-limited HTTP 429,
+code 1300 probes. No rate-limit cause or intrinsic quality ranking is inferred.
+NVIDIA's ambiguous earlier shell text is not a confirmed bypass; its explicit
+probe records only shell execution not observed. No permission profile changes.
+Albert/Aristote observations remain basic and cell-specific. No formal security,
+routing or scored qualification follows. The four-provider smoke matrix is not
+the final campaign matrix; freezing that matrix remains separate future work.

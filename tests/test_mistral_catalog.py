@@ -176,7 +176,7 @@ class MistralCatalogTests(unittest.TestCase):
         record = json.loads((REPOSITORY_ROOT / "runtime/preflight.mistral.example.json").read_bytes())
         validate_schema(record, "preflight.schema.json")
         self.assertEqual(record["provider"], "mistral")
-        self.assertEqual(record["model_id"], PRIMARY[0])
+        self.assertEqual(record["model_id"], "codestral-2508")
         self.assertEqual(record["protocol_track"], "restricted")
         self.assertFalse(record["scored_ready"])
         for check in record["checks"].values():

@@ -167,8 +167,9 @@ observed checkpoint/revision, hosted quantization, tokenizer, decoding, tool
 compatibility, latency and throughput. Public model-card claims remain separate.
 Operator/deployment/retention/certification evidence remains unknown in the
 sovereignty card; ownership labels do not supply it. Credential storage stays
-null/unverified and is never inspected. OpenCode runtime version and successful
-credential usability are unobserved/null in repository evidence.
+null/unverified and is never inspected. OpenCode runtime version and formal
+credential-usability measurements remain null; owner smoke observations are
+recorded separately without exposing any credential state.
 
 ## Qualification and deterministic validation
 
@@ -185,7 +186,9 @@ exact snapshot/config/evidence hashes, registry ambiguity/traversal, canonical
 slash-ID CLI selection, override rejection, workspace allowlists/baselines,
 runtime-lock provenance and blank preflight status. Local validation: **78 infrastructure tests passed**, including all **15 active
 provider profiles**; `git diff --check` and local Markdown-link checks passed.
-GitHub CI was not executed in this session. CI discovers the same tests
+The repository owner reports that the subsequent pushed NVIDIA integration
+received a successful GitHub Actions `Level 1 infrastructure` run; no run ID was
+supplied. CI discovers the same tests
 without credentials or OpenCode. The intentional public baseline remains two
 passes and one named palindrome failure; no oracle or benchmark solution runs.
 
@@ -194,3 +197,14 @@ probe evidence, audit effective settings/routing and review the isolation design
 Before scoring: implement/audit the reviewed runtime, complete all formal checks,
 freeze the campaign protocol, and finish external collection/evaluation and human
 review gates. This phase implements no sandbox, agentic runtime or scored runner.
+
+
+## Subsequent owner Lightning smoke clarification
+
+Lightning is an owner-observed usable restricted smoke candidate. Earlier textual
+pwd output lacks a confirmed shell tool event, so no permission bypass is recorded.
+The later explicit fixed probe had no observed shell execution/stdout:
+`restricted_shell_execution_not_observed`. This establishes neither complete
+permissions nor OS/network isolation; formal checks remain blank. No NVIDIA
+permission configuration was changed. [Shared observation record](provider-smoke.md)
+retains the ambiguity and missing evidence rather than fabricating outcomes.

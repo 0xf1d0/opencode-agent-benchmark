@@ -84,3 +84,14 @@ Mistral preflight is wholly not_run and scored_ready=false. Served checkpoints, 
 Aristote standard Qwen has an owner-reported restricted basic observation: loading, expected trivial response, file creation and a pwd request using permitted tools without shell execution/stdout. Times, hashes, lock/effective-config linkage and routing proof remain null. The formal template is unchanged and not scored-ready.
 
 For the owner's first Mistral smoke observation, follow [the exact manual steps](preflight-mistral.md). Complete formal qualification and OS isolation remain separate future gates.
+
+
+## Subsequent owner smoke observations
+
+The first/default restricted smoke candidate is now `codestral-2508`, with owner
+HTTP 200 / `ACCESS_OK` evidence and basic OpenCode inference/file-write observations.
+Medium and Small returned HTTP 429 / `Rate limit exceeded` / code 1300; they remain
+catalog-qualified candidates, not unavailable models. Rate-limit cause is unknown.
+[Exact observations and limits](provider-smoke.md) remain separate from the blank
+Codestral formal template. Configurations, candidate policy and catalog bytes are
+unchanged. No scored readiness or final campaign matrix is declared.

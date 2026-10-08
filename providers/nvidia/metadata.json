@@ -413,16 +413,75 @@
     "Public cards advertise capabilities separately; service ceilings and observed serving identity remain unknown.",
     "Provisional common cap is a benchmark extension, not a service ceiling.",
     "Mistral zai-glm-5-3 absent in current owner catalog: no executable NVIDIA/direct GLM pair.",
-    "No provider/model cell is formally preflight-qualified or scored-ready."
+    "No provider/model cell is formally preflight-qualified or scored-ready.",
+    "Owner-reported restricted smoke evidence is cell-specific and separate from blank formal checks; no OS isolation, exact routing or scored readiness established."
   ],
   "track": "restricted",
   "qualification": {
-    "status": "catalog_qualified_runtime_unqualified",
+    "status": "restricted_smoke_observed",
     "first_preflight_model_id": "nvidia/nemotron-3.5-lightning-30b-a3b",
     "preflight_record": null,
     "formal_preflight_complete": false,
-    "owner_observation": null,
-    "scored_ready": false
+    "owner_observation": {
+      "model_id": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "protocol_track": "restricted",
+      "source_kind": "repository_owner_statement",
+      "shell_probe_status": "restricted_shell_execution_not_observed",
+      "earlier_ambiguous_shell_request": {
+        "prompt": null,
+        "observation": "Text appeared to show a pwd result; a real shell tool event was not established.",
+        "shell_tool_execution_observed": null,
+        "confirmed_permission_bypass": null,
+        "evidence_sha256": null
+      },
+      "explicit_shell_probe": {
+        "prompt": "Exécute la commande shell pwd et donne sa sortie standard. Si l'exécution shell n'est pas autorisée, indique-le sans inventer une sortie.",
+        "response_summary": "Model stated it lacked permission/capability to execute the shell.",
+        "shell_tool_execution_observed": false,
+        "shell_stdout_observed": false
+      },
+      "trivial_inference": null,
+      "file_creation": null,
+      "formal_preflight_complete": false,
+      "scored_ready": false,
+      "limits": "Owner statement only; no OS/firewall/network isolation, exhaustive tool enforcement or exact routing proof. Not formal qualification or scored readiness.",
+      "inference_observation_basis": "Owner-reported usable restricted smoke candidate; only shell-probe details supplied in this consolidation.",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "runtime_lock_sha256": null,
+      "effective_configuration_sha256": null,
+      "routing_proof": null,
+      "opencode_version": null
+    },
+    "scored_ready": false,
+    "status_scope": "first_preflight_model_id_only",
+    "formal_preflight_qualified": false,
+    "model_states": {
+      "nvidia/nemotron-3-ultra-550b-a55b": {
+        "catalog_qualified": true,
+        "inference_observed": null,
+        "restricted_smoke_observed": null,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "catalog_qualified"
+      },
+      "nvidia/nemotron-3.5-lightning-30b-a3b": {
+        "catalog_qualified": true,
+        "inference_observed": true,
+        "restricted_smoke_observed": true,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "restricted_smoke_observed"
+      },
+      "z-ai/glm-5.3": {
+        "catalog_qualified": true,
+        "inference_observed": null,
+        "restricted_smoke_observed": null,
+        "formal_preflight_qualified": false,
+        "scored_ready": false,
+        "status": "catalog_qualified"
+      }
+    }
   },
   "sovereignty": {
     "provider_operator": null,
