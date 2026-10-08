@@ -17,8 +17,8 @@ python scripts/create_workspace.py \
     --run-id 001
 ```
 
-This selects `providers/nvidia/opencode.json`. Albert selects
-`providers/albert/<canonical-model-id>/opencode.json`; aliases and excluded IDs
+This selects `providers/nvidia/opencode.json`. Albert and Aristote select
+`providers/<provider>/<canonical-model-id>/opencode.json`; aliases, floating and excluded IDs
 are rejected using the owner's sanitized catalog. Catalog SHA-256 is retained
 outside the workspace. See the [provider profiles](../providers/README.md).
 Supply another audited

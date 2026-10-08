@@ -53,16 +53,62 @@ automatically promoted. Metadata preserves aliases, types, `owned_by`, context a
 advertised prompt/completion costs. Catalog costs are 0.0; unit, currency and actual
 billing are unknown. Context declarations are not output ceilings.
 
+## Canonical Aristote catalog
+
+The owner personally authenticated and supplied the exact
+[Aristote snapshot](aristote/catalog-snapshots/2026-10-08.json) from
+`GET https://llm.aristote.education/v1/models`, dated 2026-10-08. SHA-256:
+`ace8258a30778b5a7eaef0ce22e20bbe2c95c15ba1c4c9b495b7589586312e69`.
+It establishes owner-account catalog membership at that date, not successful
+OpenCode inference or tools. The exact snapshot supersedes historical documentation
+for membership; its bytes are unchanged. No aliases are supplied or invented.
+
+| Canonical ID | Classification | Active restricted profile |
+| --- | --- | --- |
+| `qwen-3.6-35b-instruct` | First preflight / priority | Yes |
+| `qwen-3.6-35b-instruct-reasoning-high` | Separate served condition / priority | Yes |
+| `qwen-3.8-27b` | Additional priority | Yes |
+| `mistral-small-3.2-24b` | Family comparison priority | Yes |
+| `mistral-small-4-119b` | Priority candidate; capabilities unknown | Yes |
+| `gemma-4-31b` | Optional secondary | No |
+| `llama-3.1-8b` | Optional secondary | No |
+| `mistral-medium-latest` | floating_alias; immutable underlying model unknown | No |
+| `bge-m3` | Excluded: catalog mode embedding | No |
+| `bge-reranker-v2-m3` | Excluded: catalog mode rerank | No |
+
+Each priority cell has one `<canonical-id>/opencode.json`; the former single root
+Aristote config is removed. Workspace creation and runtime locks use exact IDs,
+verify the snapshot hash against metadata, reject unknown/floating/excluded IDs,
+and retain the catalog hash outside the agent workspace. No ID normalization or
+alias resolution occurs. Missing `mode` remains null: candidate classification is
+an explicit reviewed selection policy, not evidence of chat/tool capability.
+
+Metadata preserves each full `api_record_raw`, `api_owned_by_raw`, `api_created_raw`
+and `api_mode_raw`. The repeated `owned_by: openai` does **not** establish OpenAI
+ownership; `upstream_model_ownership` remains null. The repeated creation value is
+not treated as a release date: `created_semantics_verified: false` and
+`upstream_release_date: null`. Absent aliases are null, not a fabricated alias list.
+Conversational service context/output limits, checkpoint/weight revision,
+quantization, tokenizer, decoding, tools, performance and actual prices are null.
+Embedding-specific raw token fields are preserved without applying them to LLMs.
+
+The 32768 context / 4096 output caps are
+`benchmark_extension_provisional_common_cap`, never Aristote service ceilings.
+Reasoning-high is a distinct condition even though it shares a family label with
+standard Qwen; reasoning effort and implementation remain unverified.
+`mistral-medium-latest` needs independent immutable served-version evidence before
+controlled eligibility and is not asserted equivalent to direct `mistral-medium-3-5`.
+
+Albert `mistral-small-3-2-24b-instruct-2506` versus Aristote
+`mistral-small-3.2-24b` is **model-family-only**. Keep this possible provider
+comparison, without claiming identical checkpoints, quantization or settings.
+
 ## Other providers
 
 - NVIDIA retains `z-ai/glm-5.3`, published by [NVIDIA Build](https://build.nvidia.com/z-ai/glm-5-3?section=deploy).
 - Mistral retains `zai-glm-5-3`, published by [Mistral](https://docs.mistral.ai/models/zai-glm-5-3),
   and `mistral-medium-3-5` in `opencode.medium.json`, documented on its
   [Medium card](https://docs.mistral.ai/models/mistral-medium-3-5-26-04).
-- Aristote retains `qwen-3.6-35b-instruct` from the owner's supplied **Détails
-  techniques** text, independent of the historical TP. Exact page URL/publication
-  date and current account catalog remain unknown. Owner catalog and runtime
-  qualification are required before scoring.
 
 The NVIDIA/Mistral GLM comparison is **same-model-family**, not established
 identical weights. Mistral Medium direct remains useful independently of Albert.
@@ -77,6 +123,8 @@ python scripts/create_workspace.py --benchmark toy --provider albert \
   --model qwen3-coder-30b-a3b-instruct --run-id preparation-001
 python scripts/create_workspace.py --benchmark toy --provider nvidia \
   --model z-ai/glm-5.3 --run-id preparation-001
+python scripts/create_workspace.py --benchmark toy --provider aristote \
+  --model qwen-3.6-35b-instruct --run-id aristote-preflight-001
 ```
 
 Mistral Medium requires `--config providers/mistral/opencode.medium.json` and
@@ -85,7 +133,12 @@ Mistral Medium requires `--config providers/mistral/opencode.medium.json` and
 
 [Preflight representation](../docs/preflight.md) separates configuration loading,
 provider/model appearance, inference, conversation, tool calling, permissions,
-context/output acceptance and routing. All are unperformed. Catalog qualification
+context/output acceptance and routing. Aristote checks remain unperformed. The
+owner reports Albert Qwen3 Coder basic inference and file editing succeeded in the
+restricted condition; dates, runtime pins and sanitized evidence are not yet
+recorded, so this is a separate owner observation, not a completed formal record.
+The blank Albert template remains unperformed; no checks were marked passed by
+Codex. Both providers remain `scored_ready: false`. Catalog qualification
 alone is not `scored_ready`. Unknown measurements are null, never inferred from a
 connected icon. Current local 32768/4096 caps are provisional benchmark choices,
 not service maxima; Aristote's documentation applied those local caps to specific

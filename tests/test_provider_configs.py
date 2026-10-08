@@ -33,7 +33,7 @@ class ProviderConfigTests(unittest.TestCase):
                 matching = [entry for entry in metadata["models"] if entry["model_id"] == model]
                 self.assertEqual(len(matching), 1)
                 self.assertIsNone(matching[0]["checkpoint_revision"])
-                if provider == "albert":
+                if provider in {"albert", "aristote"}:
                     self.assertEqual(matching[0]["authenticated_availability"], "owner_authenticated_catalog_snapshot")
                 else:
                     self.assertIsNone(matching[0]["authenticated_availability"])

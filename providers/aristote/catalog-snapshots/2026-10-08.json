@@ -1,0 +1,72 @@
+{
+  "data": [
+    {
+      "id": "gemma-4-31b",
+      "object": "model",
+      "created": 1677610602,
+      "owned_by": "openai"
+    },
+    {
+      "id": "qwen-3.6-35b-instruct",
+      "object": "model",
+      "created": 1677610602,
+      "owned_by": "openai",
+      "mode": "chat"
+    },
+    {
+      "id": "mistral-small-3.2-24b",
+      "object": "model",
+      "created": 1677610602,
+      "owned_by": "openai"
+    },
+    {
+      "id": "llama-3.1-8b",
+      "object": "model",
+      "created": 1677610602,
+      "owned_by": "openai"
+    },
+    {
+      "id": "mistral-medium-latest",
+      "object": "model",
+      "created": 1677610602,
+      "owned_by": "openai"
+    },
+    {
+      "id": "bge-m3",
+      "object": "model",
+      "created": 1677610602,
+      "owned_by": "openai",
+      "mode": "embedding",
+      "max_input_tokens": 8192,
+      "max_output_tokens": 8192
+    },
+    {
+      "id": "bge-reranker-v2-m3",
+      "object": "model",
+      "created": 1677610602,
+      "owned_by": "openai",
+      "mode": "rerank"
+    },
+    {
+      "id": "qwen-3.8-27b",
+      "object": "model",
+      "created": 1677610602,
+      "owned_by": "openai",
+      "mode": "chat"
+    },
+    {
+      "id": "qwen-3.6-35b-instruct-reasoning-high",
+      "object": "model",
+      "created": 1677610602,
+      "owned_by": "openai",
+      "mode": "chat"
+    },
+    {
+      "id": "mistral-small-4-119b",
+      "object": "model",
+      "created": 1677610602,
+      "owned_by": "openai"
+    }
+  ],
+  "object": "list"
+}

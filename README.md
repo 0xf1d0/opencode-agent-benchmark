@@ -41,11 +41,14 @@ comparisons are useful where supported, but do not prove identical checkpoints.
 | --- | --- | --- |
 | NVIDIA Build | `z-ai/glm-5.3` | Documented identifier; runtime unqualified |
 | Mistral AI direct | `zai-glm-5-3`, `mistral-medium-3-5` | Documented identifiers; runtime unqualified |
-| Albert | Qwen3 Coder first, GPT OSS, DeepSeek V4 Flash, Mistral Small 3.2 | Owner-authenticated catalog qualified at 2026-10-08; inference/tool calling unqualified |
-| Aristote | `qwen-3.6-35b-instruct` | Supplied documentation; current catalog/inference/tool calling unqualified |
+| Albert | Qwen3 Coder first, GPT OSS, DeepSeek V4 Flash, Mistral Small 3.2 | Owner catalog qualified; Qwen3 Coder basic inference/editing owner-observed; formal qualification incomplete |
+| Aristote | Standard/reasoning-high Qwen 3.6, Qwen 3.8, Mistral Small 3.2/4 | Owner-authenticated catalog qualified at 2026-10-08; runtime preflight unperformed |
 
 NVIDIA/Mistral GLM 5.3 is a family-only pairing. Albert no longer has an active
-Mistral Medium configuration. Albert and Aristote remain separate deployments.
+Mistral Medium configuration. Albert/Aristote Mistral Small 3.2 is another
+**model-family-only** candidate pairing: catalog names do not establish identical
+checkpoints. Aristote's `mistral-medium-latest` is floating and not eligible as a
+pinned Medium 3.5 match. Albert and Aristote remain separate deployments.
 French ownership, hosting, certification and retention require separate evidence;
 sovereignty is not a capability score. See [provider metadata](providers/README.md).
 **No provider/model cell is scored-ready.**
@@ -67,6 +70,8 @@ Prepare a disposable workspace without starting OpenCode:
 ```sh
 python scripts/create_workspace.py --benchmark toy --provider albert \
   --model qwen3-coder-30b-a3b-instruct --run-id preparation-001
+python scripts/create_workspace.py --benchmark toy --provider aristote \
+  --model qwen-3.6-35b-instruct --run-id aristote-preflight-001
 ```
 
 Only fixture code, public tests, selected config and a new Git baseline enter the

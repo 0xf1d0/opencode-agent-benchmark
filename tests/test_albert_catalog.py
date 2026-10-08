@@ -53,6 +53,19 @@ class AlbertCatalogTests(unittest.TestCase):
                 canonical_candidate(self.models, model_id)
         self.assertEqual(candidate_status(self.models["lightonocr-2-1b"])[0], "excluded")
 
+    def test_owner_basic_observation_does_not_complete_formal_qualification(self):
+        qualification = self.metadata["qualification"]
+        observation = qualification["owner_observation"]
+        self.assertEqual(observation["model_id"], PRIMARY[0])
+        self.assertEqual(observation["protocol_track"], "restricted")
+        self.assertEqual(observation["basic_inference"], "owner_reported_success")
+        self.assertEqual(observation["file_editing"], "owner_reported_success")
+        self.assertIsNone(observation["observed_at"])
+        self.assertIsNone(observation["evidence_sha256"])
+        self.assertFalse(observation["formal_preflight_complete"])
+        self.assertFalse(qualification["scored_ready"])
+        self.assertIsNone(qualification["preflight_record"])
+
     def test_aliases_and_obsolete_id_never_resolve_as_canonical_candidates(self):
         for model_id in ["Mistral-Medium-3.5-128B"] + [alias for model in self.models.values() for alias in model["aliases"]]:
             with self.subTest(model_id=model_id), self.assertRaises(WorkspaceError):

@@ -448,9 +448,21 @@
   ],
   "track": "restricted",
   "qualification": {
-    "status": "catalog_qualified_inference_unqualified",
+    "status": "owner_observed_basic_inference_editing_formal_incomplete",
     "preflight_record": null,
-    "scored_ready": false
+    "scored_ready": false,
+    "owner_observation": {
+      "model_id": "qwen3-coder-30b-a3b-instruct",
+      "protocol_track": "restricted",
+      "basic_inference": "owner_reported_success",
+      "file_editing": "owner_reported_success",
+      "source_kind": "repository_owner_statement",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "opencode_version": null,
+      "formal_preflight_complete": false,
+      "scored_ready": false
+    }
   },
   "sovereignty": {
     "provider_operator": "Direction interministerielle du numerique (DINUM)",

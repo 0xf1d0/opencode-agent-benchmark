@@ -4,6 +4,7 @@
 import argparse
 from datetime import datetime, timezone
 from importlib.metadata import PackageNotFoundError, version
+import importlib
 import json
 from pathlib import Path
 import platform
@@ -49,15 +50,12 @@ def build_lock(*, provider, model, prompt_id, run_id, campaign_id, opencode_vers
     if digest(config_bytes) != metadata["configs"][matches[0]]["sha256"]:
         raise WorkspaceError("Provider configuration hash differs from metadata.")
     catalog_sha = None
-    if provider == "albert":
-        if __package__:
-            from scripts.albert_catalog import canonical_candidate, read_catalog
-        else:
-            from albert_catalog import canonical_candidate, read_catalog
-        models, catalog_sha = read_catalog()
-        canonical_candidate(models, model)
+    if provider in {"albert", "aristote"}:
+        catalog_module = importlib.import_module(("scripts." if __package__ else "") + provider + "_catalog")
+        models, catalog_sha = catalog_module.read_catalog()
+        catalog_module.canonical_candidate(models, model)
         if catalog_sha != metadata["catalog"]["sha256"]:
-            raise WorkspaceError("Albert catalog hash differs from its evidence card.")
+            raise WorkspaceError("Provider catalog hash differs from its evidence card.")
     prompt_metadata_bytes = read_regular_file(REPOSITORY_ROOT / "benchmark/toy/prompts/metadata.json")
     prompts = load_json(prompt_metadata_bytes)
     selected = [prompt for prompt in prompts["prompts"] if prompt["id"] == prompt_id]

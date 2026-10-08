@@ -1,5 +1,10 @@
 # Level 1 implementation review — 2026-10-08
 
+This records the previous infrastructure phase. Subsequent Aristote catalog
+qualification and the owner-reported Albert basic observation are recorded in
+[the current provider inventory](../providers/README.md); the historical counts
+and qualification statements below describe the earlier review state.
+
 ## Changes
 
 - Updated `.gitignore`, `AGENTS.md`, `DESIGN.md`, `METHODOLOGY.md`; added root

@@ -162,7 +162,7 @@ performance, provider nationality or a model's origin.
 
 ### Applying the supplied Aristote documentation
 
-The candidate inventory and provenance are recorded in
+The historical documentation inventory and provenance are recorded in
 [DESIGN.md](DESIGN.md#aristote-documented-integration-and-candidate-models).
 Treat the supplied technical page as documentation evidence, separate from the
 TP and from observed run capabilities. Preflight must still verify authentication,
@@ -188,9 +188,12 @@ Do not interpret `reasoning-high` as a portable reasoning-effort setting or
 `mistral-medium-latest` as an immutable release. Verify variant identity and alias
 resolution where possible; otherwise mark them unknown and limit matched-model
 claims. The presence of `mistral-small-3.2-24b` makes Mistral-family matching a
-candidate investigation, not an established overlap with another provider.
-`gpt-oss-120b` is a documented model candidate, not a Codex agent; the Codex
-runtime exclusion still applies independently of model naming.
+catalog-supported family pairing with Albert's
+`mistral-small-3-2-24b-instruct-2506`, strictly **model-family-only**, not evidence
+of identical checkpoints.
+`gpt-oss-120b` appeared in the historical documentation but is absent from the
+current Aristote snapshot; it is not an active Aristote candidate. It is not a
+Codex agent; the Codex exclusion remains independent of model naming.
 
 Pin the exact CLI release, configuration format and provider IDs. Treat
 credential storage as private OpenCode state outside the benchmark; never inspect
@@ -396,10 +399,29 @@ Albert Mistral Medium is retired as absent; Mistral Medium direct is retained.
 
 Catalog membership is qualified only at its retrieval date. Inference,
 conversation, tool calling, config/cap acceptance, permissions, model/provider
-appearance and no fallback are separate owner-driven checks. None has run.
+appearance and no fallback are separate owner-driven checks.
+The owner has observed Albert Qwen3 Coder restricted basic inference and file
+editing, recorded separately from formal check results. Runtime/version/evidence
+pins and full formal qualification remain incomplete; the blank template is not
+retrospectively filled with guessed times or hashes.
 [The preflight contract](docs/preflight.md) requires dated sanitized evidence.
-Aristote needs equivalent current owner evidence and runtime qualification;
-its TP appearance is insufficient. No provider/model cell is scored-ready.
+
+Aristote now has an owner-authenticated `/v1/models` snapshot dated 2026-10-08,
+SHA-256 `ace8258a30778b5a7eaef0ce22e20bbe2c95c15ba1c4c9b495b7589586312e69`.
+Its five priority IDs have restricted profiles; standard Qwen 3.6 is the first
+preflight candidate and reasoning-high is independent. Gemma/Llama are secondary;
+embedding/rerank modes excluded. Floating `mistral-medium-latest` is ineligible
+until independent immutable serving evidence exists, not a Medium 3.5 match.
+All Aristote runtime preflight checks remain `not_run`. No cell is scored-ready.
+
+Keep API `owned_by` and `created` as raw fields with no inferred upstream ownership
+or release chronology. Missing mode remains null. Conversation service limits,
+checkpoint/revision/quantization/tokenizer/decoding, tools, prices and performance
+remain null without evidence. 32768/4096 local caps are explicitly
+`benchmark_extension_provisional_common_cap`. The Albert/Aristote Mistral Small
+pairing is **model-family-only**; catalog labels cannot establish identical weights.
+No authenticated calls, credential inspection or preflight execution are performed
+by Codex. This owner catalog qualifies membership, not tool compatibility.
 
 Authentication is `opencode_managed_persistent_credential` with fixed provider ID.
 Credential storage location is null and unverified by design; never inspect private

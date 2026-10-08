@@ -50,7 +50,7 @@ created; preflight hashes always cover the exact lock bytes, including whitespac
 | `python_version`, `pytest_version`, `git_version` | Actually observed preparation versions; missing installed packages/tools remain null. |
 | `operating_system` | Observed preparation OS and release. |
 | `runtime_image` | Immutable execution-image digest/reference if applicable; null before selection. A mutable image tag alone is insufficient for a campaign. |
-| `provider`, `model_id` | Exact registered provider/canonical model; Albert aliases are rejected. |
+| `provider`, `model_id` | Exact registered provider/canonical model; Albert/Aristote aliases, unknown and floating IDs are rejected. |
 | `provider_config_path`, `provider_config_sha256` | Relative config path and SHA-256 of unchanged bytes. |
 | `provider_evidence_sha256` | Exact provider metadata hash; linked remote pages are not themselves archived by this digest. |
 | `catalog_snapshot_sha256` | Exact sanitized catalog bytes, null where no catalog snapshot exists. |

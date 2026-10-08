@@ -94,6 +94,8 @@ Current documentation is supplementary technical evidence, separate from the TP:
   could not be retrieved during the initial review. The user subsequently supplied
   the text of its **Détails techniques** page; the documented facts below come
   from that supplied text, not an independent retrieval or live service test.
+  The owner subsequently supplied an authenticated 2026-10-08 catalog; it now
+  governs candidate membership, separately from this historical integration text.
 
 The web sources were consulted on 2026-10-07. The Aristote excerpt's publication
 date and exact page URL were not supplied; record them when available. No live
@@ -109,6 +111,10 @@ This supplementary documentation establishes an OpenAI-compatible API at
 `https://llm.aristote.education/v1`, chat path `/chat/completions`, and bearer-key
 authentication. It recommends `qwen-3.6-35b-instruct` for starting out; this is a
 service recommendation and the configured candidate default, pending runtime qualification.
+
+The following table preserves **historical documentation** provenance, not the
+active catalog matrix. The owner snapshot below governs current candidates.
+`gpt-oss-120b` is absent from that snapshot and has no active Aristote profile.
 
 | Documented model ID | Documentation status | Benchmark treatment |
 | --- | --- | --- |
@@ -162,8 +168,26 @@ Aliases are provenance only; workspace selection never resolves an alias.
 `Mistral-Medium-3.5-128B` is retired from Albert because it is absent from that
 snapshot. Mistral direct retains both `zai-glm-5-3` and `mistral-medium-3-5`.
 NVIDIA retains `z-ai/glm-5.3`; the NVIDIA/Mistral GLM comparison is family-only
-until independently established checkpoint equivalence. Aristote stays a separate
-unqualified deployment with user-supplied documentation evidence.
+until independently established checkpoint equivalence.
+
+Aristote now has its own exact owner-authenticated snapshot dated 2026-10-08,
+SHA-256 `ace8258a30778b5a7eaef0ce22e20bbe2c95c15ba1c4c9b495b7589586312e69`.
+Its first preflight candidate is `qwen-3.6-35b-instruct`. Five restricted profiles
+select that ID, its separate reasoning-high condition, `qwen-3.8-27b`,
+`mistral-small-3.2-24b` and `mistral-small-4-119b`. Gemma/Llama are optional,
+embedding/rerank entries excluded, and `mistral-medium-latest` retained only as a
+floating alias, not a direct Medium 3.5 match. The single root profile is retired.
+
+Raw `owned_by` and `created` are preserved without assigning upstream ownership
+or release dates; missing `mode` is null. Conversation context/output limits,
+served identity, quantization, tokenizer, decoding, tools and prices remain null.
+The local 32768/4096 limits are provisional benchmark caps. Albert/Aristote Mistral
+Small 3.2 remains **model-family-only**; no checkpoint identity is established.
+
+The owner reports Albert Qwen3 Coder restricted basic inference and file editing
+succeeded. This is an owner observation with missing dated evidence/runtime pins,
+not full formal qualification. Aristote has catalog evidence only and an
+unperformed restricted preflight template. Neither provider is scored-ready.
 
 Authentication for all four IDs is `opencode_managed_persistent_credential`.
 The owner reports that project-defined `albert` and `aristote` must be loaded for

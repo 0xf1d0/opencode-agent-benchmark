@@ -1,10 +1,20 @@
 # Owner-driven provider/model qualification
 
-This is a data contract and unperformed example, not a preflight runner.
+This is a data contract with unperformed templates, not a preflight runner.
 Codex makes no authenticated calls and never discovers or inspects credentials.
 The first proposed cell is `albert/qwen3-coder-30b-a3b-instruct` in the `restricted`
 track. [`runtime/preflight.albert.example.json`](../runtime/preflight.albert.example.json)
 records all checks as `not_run`, measurements null and `scored_ready: false`.
+The owner separately reports successful Albert Qwen3 Coder basic inference and
+file editing in the restricted condition. Formal runtime pins, dated sanitized
+evidence and the remaining checks are incomplete. Provider metadata records the
+statement as an owner observation; the blank template is not a retroactive report.
+
+The first Aristote cell is `aristote/qwen-3.6-35b-instruct`, also `restricted`.
+[Its template](../runtime/preflight.aristote.example.json) leaves every check
+`not_run` and `scored_ready: false`. The exact owner-authenticated Aristote catalog
+is now archived and hashed in provider metadata; no Aristote runtime checks have
+been performed by Codex. Both providers remain short of full scored qualification.
 
 Authentication is external OpenCode-managed persistent state. Project provider
 IDs remain fixed. Loading a custom provider definition may be necessary for it to
@@ -18,7 +28,7 @@ Schema: [`preflight.schema.json`](../schemas/preflight.schema.json).
 | Field | Meaning |
 | --- | --- |
 | `schema_version` | Preflight contract version 1.0.0. |
-| `provider`, `model_id`, `protocol_track` | Exact canonical cell and restricted/agentic policy. Never use Albert aliases. |
+| `provider`, `model_id`, `protocol_track` | Exact canonical cell and restricted/agentic policy. Never use aliases or normalize Albert/Aristote IDs. |
 | `runtime_lock_sha256` | SHA-256 of exact tested runtime-lock bytes, null before a lock is selected. |
 | `performed_by` | repository_owner after human qualification, null before execution. |
 | `authentication.mode` | Always opencode_managed_persistent_credential. |
