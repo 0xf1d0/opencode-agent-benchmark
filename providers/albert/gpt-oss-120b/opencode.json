@@ -52,8 +52,8 @@
     "lsp": "deny",
     "external_directory": "deny"
   },
-  "model": "albert/Mistral-Medium-3.5-128B",
-  "small_model": "albert/Mistral-Medium-3.5-128B",
+  "model": "albert/gpt-oss-120b",
+  "small_model": "albert/gpt-oss-120b",
   "enabled_providers": [
     "albert"
   ],
@@ -62,12 +62,11 @@
       "name": "Albert",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "baseURL": "https://albert.api.etalab.gouv.fr/v1",
-        "apiKey": "{env:ALBERT_API_KEY}"
+        "baseURL": "https://albert.api.etalab.gouv.fr/v1"
       },
       "models": {
-        "Mistral-Medium-3.5-128B": {
-          "name": "Mistral-Medium-3.5-128B",
+        "gpt-oss-120b": {
+          "name": "gpt-oss-120b",
           "limit": {
             "context": 32768,
             "output": 4096

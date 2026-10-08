@@ -1,0 +1,3 @@
+# Infrastructure validation only; campaign runtime versions are frozen separately.
+pytest==8.4.2
+jsonschema==4.19.2

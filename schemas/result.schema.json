@@ -22,11 +22,14 @@
     "effective_config",
     "number_of_attempts",
     "attempts",
-    "missing_measurements"
+    "missing_measurements",
+    "protocol_track",
+    "runtime_lock",
+    "preflight"
   ],
   "properties": {
     "schema_version": {
-      "const": "1.0.0",
+      "const": "1.1.0",
       "description": "Result contract version. A field/meaning change requires a new schema version."
     },
     "result_id": {
@@ -157,6 +160,35 @@
       "items": {
         "$ref": "#/$defs/missing_measurement"
       }
+    },
+    "protocol_track": {
+      "enum": [
+        "restricted",
+        "agentic"
+      ],
+      "description": "Runtime action policy. Restricted and agentic results must not be pooled; agentic is design-only."
+    },
+    "runtime_lock": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/artifact"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Exact offline runtime-lock artifact recording environment, Git, provider/config/catalog, fixture and prompt pins; null if unavailable."
+    },
+    "preflight": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/artifact"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Sanitized owner-driven provider/model qualification record for this runtime and track; null if unperformed."
     }
   },
   "$defs": {
@@ -1427,7 +1459,8 @@
         "api_request_count",
         "duration",
         "tokens",
-        "trace"
+        "trace",
+        "agent_behavior"
       ],
       "properties": {
         "attempt_id": {
@@ -1644,6 +1677,17 @@
             }
           ],
           "description": "Full retained execution-event transcript; may be private or redacted for publication."
+        },
+        "agent_behavior": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/agent_behavior"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Separate human-reviewed agent behavior measurements; null when no behavior review exists."
         }
       }
     },
@@ -1682,6 +1726,72 @@
           ],
           "description": "Additional evidenced explanation; null if none is known.",
           "minLength": 1
+        }
+      }
+    },
+    "agent_behavior": {
+      "type": "object",
+      "description": "Separate evidence-backed behavior and human review measurements; Codex never grades these fields.",
+      "additionalProperties": false,
+      "required": [
+        "relevant_files_inspected",
+        "useful_tool_call_ids",
+        "tests_executed_spontaneously",
+        "unnecessary_changes",
+        "unnecessary_complexity_notes",
+        "qualitative_reviewer_notes"
+      ],
+      "properties": {
+        "relevant_files_inspected": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Human-reviewed relevant workspace paths evidenced in the trace; null before review."
+        },
+        "useful_tool_call_ids": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Human-reviewed useful tool event IDs; null before review, never automatically inferred from all calls."
+        },
+        "tests_executed_spontaneously": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Observed tests initiated by OpenCode without a test-running follow-up; null when unobserved, including missing trace."
+        },
+        "unnecessary_changes": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "description": "Human evidence-linked notes identifying out-of-scope changes; null before review."
+        },
+        "unnecessary_complexity_notes": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Human qualitative review of avoidable complexity with evidence, null if unreviewed."
+        },
+        "qualitative_reviewer_notes": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Human post-run critical review notes, separate from functional and operational measurements."
         }
       }
     }

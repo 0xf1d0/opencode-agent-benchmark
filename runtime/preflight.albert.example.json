@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "provider": "albert",
+  "model_id": "qwen3-coder-30b-a3b-instruct",
+  "protocol_track": "restricted",
+  "runtime_lock_sha256": null,
+  "performed_by": null,
+  "authentication": {
+    "mode": "opencode_managed_persistent_credential",
+    "provider_id": "albert",
+    "credential_storage_location": null,
+    "credential_storage_location_verified": false,
+    "credential_present_usable": null
+  },
+  "checks": {
+    "project_configuration_loads": {
+      "status": "not_run",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "notes": null
+    },
+    "provider_visible": {
+      "status": "not_run",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "notes": null
+    },
+    "canonical_model_visible": {
+      "status": "not_run",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "notes": null
+    },
+    "inference_succeeds": {
+      "status": "not_run",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "notes": null
+    },
+    "trivial_conversation_succeeds": {
+      "status": "not_run",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "notes": null
+    },
+    "required_tool_calling_works": {
+      "status": "not_run",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "notes": null
+    },
+    "permissions_enforced": {
+      "status": "not_run",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "notes": null
+    },
+    "context_output_configuration_accepted": {
+      "status": "not_run",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "notes": null
+    },
+    "no_unintended_fallback": {
+      "status": "not_run",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "notes": null
+    }
+  },
+  "os_boundary_verified": null,
+  "effective_configuration_sha256": null,
+  "observed_provider": null,
+  "observed_model_id": null,
+  "scored_ready": false,
+  "notes": "Unperformed owner-driven first preflight template; no provider requests made."
+}

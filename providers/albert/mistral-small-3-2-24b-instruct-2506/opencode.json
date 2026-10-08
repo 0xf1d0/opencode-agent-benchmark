@@ -52,22 +52,21 @@
     "lsp": "deny",
     "external_directory": "deny"
   },
-  "model": "aristote/qwen-3.6-35b-instruct",
-  "small_model": "aristote/qwen-3.6-35b-instruct",
+  "model": "albert/mistral-small-3-2-24b-instruct-2506",
+  "small_model": "albert/mistral-small-3-2-24b-instruct-2506",
   "enabled_providers": [
-    "aristote"
+    "albert"
   ],
   "provider": {
-    "aristote": {
-      "name": "Aristote",
+    "albert": {
+      "name": "Albert",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "baseURL": "https://llm.aristote.education/v1",
-        "apiKey": "{env:ARISTOTE_API_KEY}"
+        "baseURL": "https://albert.api.etalab.gouv.fr/v1"
       },
       "models": {
-        "qwen-3.6-35b-instruct": {
-          "name": "qwen-3.6-35b-instruct",
+        "mistral-small-3-2-24b-instruct-2506": {
+          "name": "mistral-small-3-2-24b-instruct-2506",
           "limit": {
             "context": 32768,
             "output": 4096

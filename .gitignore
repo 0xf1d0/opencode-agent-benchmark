@@ -1,2 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+workspaces/
+runs/
+cache/
 references/tp/TP_IA_INTRO_26_27.pdf
 references/tp/TutoOpenCode.zip
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+build/
+dist/

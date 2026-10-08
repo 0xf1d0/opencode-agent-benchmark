@@ -260,7 +260,20 @@ def create_workspace(*, benchmark, provider, model, run_id, config_path=None,
     if "codex" in provider.lower() or "codex" in model.lower():
         raise WorkspaceError("Codex must not participate in benchmark runs.")
     repository_root = Path(repository_root).resolve()
-    config_path = Path(config_path) if config_path else repository_root / "providers" / provider / "opencode.json"
+    catalog_sha256 = None
+    if provider == "albert":
+        if __package__:
+            from scripts.albert_catalog import canonical_candidate, read_catalog
+        else:
+            from albert_catalog import canonical_candidate, read_catalog
+        catalog_models, catalog_sha256 = read_catalog(
+            repository_root / "providers/albert/catalog-snapshots/2026-10-08.json"
+        )
+        canonical_candidate(catalog_models, model)
+        default_config = repository_root / "providers" / provider / model / "opencode.json"
+    else:
+        default_config = repository_root / "providers" / provider / "opencode.json"
+    config_path = Path(config_path) if config_path else default_config
     try:
         config_bytes = read_regular_file(config_path)
     except FileNotFoundError:
@@ -323,6 +336,8 @@ def create_workspace(*, benchmark, provider, model, run_id, config_path=None,
             "workspace": "workspace", "fixture_version": manifest["fixture_version"],
             "fixture_manifest_sha256": digest(manifest_bytes),
             "config_format": "opencode_v1", "config_sha256": digest(config_bytes),
+            "catalog_snapshot_sha256": catalog_sha256,
+            "track": "restricted", "scored_ready": False,
             "files": hashes, "task_snapshot_sha256": digest(snapshot),
             "snapshot_hash_method": "SHA-256 of compact sorted-key UTF-8 JSON mapping filenames to file SHA-256 digests",
             "benchmark_commit": git(repository_root, "rev-parse", "HEAD", required=False),
@@ -347,7 +362,7 @@ def main(argv=None):
     parser.add_argument("--provider", required=True)
     parser.add_argument("--model", required=True)
     parser.add_argument("--run-id", required=True)
-    parser.add_argument("--config", type=Path, help="Secret-free OpenCode v1 JSON; defaults to providers/<provider>/opencode.json")
+    parser.add_argument("--config", type=Path, help="Secret-free OpenCode v1 JSON; Albert defaults to providers/albert/<canonical-model>/opencode.json, others to providers/<provider>/opencode.json")
     parser.add_argument("--output-root", type=Path, help="External output directory; defaults to the system temporary directory/opencode-benchmark-workspaces")
     args = parser.parse_args(argv)
     try:
@@ -364,4 +379,7 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
+    # Catalog helpers import this module too; preserve the same exception type
+    # when this file is invoked directly rather than imported as a package.
+    sys.modules.setdefault("create_workspace", sys.modules[__name__])
     sys.exit(main())

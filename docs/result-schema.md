@@ -52,6 +52,37 @@ this attempt. Online hints, edits, manual retries or configuration changes are
 human interventions and may invalidate a primary-protocol run. Codex may maintain
 this schema but must not execute, summarize via inference, repair or grade runs.
 
+## Runtime and outcome categories
+
+Version 1.1.0 adds required `protocol_track`, `runtime_lock`, `preflight` and
+per-attempt `agent_behavior` fields. Earlier 1.0.0 records require an explicit
+migration with null missing artifacts/reviews; never fabricate historical pins.
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `protocol_track` | restricted / agentic | Runtime action policy; separate reports, agentic design-only. |
+| `runtime_lock` | artifact or null | Exact runtime-lock bytes; records OpenCode, benchmark Git, Python/pytest/Git, OS/image, config/catalog, fixture and prompt versions/hashes and run ID. |
+| `preflight` | artifact or null | Owner-driven qualification record tied to this cell/runtime/track, null until performed. |
+| `attempt.agent_behavior` | agent_behavior or null | Evidence-backed human behavior review, null before review. |
+| `agent_behavior.relevant_files_inspected` | string array or null | Relevant workspace paths identified from the trace by a human reviewer. |
+| `agent_behavior.useful_tool_call_ids` | string array or null | Human-reviewed useful tool-event IDs. |
+| `agent_behavior.tests_executed_spontaneously` | boolean or null | Observed OpenCode-initiated tests without follow-up instructions. |
+| `agent_behavior.unnecessary_changes` | string array or null | Evidence-linked human notes on out-of-scope edits. |
+| `agent_behavior.unnecessary_complexity_notes` | string or null | Human assessment of avoidable complexity. |
+| `agent_behavior.qualitative_reviewer_notes` | string or null | Separate post-run critical review. |
+
+[Runtime fields](runtime-pinning.md) and [preflight fields](preflight.md) are
+fully documented separately. Runtime locks are preparation evidence, not measured
+execution proof. A collector must require equal execution provenance and preserve
+any mismatch. Authentication internals are never part of results.
+
+Functional reporting separates public and hidden pass rates, first-attempt success
+and final task success. Behavior reports use the fields above, attempts and human
+interventions. Operational reports retain duration/tokens/tool/provider/API errors,
+rate limits and retries. The TP journal preserves exact prompts, summaries,
+decisions and justifications. Sovereignty stays in separate provider evidence
+cards, contributing no capability points. No aggregate score is defined.
+
 ## Artifacts, hashes and access
 
 Prompt hashes cover the exact delivered UTF-8 bytes, including final newlines;
@@ -81,7 +112,7 @@ boolean verdict; a failing expected baseline does not determine final success.
 
 ## Field reference
 
-Every row below is generated from the corresponding schema property's description.
+Each field below corresponds to a documented schema property.
 All fields in each object are required. `T | null` permits an unknown value; a
 reference to an object requires that object's fields whenever it is present.
 
@@ -91,7 +122,7 @@ Proposed Level 1 result record: one scheduled task/deployment trial, preserving 
 
 | Field | Type / allowed values | Meaning |
 | --- | --- | --- |
-| `schema_version` | constant "1.0.0" | Result contract version. A field/meaning change requires a new schema version. |
+| `schema_version` | constant "1.1.0" | Result contract version. A field/meaning change requires a new schema version. |
 | `result_id` | string | Unique identifier of this result document. |
 | `experiment_id` | string | Identifier of the frozen experiment manifest defining budgets, eligibility and scoring. |
 | `trial_id` | string | Unique scheduled task/deployment/repetition identifier; a replacement attempt stays in this trial. |

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "config_set_version": "1.0.0",
+  "config_set_version": "1.1.0",
   "provider_id": "aristote",
   "service_name": "Aristote",
   "reviewed_at": "2026-10-07",
@@ -8,13 +8,13 @@
   "runtime_version_verified": null,
   "default_model_id": "qwen-3.6-35b-instruct",
   "authentication": {
-    "default": "existing_opencode_connect",
-    "credential_fields_in_default": false,
-    "saved_connection_id": "aristote",
-    "credentials_read_or_copied": false,
-    "environment_variant": "opencode.env.json",
-    "environment_variable": "ARISTOTE_API_KEY",
-    "user_reported_existing_connection": true
+    "mode": "opencode_managed_persistent_credential",
+    "provider_id": "aristote",
+    "credential_storage_location": null,
+    "credential_storage_location_verified": false,
+    "credential_present_usable": null,
+    "user_reported_connection": true,
+    "credentials_read_or_copied": false
   },
   "endpoint": "https://llm.aristote.education/v1",
   "models": [
@@ -45,22 +45,33 @@
     "native_permissions_live_verified": null,
     "os_egress_verified": null,
     "scored_ready": false,
-    "test_execution": "external_harness_only"
+    "test_execution": "external_harness_only",
+    "track": "restricted"
   },
   "configs": {
     "opencode.json": {
       "sha256": "1073e96e404ab837cfdce3629dc5b8c21fd91a88f17effc70ffe8d5bee00d51b",
       "model_id": "qwen-3.6-35b-instruct"
-    },
-    "opencode.env.json": {
-      "sha256": "3209eb37e967534ba1acdd5983e3642b736d8dc2ec37aa750e2c2ff921277a69",
-      "model_id": "qwen-3.6-35b-instruct"
     }
   },
   "notes": [
     "Published API identifiers do not establish exact served weights or account-specific access.",
-    "Do not replace existing /connect credentials with empty environment references.",
     "Require a pinned compatible runtime, effective-config audit and isolated authentication/network boundary before scored runs.",
-    "The user-supplied Détails techniques excerpt establishes this candidate API ID and endpoint. Its exact page URL/publication date and current account catalog are unavailable. DISI must confirm service ceilings; do not infer them from /v1/models or local limits."
-  ]
+    "The user-supplied D\u00e9tails techniques excerpt establishes this candidate API ID and endpoint. Its exact page URL/publication date and current account catalog are unavailable. DISI must confirm service ceilings; do not infer them from /v1/models or local limits."
+  ],
+  "track": "restricted",
+  "qualification": {
+    "status": "unqualified",
+    "preflight_record": null,
+    "scored_ready": false
+  },
+  "sovereignty": {
+    "provider_operator": null,
+    "operator_evidence": null,
+    "deployment_evidence": null,
+    "hosting_claims": null,
+    "verified_certifications": null,
+    "verified_data_retention": null,
+    "capability_score_contribution": null
+  }
 }

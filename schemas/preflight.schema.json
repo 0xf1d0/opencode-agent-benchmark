@@ -1,0 +1,1120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Level 1 owner-driven preflight record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "provider",
+    "model_id",
+    "protocol_track",
+    "runtime_lock_sha256",
+    "performed_by",
+    "authentication",
+    "checks",
+    "os_boundary_verified",
+    "effective_configuration_sha256",
+    "observed_provider",
+    "observed_model_id",
+    "scored_ready",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "description": "Owner-driven preflight contract version."
+    },
+    "provider": {
+      "enum": [
+        "nvidia",
+        "mistral",
+        "albert",
+        "aristote"
+      ],
+      "description": "Fixed project provider ID, preserved in every workspace."
+    },
+    "model_id": {
+      "type": "string",
+      "description": "Exact canonical provider model ID; Albert aliases are forbidden.",
+      "minLength": 1
+    },
+    "protocol_track": {
+      "enum": [
+        "restricted",
+        "agentic"
+      ],
+      "description": "Restricted and agentic are distinct estimands; agentic remains design-only."
+    },
+    "runtime_lock_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Exact lock identifying the runtime/config/evidence tested.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "performed_by": {
+      "enum": [
+        "repository_owner",
+        null
+      ],
+      "description": "Human owner performing authenticated qualification; null for the unperformed template."
+    },
+    "authentication": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Credential backend deliberately excluded.",
+      "required": [
+        "mode",
+        "provider_id",
+        "credential_storage_location",
+        "credential_storage_location_verified",
+        "credential_present_usable"
+      ],
+      "properties": {
+        "mode": {
+          "const": "opencode_managed_persistent_credential",
+          "description": "External private OpenCode-managed authentication."
+        },
+        "provider_id": {
+          "enum": [
+            "nvidia",
+            "mistral",
+            "albert",
+            "aristote"
+          ],
+          "description": "Fixed project provider ID, preserved in every workspace."
+        },
+        "credential_storage_location": {
+          "type": "null",
+          "description": "Never discover or record private storage location."
+        },
+        "credential_storage_location_verified": {
+          "const": false,
+          "description": "Storage implementation is outside the benchmark."
+        },
+        "credential_present_usable": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Owner-observed usability only, null before inference qualification."
+        }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Nine separate runtime observations; catalog membership does not satisfy them.",
+      "required": [
+        "project_configuration_loads",
+        "provider_visible",
+        "canonical_model_visible",
+        "inference_succeeds",
+        "trivial_conversation_succeeds",
+        "required_tool_calling_works",
+        "permissions_enforced",
+        "context_output_configuration_accepted",
+        "no_unintended_fallback"
+      ],
+      "properties": {
+        "project_configuration_loads": {
+          "title": "Preflight check",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "observed_at",
+            "evidence_sha256",
+            "notes"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "not_run",
+                "passed",
+                "failed",
+                "unverified"
+              ],
+              "description": "A not-run or uncertain check never implies success."
+            },
+            "observed_at": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Observed UTC time of the owner-driven check, null before execution.",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "evidence_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Hash of sanitized owner-retained evidence, never credential material.",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "notes": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Factual owner observations or reason for an unverified/failed check.",
+              "minLength": 1
+            }
+          },
+          "description": "project configuration loads.",
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "not_run"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "null"
+                  },
+                  "evidence_sha256": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "provider_visible": {
+          "title": "Preflight check",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "observed_at",
+            "evidence_sha256",
+            "notes"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "not_run",
+                "passed",
+                "failed",
+                "unverified"
+              ],
+              "description": "A not-run or uncertain check never implies success."
+            },
+            "observed_at": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Observed UTC time of the owner-driven check, null before execution.",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "evidence_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Hash of sanitized owner-retained evidence, never credential material.",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "notes": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Factual owner observations or reason for an unverified/failed check.",
+              "minLength": 1
+            }
+          },
+          "description": "provider visible.",
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "not_run"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "null"
+                  },
+                  "evidence_sha256": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "canonical_model_visible": {
+          "title": "Preflight check",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "observed_at",
+            "evidence_sha256",
+            "notes"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "not_run",
+                "passed",
+                "failed",
+                "unverified"
+              ],
+              "description": "A not-run or uncertain check never implies success."
+            },
+            "observed_at": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Observed UTC time of the owner-driven check, null before execution.",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "evidence_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Hash of sanitized owner-retained evidence, never credential material.",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "notes": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Factual owner observations or reason for an unverified/failed check.",
+              "minLength": 1
+            }
+          },
+          "description": "canonical model visible.",
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "not_run"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "null"
+                  },
+                  "evidence_sha256": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "inference_succeeds": {
+          "title": "Preflight check",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "observed_at",
+            "evidence_sha256",
+            "notes"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "not_run",
+                "passed",
+                "failed",
+                "unverified"
+              ],
+              "description": "A not-run or uncertain check never implies success."
+            },
+            "observed_at": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Observed UTC time of the owner-driven check, null before execution.",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "evidence_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Hash of sanitized owner-retained evidence, never credential material.",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "notes": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Factual owner observations or reason for an unverified/failed check.",
+              "minLength": 1
+            }
+          },
+          "description": "inference succeeds.",
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "not_run"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "null"
+                  },
+                  "evidence_sha256": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "trivial_conversation_succeeds": {
+          "title": "Preflight check",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "observed_at",
+            "evidence_sha256",
+            "notes"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "not_run",
+                "passed",
+                "failed",
+                "unverified"
+              ],
+              "description": "A not-run or uncertain check never implies success."
+            },
+            "observed_at": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Observed UTC time of the owner-driven check, null before execution.",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "evidence_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Hash of sanitized owner-retained evidence, never credential material.",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "notes": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Factual owner observations or reason for an unverified/failed check.",
+              "minLength": 1
+            }
+          },
+          "description": "trivial conversation succeeds.",
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "not_run"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "null"
+                  },
+                  "evidence_sha256": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "required_tool_calling_works": {
+          "title": "Preflight check",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "observed_at",
+            "evidence_sha256",
+            "notes"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "not_run",
+                "passed",
+                "failed",
+                "unverified"
+              ],
+              "description": "A not-run or uncertain check never implies success."
+            },
+            "observed_at": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Observed UTC time of the owner-driven check, null before execution.",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "evidence_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Hash of sanitized owner-retained evidence, never credential material.",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "notes": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Factual owner observations or reason for an unverified/failed check.",
+              "minLength": 1
+            }
+          },
+          "description": "required tool calling works.",
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "not_run"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "null"
+                  },
+                  "evidence_sha256": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "permissions_enforced": {
+          "title": "Preflight check",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "observed_at",
+            "evidence_sha256",
+            "notes"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "not_run",
+                "passed",
+                "failed",
+                "unverified"
+              ],
+              "description": "A not-run or uncertain check never implies success."
+            },
+            "observed_at": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Observed UTC time of the owner-driven check, null before execution.",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "evidence_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Hash of sanitized owner-retained evidence, never credential material.",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "notes": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Factual owner observations or reason for an unverified/failed check.",
+              "minLength": 1
+            }
+          },
+          "description": "permissions enforced.",
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "not_run"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "null"
+                  },
+                  "evidence_sha256": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "context_output_configuration_accepted": {
+          "title": "Preflight check",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "observed_at",
+            "evidence_sha256",
+            "notes"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "not_run",
+                "passed",
+                "failed",
+                "unverified"
+              ],
+              "description": "A not-run or uncertain check never implies success."
+            },
+            "observed_at": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Observed UTC time of the owner-driven check, null before execution.",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "evidence_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Hash of sanitized owner-retained evidence, never credential material.",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "notes": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Factual owner observations or reason for an unverified/failed check.",
+              "minLength": 1
+            }
+          },
+          "description": "context output configuration accepted.",
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "not_run"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "null"
+                  },
+                  "evidence_sha256": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "no_unintended_fallback": {
+          "title": "Preflight check",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "observed_at",
+            "evidence_sha256",
+            "notes"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "not_run",
+                "passed",
+                "failed",
+                "unverified"
+              ],
+              "description": "A not-run or uncertain check never implies success."
+            },
+            "observed_at": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Observed UTC time of the owner-driven check, null before execution.",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "evidence_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Hash of sanitized owner-retained evidence, never credential material.",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "notes": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Factual owner observations or reason for an unverified/failed check.",
+              "minLength": 1
+            }
+          },
+          "description": "no unintended fallback.",
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "not_run"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "null"
+                  },
+                  "evidence_sha256": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "os_boundary_verified": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Owner audit of actual filesystem/process/credential/network isolation, not tool permissions."
+    },
+    "effective_configuration_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Hash of audited sanitized effective settings, including inherited configuration.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "observed_provider": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Actual inference provider observed from sanitized routing evidence; null if unobserved.",
+      "minLength": 1
+    },
+    "observed_model_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Actual requested canonical model observed in routing evidence; null if unobserved.",
+      "minLength": 1
+    },
+    "scored_ready": {
+      "type": "boolean",
+      "description": "Must remain false unless every check and isolation/provenance gate passes; JSON shape alone does not establish this."
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Qualification limits and owner review notes.",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "scored_ready": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "performed_by": {
+            "const": "repository_owner"
+          },
+          "runtime_lock_sha256": {
+            "type": "string"
+          },
+          "os_boundary_verified": {
+            "const": true
+          },
+          "effective_configuration_sha256": {
+            "type": "string"
+          },
+          "observed_provider": {
+            "type": "string"
+          },
+          "observed_model_id": {
+            "type": "string"
+          },
+          "authentication": {
+            "properties": {
+              "credential_present_usable": {
+                "const": true
+              }
+            }
+          },
+          "checks": {
+            "properties": {
+              "project_configuration_loads": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  },
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              },
+              "provider_visible": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  },
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              },
+              "canonical_model_visible": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  },
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              },
+              "inference_succeeds": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  },
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              },
+              "trivial_conversation_succeeds": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  },
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required_tool_calling_works": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  },
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              },
+              "permissions_enforced": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  },
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              },
+              "context_output_configuration_accepted": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  },
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              },
+              "no_unintended_fallback": {
+                "properties": {
+                  "status": {
+                    "const": "passed"
+                  },
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "evidence_sha256": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

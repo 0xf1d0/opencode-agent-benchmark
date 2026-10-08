@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Level 1 campaign runtime lock",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "run_id",
+    "campaign_id",
+    "benchmark_level",
+    "benchmark_commit",
+    "benchmark_dirty",
+    "opencode_version",
+    "observed_opencode_version",
+    "opencode_artifact_sha256",
+    "autoupdate",
+    "python_version",
+    "pytest_version",
+    "git_version",
+    "operating_system",
+    "runtime_image",
+    "provider",
+    "model_id",
+    "provider_config_path",
+    "provider_config_sha256",
+    "provider_evidence_sha256",
+    "catalog_snapshot_sha256",
+    "fixture_version",
+    "fixture_manifest_sha256",
+    "prompt_set_version",
+    "prompt_id",
+    "prompt_sha256",
+    "prompt_metadata_sha256",
+    "requirements_sha256",
+    "requirements_resolved_sha256",
+    "preparation_environment_only",
+    "protocol_track",
+    "sandbox_review_id",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "description": "Offline campaign lock contract version."
+    },
+    "record_type": {
+      "const": "campaign_runtime_lock",
+      "description": "Preparation lock, not a benchmark result or eligibility certificate."
+    },
+    "run_id": {
+      "type": "string",
+      "description": "Unique run identifier; independent of provider and model spelling.",
+      "minLength": 1
+    },
+    "campaign_id": {
+      "type": "string",
+      "description": "Owner-declared frozen campaign identifier.",
+      "minLength": 1
+    },
+    "benchmark_level": {
+      "const": 1,
+      "description": "Only Level 1 is implemented."
+    },
+    "benchmark_commit": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Exact benchmark Git HEAD at preparation; null outside Git.",
+      "pattern": "^[a-f0-9]{40,64}$"
+    },
+    "benchmark_dirty": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Observed source worktree state; scored locks require false."
+    },
+    "opencode_version": {
+      "type": "string",
+      "description": "Exact expected OpenCode release supplied by the owner; no automatic update or latest alias.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$"
+    },
+    "observed_opencode_version": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Owner-reported actual release from a safe runtime observation; null until supplied.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$"
+    },
+    "opencode_artifact_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Owner-supplied checksum of the pinned OpenCode executable/distribution; null if unrecorded.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "autoupdate": {
+      "const": false,
+      "description": "Campaign updates are prohibited."
+    },
+    "python_version": {
+      "type": "string",
+      "description": "Python version actually observed by this offline preparation process.",
+      "minLength": 1
+    },
+    "pytest_version": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Installed pytest distribution version; null when unavailable.",
+      "minLength": 1
+    },
+    "git_version": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Observed system Git version using sanitized Git execution.",
+      "minLength": 1
+    },
+    "operating_system": {
+      "type": "string",
+      "description": "Observed preparation operating system and release; execution provenance must match its runtime.",
+      "minLength": 1
+    },
+    "runtime_image": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Immutable execution image reference/digest where applicable; null before selection or for native preparation.",
+      "minLength": 1
+    },
+    "provider": {
+      "enum": [
+        "nvidia",
+        "mistral",
+        "albert",
+        "aristote"
+      ],
+      "description": "Fixed project provider ID, preserved in every workspace."
+    },
+    "model_id": {
+      "type": "string",
+      "description": "Exact canonical provider model ID; Albert aliases are forbidden.",
+      "minLength": 1
+    },
+    "provider_config_path": {
+      "type": "string",
+      "description": "Selected secret-free config path relative to the repository.",
+      "minLength": 1
+    },
+    "provider_config_sha256": {
+      "type": "string",
+      "description": "SHA-256 of exact selected configuration bytes.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "provider_evidence_sha256": {
+      "type": "string",
+      "description": "SHA-256 of exact provider metadata bytes; it hashes the evidence card, not remotely linked documents.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "catalog_snapshot_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Exact sanitized catalog hash when supplied; null if no archived catalog is available.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "fixture_version": {
+      "type": "string",
+      "description": "Fixture manifest version.",
+      "minLength": 1
+    },
+    "fixture_manifest_sha256": {
+      "type": "string",
+      "description": "SHA-256 of exact immutable fixture manifest bytes.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "prompt_set_version": {
+      "type": "string",
+      "description": "Version of the unchanged provider-independent prompt set.",
+      "minLength": 1
+    },
+    "prompt_id": {
+      "type": "string",
+      "description": "Task prompt identifier from the frozen prompt manifest.",
+      "minLength": 1
+    },
+    "prompt_sha256": {
+      "type": "string",
+      "description": "SHA-256 of exact delivered UTF-8 task prompt bytes.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "prompt_metadata_sha256": {
+      "type": "string",
+      "description": "SHA-256 of the exact prompt metadata file, including provenance.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "requirements_sha256": {
+      "type": "string",
+      "description": "SHA-256 of validation dependency pins; not a complete runtime image identity.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "requirements_resolved_sha256": {
+      "type": "string",
+      "description": "SHA-256 of the dependency resolution lock for CI Python; other runtimes need their own lock.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "preparation_environment_only": {
+      "const": true,
+      "description": "This offline utility observes preparation, never starts OpenCode; execution must attest runtime equality."
+    },
+    "protocol_track": {
+      "enum": [
+        "restricted",
+        "agentic"
+      ],
+      "description": "Restricted and agentic are distinct estimands; agentic remains design-only."
+    },
+    "sandbox_review_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Human-approved implementation audit identifier; null while runtime isolation is unimplemented.",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Observed UTC preparation timestamp.",
+      "format": "date-time",
+      "pattern": "Z$"
+    }
+  }
+}

@@ -2,9 +2,8 @@
 
 ## Status and scope
 
-This is a proposed design, not an implemented benchmark runner. The initial
-documentation phase added this design and the methodology to the repository's
-guide and references. Level 1 materials are now being added under `benchmark/toy/`:
+This repository implements Level 1 preparation and validation infrastructure,
+not a benchmark runner. Materials under `benchmark/toy/` include:
 the owner-supplied unsolved fixture, source public tests from TutoOpenCode, prompts
 and separate oracle tests. Its public baseline is verified: two passes and the
 intended space-handling failure; see the [Level 1 status](benchmark/toy/README.md).
@@ -12,8 +11,8 @@ Secret-free provider profiles and provenance now exist under `providers/`;
 live provider qualification and scored runs remain unimplemented.
 
 **System under evaluation:** a pinned OpenCode release operating with a declared
-model through a declared inference provider. Results describe that complete
-system under fixed conditions; they do not isolate intrinsic model intelligence.
+model through a declared inference provider and fixed environment. Results describe
+that complete system; they do not isolate intrinsic model intelligence.
 
 **Codex's role:** design, implement, and maintain benchmark infrastructure outside
 runs. Codex must never execute tasks, generate adaptive run prompts, repair
@@ -21,18 +20,18 @@ submissions, route inference, or grade benchmark runs. Runtime orchestration and
 automated scoring must be deterministic software; qualitative review is human.
 No Codex process, credentials, plugin, model, or fallback may enter a run.
 
-The existing `AGENTS.md` was reviewed and retained under the earlier instruction
-not to modify it. Its scaffold description remains accurate, although these design
-documents now supply the experimental rules. Future infrastructure contributors
-must follow the boundary above. The root contributor guide must never be injected
-into task workspaces as benchmark instructions.
+The root `AGENTS.md` is the infrastructure contributor guide. It must never be
+injected into task workspaces. Only task-declared instructions, including a guide
+produced by a separate initialization condition when applicable, may enter a run.
 
 ## Reference and provenance
 
-The primary reference is [the local TP](references/tp/TP_IA_INTRO_26_27.pdf),
+The primary reference is the local-only `references/tp/TP_IA_INTRO_26_27.pdf`,
 *Dominante INFONUM CentraleSupélec — 2026–2027*, 11 pages. Its SHA-256 is
 `6089bc8bdb09fbaaedabba8a1c8919908882cc238e531c7740573c60468ab53f`.
-Page references below use PDF page numbers.
+Page references below use PDF page numbers. The PDF is intentionally ignored and
+not distributed through this repository. Redistribution permission and a public
+source access path are unresolved; the hash records provenance, not access rights.
 
 The TP explicitly says it is a pedagogical exercise rather than an evaluation of
 raw ILaaS model performance (p. 1). Turning its activities into scored, repeated,
@@ -109,7 +108,7 @@ and Aristote are required candidates; classification requires deployment evidenc
 This supplementary documentation establishes an OpenAI-compatible API at
 `https://llm.aristote.education/v1`, chat path `/chat/completions`, and bearer-key
 authentication. It recommends `qwen-3.6-35b-instruct` for starting out; this is a
-service recommendation, not a benchmark-selected default or verified eligibility.
+service recommendation and the configured candidate default, pending runtime qualification.
 
 | Documented model ID | Documentation status | Benchmark treatment |
 | --- | --- | --- |
@@ -137,16 +136,41 @@ apply these values to other models or providers.
 The manual Desktop configuration uses OpenCode 2's `providers` format. The
 automatic configurator uses format 1 when no `providers` section exists, to retain
 CLI 1 compatibility; the documentation says OpenCode 2 also reads format 1.
-Credentials may live in `auth.json` for version 1 or a database for version 2.
-Pin the actual CLI release and test its configuration/authentication behavior;
+Credential storage is an external OpenCode implementation detail. Never inspect
+or copy it. Pin the actual CLI release and test project configuration behavior;
 Desktop compatibility is not proof of CLI compatibility for that release.
 
 The configurator preserves existing connections, settings, manual models and
 credentials, and **does not test the service connection**. It is therefore not a
 benchmark preflight or a substitute for isolated effective configuration. No
-configurator is executed or provider configuration generated in this design phase.
+configurator is executed. Versioned provider profiles are maintained separately.
 The excerpt provides no deployment-specific hosting, certification, retention,
 or model-weight identity evidence; those verification gates remain open.
+
+## Current Level 1 provider matrix
+
+All committed profiles implement the **restricted** no-shell track. None is
+`scored_ready`. The first owner-driven Albert preflight selects
+`qwen3-coder-30b-a3b-instruct`. The owner's authenticated 2026-10-08 catalog,
+SHA-256 `0fc3ed2b2fc5c581a1d175cd6a98cb9b64c85bb850431eb1990650f5c5ab1e0e`,
+is the authoritative account-specific evidence for that date. Four canonical
+Albert configurations are implemented: Qwen Coder, GPT OSS 120B, DeepSeek V4
+Flash 0731 and Mistral Small 3.2. Ministral 3 and Gemma 4 remain optional. Embedding,
+reranking, ASR and OCR models are excluded with reasons in provider metadata.
+Aliases are provenance only; workspace selection never resolves an alias.
+
+`Mistral-Medium-3.5-128B` is retired from Albert because it is absent from that
+snapshot. Mistral direct retains both `zai-glm-5-3` and `mistral-medium-3-5`.
+NVIDIA retains `z-ai/glm-5.3`; the NVIDIA/Mistral GLM comparison is family-only
+until independently established checkpoint equivalence. Aristote stays a separate
+unqualified deployment with user-supplied documentation evidence.
+
+Authentication for all four IDs is `opencode_managed_persistent_credential`.
+The owner reports that project-defined `albert` and `aristote` must be loaded for
+those custom providers to appear in `/connect` and the model selector. Provider
+IDs remain fixed. Storage location is null and unverified; credential usability
+is null until an owner-driven preflight. No credential discovery belongs in the
+infrastructure. See [provider evidence and qualification](providers/README.md).
 
 ## Three levels
 
@@ -156,7 +180,8 @@ Propose a small Python project with pytest, reflecting the TP's teaching stack.
 Include separate scenarios for initialization, diagnosis/repair, implementation
 from specification, test generation, ambiguous optimization/undo, and same-prompt
 model comparison. Palindrome, word frequency and temperature conversion are
-source-derived themes; their exact contracts and test cases will be new work.
+source-derived themes; the public palindrome tests are source-exact; explicit contracts and hidden cases
+are separately attributed benchmark additions.
 
 Initialization produces `AGENTS.md` from a clean repository without that file.
 Score factual project description, valid commands, useful conventions, and
@@ -277,17 +302,71 @@ shell restoration cannot stand in for OpenCode undo.
 
 | Phase | Work after this design phase | Gate before proceeding |
 | --- | --- | --- |
-| 0. Design review | Agree scope, attribution, comparison claims, rights and protocol | Review this design; list unresolved decisions; no benchmark implementation yet |
+| 0. Design review | Agree scope, attribution, comparison claims, rights and protocol | Review runtime architecture and unresolved decisions before sandbox implementation |
 | 1. Contracts and isolation | Schemas, provenance registry, pinned runtime adapter, sandbox, credential boundary, synthetic infrastructure tests | Verify config isolation, no Codex paths, all inference routing, event completeness, init/undo interfaces and deterministic evaluation |
-| 2. Level 1 pilot | Original licensed toy fixtures, external tests/mutants, ambiguity and guide rubrics | Independent oracle review; all bases/reference solutions validated; pilot separated from scored tasks |
+| 2. Level 1 pilot | Source-attributed toy fixtures and rights review, external tests/mutants, ambiguity and guide rubrics | Immutable baseline validated; independent human oracle/rubric review; pilot separated from scored tasks |
 | 3. Provider qualification | Integrate NVIDIA Build, Mistral direct, Albert, Aristote; capability and evidence cards | Publish eligibility matrix and unavailable cells; verify no hidden fallbacks or unrecorded auxiliary inference |
 | 4. Level 2 | Curated Git history/issues, independent tasks, workflow track | Assert code and Git outcomes; verify restoration and leakage boundaries |
 | 5. Level 3 | Verify candidate PRs, curate prompts, pin sources/dependencies and rights | Base/reference oracle checks, reproducible offline evaluation, no future-history leakage; human review per task |
 | 6. Protocol freeze and evaluation | Separate pilot from scoring, freeze matrix/budgets/repeats, execute randomized paired trials | Pre-register before scored outcomes; archive every attempt and exclusion |
 | 7. Public release | Sanitize evidence, publish artifacts, statistics, limitations and reproduction guide | Independent replay of preparation/evaluation; rights and disclosure review; all claims linked to evidence |
 
-Open decisions are the exact OpenCode release, packaging/lockfile tool, accessible
+Open decisions are the exact OpenCode release, runtime packaging/image, accessible
 model matrix, numeric resource budgets, final task count, independent review
 capacity, source-document redistribution rights, and deployment sovereignty
 evidence. These are gates to future implementation or publication, not assumptions
 filled in by invented provider settings.
+
+## Level 1 runtime architecture review gate
+
+The implemented policy is `restricted`, with no model-controlled shell or web
+tools. It does not reproduce the full local development behavior of the TP.
+`agentic` is a separate proposed track allowing local Python, public pytest and
+justified Git inspection inside an OS sandbox. No agentic profile, sandbox or
+broker is implemented. [Runtime architecture](docs/runtime.md) evaluates namespace,
+container and microVM options and defines acceptance attacks before selection.
+
+### Threat model and filesystem boundary
+
+Assume arbitrary code execution by submitted code/tests and malicious tool/path
+arguments. Only the generated project and minimal read-only runtime dependencies
+are visible. The benchmark repository, hidden oracle, evaluator, references,
+maintainer files, catalogs, other runs and expected patches are inaccessible.
+Prevent parent traversal, symlink escapes, host `/proc` access and inherited file
+descriptors. No host/engine/control sockets enter the guest. Directory separation
+and OpenCode permissions alone do not enforce this boundary.
+
+### Process and credential boundary
+
+The pinned OpenCode controller is separate from model-controlled command processes.
+A trusted broker mediates every executable and file tool; wrapping only shell is
+insufficient. Command processes cannot inspect controller processes, private
+OpenCode state, memory, environment or descriptors. Authentication is an external
+owner-managed concern; storage location remains null. Provisioning into a private
+controller domain needs owner review and must not inspect/copy the maintainer's
+credential store. Record the trusted adapter as part of the evaluated system.
+
+### Network boundary and paths
+
+Path A is controller-to-selected-provider inference, authenticated using private
+OpenCode-managed state. Path B is broker-to-disposable-guest command execution,
+with no Internet, host loopback, DNS, metadata or inference-proxy access. The guest
+must not inherit the controller's network identity or any inference socket. OS
+network enforcement blocks Python/generated-code requests as well as curl.
+Freeze endpoint allowlists and auxiliary inference routing; log actual destinations.
+
+### Evaluator and remaining limitations
+
+After stopping the agent, a trusted supervisor exports inert checked files into
+an independent offline evaluator sandbox. Oracle and reports never enter the
+agent mount or feedback. Collection is external and immutable to the agent;
+submitted code never executes on the collector host. Native initialization/undo
+and implicit filesystem/Git operations require pinned-release audit; no harness
+reset counts as OpenCode undo. Kernel escapes, controller/adapter vulnerabilities,
+opaque provider behavior and public contamination remain residual risks.
+
+[Offline locks](docs/runtime-pinning.md) now record exact selected runtime and
+input provenance; [preflight records](docs/preflight.md) distinguish nine owner
+checks from catalog availability. Both are infrastructure contracts, not evidence
+of an implemented runtime or successful inference. Stop before sandbox
+implementation until the owner reviews this architecture and selects a release.

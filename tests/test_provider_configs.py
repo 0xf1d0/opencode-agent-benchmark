@@ -24,27 +24,30 @@ class ProviderConfigTests(unittest.TestCase):
     def test_profile_identity_hashes_and_evidence_are_consistent(self):
         for provider, path, config, metadata in self.profiles:
             with self.subTest(profile=str(path)):
-                model = metadata["configs"][path.name]["model_id"]
+                filename = path.relative_to(REPOSITORY_ROOT / "providers" / provider).as_posix()
+                model = metadata["configs"][filename]["model_id"]
                 validate_config(path.read_bytes(), provider, model)
                 self.assertEqual(config["model"], f"{provider}/{model}")
                 self.assertEqual(config["small_model"], config["model"])
-                self.assertEqual(metadata["configs"][path.name]["sha256"], hashlib.sha256(path.read_bytes()).hexdigest())
+                self.assertEqual(metadata["configs"][filename]["sha256"], hashlib.sha256(path.read_bytes()).hexdigest())
                 matching = [entry for entry in metadata["models"] if entry["model_id"] == model]
                 self.assertEqual(len(matching), 1)
                 self.assertIsNone(matching[0]["checkpoint_revision"])
-                self.assertIsNone(matching[0]["authenticated_availability"])
+                if provider == "albert":
+                    self.assertEqual(matching[0]["authenticated_availability"], "owner_authenticated_catalog_snapshot")
+                else:
+                    self.assertIsNone(matching[0]["authenticated_availability"])
                 self.assertEqual(matching[0]["checkpoint_status"], "model-family-only")
                 self.assertFalse(metadata["network_policy"]["scored_ready"])
 
     def test_defaults_preserve_all_four_existing_connect_connections(self):
-        for provider, path, config, _ in self.profiles:
+        for provider, path, config, metadata in self.profiles:
             options = config["provider"][provider]["options"]
-            if path.name != "opencode.env.json":
-                self.assertNotIn("apiKey", options)
-                self.assertNotIn("headers", options)
-            else:
-                self.assertIn(provider, {"albert", "aristote"})
-                self.assertEqual(options["apiKey"], "{env:" + provider.upper() + "_API_KEY}")
+            self.assertNotIn("apiKey", options)
+            self.assertNotIn("headers", options)
+            self.assertEqual(metadata["authentication"]["mode"], "opencode_managed_persistent_credential")
+            self.assertIsNone(metadata["authentication"]["credential_storage_location"])
+            self.assertIsNone(metadata["authentication"]["credential_present_usable"])
             text = path.read_text()
             self.assertNotIn("nvapi-", text)
             self.assertNotIn("sk-", text)

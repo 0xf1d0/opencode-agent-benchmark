@@ -101,7 +101,9 @@ class WorkspaceTests(unittest.TestCase):
         hook.chmod(0o755)
         global_config = self.root / "global.gitconfig"
         global_config.write_text("[user]\n name = credential-sentinel\n email = credential-sentinel@invalid\n[commit]\n gpgSign = true\n")
-        with patch.dict(os.environ, {
+        # Replace the mapping with synthetic values; do not inspect/copy the
+        # maintainer's real environment, including any key-bearing variables.
+        with patch("os.environ", {
             "TEST_API_KEY": "environment-secret-sentinel", "GIT_DIR": str(foreign_git),
             "GIT_WORK_TREE": str(self.repository), "GIT_TEMPLATE_DIR": str(template),
             "GIT_CONFIG_GLOBAL": str(global_config), "GIT_CONFIG_COUNT": "1",

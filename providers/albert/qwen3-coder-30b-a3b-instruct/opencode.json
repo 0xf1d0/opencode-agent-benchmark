@@ -52,8 +52,8 @@
     "lsp": "deny",
     "external_directory": "deny"
   },
-  "model": "albert/Mistral-Medium-3.5-128B",
-  "small_model": "albert/Mistral-Medium-3.5-128B",
+  "model": "albert/qwen3-coder-30b-a3b-instruct",
+  "small_model": "albert/qwen3-coder-30b-a3b-instruct",
   "enabled_providers": [
     "albert"
   ],
@@ -65,8 +65,8 @@
         "baseURL": "https://albert.api.etalab.gouv.fr/v1"
       },
       "models": {
-        "Mistral-Medium-3.5-128B": {
-          "name": "Mistral-Medium-3.5-128B",
+        "qwen3-coder-30b-a3b-instruct": {
+          "name": "qwen3-coder-30b-a3b-instruct",
           "limit": {
             "context": 32768,
             "output": 4096

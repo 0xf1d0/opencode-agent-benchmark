@@ -13,14 +13,15 @@ From the repository root:
 python scripts/create_workspace.py \
     --benchmark toy \
     --provider nvidia \
-    --model glm-5.3 \
+    --model z-ai/glm-5.3 \
     --run-id 001
 ```
 
-This selects `providers/nvidia/opencode.json`. The current NVIDIA profile uses the
-published ID `z-ai/glm-5.3`, so replace the example's short `--model glm-5.3` with
-`--model z-ai/glm-5.3`; mismatches are refused. See the
-[implemented provider profiles](../providers/README.md). Supply another audited
+This selects `providers/nvidia/opencode.json`. Albert selects
+`providers/albert/<canonical-model-id>/opencode.json`; aliases and excluded IDs
+are rejected using the owner's sanitized catalog. Catalog SHA-256 is retained
+outside the workspace. See the [provider profiles](../providers/README.md).
+Supply another audited
 configuration explicitly when needed:
 
 ```sh
@@ -155,3 +156,11 @@ They check byte-preserving copies, oracle/credential exclusion, inherited Git st
 the clean isolated baseline, repeatable commit hashes, traversal/symlink rejection,
 configuration rejection, failure cleanup and overwrite refusal. They create only
 temporary synthetic configurations and never contact providers or solve tasks.
+
+
+Preparation metadata now records `track: restricted`, `scored_ready: false`, and
+`catalog_snapshot_sha256` (null when unavailable). This is not a scored result.
+Runtime pinning is a separate offline step described in [runtime locks](runtime-pinning.md).
+Never place the lock, preflight evidence or source provider catalogs in the agent
+workspace. Project authentication is external OpenCode-managed persistent state;
+no credential backend or location is discovered by preparation.

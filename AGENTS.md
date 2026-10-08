@@ -1,39 +1,54 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
+## Scope and Boundaries
 
-This repository is an initial scaffold for benchmarking coding-agent workflows. `references/tp/README.md` records the methodological inspiration, including bug fixes, implementation from specifications, test generation, model comparisons, and Git workflows.
+OpenCode is the system under evaluation: results describe OpenCode, model,
+provider and fixed environment together. Codex maintains infrastructure only.
+Never use Codex as a contestant, solve tasks, generate expected patches, adapt
+prompts to outputs, repair submissions or replace human qualitative review.
+Implement Level 1 only; Level 2 and Level 3 remain design proposals.
 
-There are currently no source modules, test suites, or application assets. Keep reference material under `references/`. When adding executable benchmarks, group implementation and tests clearly and document their locations and entry points.
+## Project Structure
 
-## Build, Test, and Development Commands
+- `benchmark/toy/fixture/`: immutable unsolved `toolbox.py` and source public tests.
+- `benchmark/toy/oracle/`: evaluator-only checks; never copy into agent workspaces.
+- `benchmark/toy/prompts/`: exact UTF-8 requests, versions, hashes and TP provenance.
+- `providers/`: secret-free configurations, candidate metadata and owner-supplied
+  catalog snapshots. Albert model IDs must be canonical snapshot `id` values.
+- `scripts/`: offline workspace preparation, catalog validation and runtime locks.
+- `schemas/` and `docs/`: data contracts, field references and reproduction guidance.
+- `tests/`: deterministic infrastructure checks; `.github/workflows/` runs them.
+- `references/tp/`: provenance notes; the PDF/archive remain local-only.
 
-No build system, dependency manifest, or automated test command is configured yet. Use these commands to inspect contributions:
+Generated workspaces live outside this repository, under the system temporary
+folder by default. Their allowlist is fixture files, selected `opencode.json` and
+isolated Git baseline. Never inject this root guide, oracle, catalogs, prompt
+metadata or evaluator material into them. Directory separation is not a sandbox.
 
-- `git status --short`: review changed and untracked files.
-- `git diff --check`: detect whitespace errors in tracked changes.
-- `git diff`: review tracked edits before committing.
+## Development and Validation
 
-When introducing tooling, document exact installation, execution, and testing commands alongside the implementation. Avoid describing commands as supported until their configuration exists.
+Use Python with four-space indentation, descriptive snake_case names and standard
+library infrastructure where practical. No formatter, linter or coverage threshold
+is configured. Preserve French prompt meaning and exact bytes.
 
-## Coding Style & Naming Conventions
+```sh
+python -m venv .venv
+.venv/bin/python -m pip install -r requirements-dev.txt
+.venv/bin/python -m unittest discover -s tests -v
+git diff --check
+```
 
-Use descriptive filenames and concise Markdown with ATX headings (`## Section`). Keep documentation actionable and commands copyable. Preserve the meaning of the French methodology notes when editing them.
+The validation suite checks the intentional public baseline: two passes and one
+space-handling failure. Do not fix that fixture or run recursive oracle collection.
+Prompt byte changes require updated hashes, provenance and prompt-set version.
 
-No language-specific formatter, linter, or indentation policy exists. Configure and document these conventions when introducing the first implementation language.
+## Authentication and Contributions
 
-## Testing Guidelines
+Never inspect credentials, key-bearing environment variables or OpenCode private
+account/storage files. Authentication is external OpenCode-managed persistent
+state; provider IDs stay `nvidia`, `mistral`, `albert`, `aristote`. No authenticated
+calls, scored campaigns or sandbox implementation are authorized in this phase.
 
-No testing framework or coverage threshold is established. New executable benchmarks should include reproducible inputs, expected outcomes, and a documented validation command. Give tests descriptive names that identify the behavior or benchmark scenario being checked.
-
-For documentation changes, verify paths, command accuracy, and Markdown readability.
-
-## Commit & Pull Request Guidelines
-
-The repository has no commits yet, so there is no historical commit-message convention. Use short, imperative subjects such as `Add benchmark scenario documentation`.
-
-Pull requests should explain the purpose, changed files, and validation performed. Link relevant issues when available. For benchmark changes, record the agent or model, scenario, execution conditions, and results needed to reproduce the comparison.
-
-## Reference Material
-
-`.gitignore` excludes `references/tp/TP_IA_INTRO_26_27.pdf`. Keep this local reference untracked unless the repository explicitly changes that policy.
+History uses concise subjects such as `Implement controlled toy benchmark`;
+prefer imperative subjects. PRs describe purpose, files, validation and evidence
+limits. Preserve TP/source hashes; redistribution rights are unresolved.
