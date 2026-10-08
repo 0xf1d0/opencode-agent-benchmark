@@ -103,18 +103,70 @@ Albert `mistral-small-3-2-24b-instruct-2506` versus Aristote
 `mistral-small-3.2-24b` is **model-family-only**. Keep this possible provider
 comparison, without claiming identical checkpoints, quantization or settings.
 
-## Other providers
+## Mistral AI direct owner catalog
 
-- NVIDIA retains `z-ai/glm-5.3`, published by [NVIDIA Build](https://build.nvidia.com/z-ai/glm-5-3?section=deploy).
-- Mistral retains `zai-glm-5-3`, published by [Mistral](https://docs.mistral.ai/models/zai-glm-5-3),
-  and `mistral-medium-3-5` in `opencode.medium.json`, documented on its
-  [Medium card](https://docs.mistral.ai/models/mistral-medium-3-5-26-04).
+The exact [owner-authenticated Mistral snapshot](mistral/catalog-snapshots/2026-10-08.json)
+from `GET https://api.mistral.ai/v1/models`, retrieved on 2026-10-08, contains
+**46 returned records**. SHA-256:
+`4246145d5629c7106aaefe4e0831cd4d9e9178e868f3c3b9c5feaced36178373`.
+Its bytes are unchanged. Unlike Albert, aliases may also be returned `id` records.
+The validator builds 17 alias-linked groups using reciprocal links and consistent
+shared card fields. Equal billing names alone do not merge cards. These groups
+establish apparent card relationships, not identical served checkpoints.
 
-The NVIDIA/Mistral GLM comparison is **same-model-family**, not established
-identical weights. Mistral Medium direct remains useful independently of Albert.
-Aristote is not Albert. All served revisions, quantization, decoding and tool
-reliability remain null unless separately evidenced. Documentation was reviewed
-on 2026-10-07; this change does not refresh hosted availability.
+| Preferred initial ID | Catalog context | Advertised capabilities |
+| --- | ---: | --- |
+| `mistral-medium-3-5` | 262144 | Chat, function calling, reasoning, vision |
+| `mistral-small-2603` | 262144 | Chat, function calling, reasoning, vision |
+| `codestral-2508` | 256000 | Chat, function calling, FIM; reasoning false |
+
+Each has one `<preferred-id>/opencode.json`. Medium is the default general candidate;
+Codestral is the coding-specialized candidate. Catalog capabilities are declarations,
+not evidence of successful OpenCode tool calls. Optional fixed IDs are
+`ministral-14b-2512`, `ministral-8b-2512`, `ministral-3b-2512`, and specialized
+Lean/formal-proof `labs-leanstral-1-5-1`; none has an initial config.
+
+The primary clusters preserve these additional returned IDs as provenance only:
+
+- Medium: `mistral-medium-latest`, `mistral-medium`, `mistral-medium-3.5`,
+  `mistral-medium-3`, `mistral-medium-2604`, `mistral-vibe-cli-latest`,
+  `mistral-vibe-cli-with-tools`, `magistral-medium-latest`.
+- Small 4: `mistral-small-latest`, `mistral-vibe-cli-fast`, `magistral-small-latest`.
+- Codestral: `codestral-latest`, `mistral-code-latest`, `mistral-code-fim-latest`.
+
+All `*-latest` IDs are flagged floating. Non-preferred aliases are also rejected
+as benchmark cells, even if their strings appear dated. No implicit alias resolution
+or duplicate cell per returned card. Full clusters, raw records and exclusions are
+in `mistral/metadata.json`; see [the review inventory](../docs/mistral-review.md).
+
+Nineteen records advertise `completion_chat: false` and are excluded, including
+embedding-named records, moderation, OCR, transcription/realtime and speech services.
+Specific capability flags justify the specialized service descriptions. Embedding
+records advertise no embedding-specific flag, so their coding exclusion relies on
+`completion_chat: false`, not an invented embedding capability. Two audio-chat
+records remain provenance outside the initial general coding matrix. Every original
+field, alias list and capability object is retained; raw creation timestamps do not
+become upstream release dates. Served revision, quantization, tokenizer, decoding,
+output ceilings, actual prices and runtime performance remain null.
+
+Public [Mistral Small 4 documentation](https://docs.mistral.ai/models/mistral-small-4-0-26-03)
+identifies `mistral-small-2603` as 119B total / 6.5B active. Its Aristote pairing
+`mistral-small-4-119b` is **model-family-only**, not a serving-equivalence claim.
+The [Medium card](https://docs.mistral.ai/models/mistral-medium-3-5-26-04)
+supports the selected preferred spelling. The
+[Codestral card](https://docs.mistral.ai/models/codestral-25-08) says **128k** context,
+conflicting with the authenticated catalog's **256000**. Both are recorded in dated
+[public evidence](mistral/evidence/2026-10-08-public-model-cards.json); the conflict
+is unresolved, and no exact numerical expansion of `k` is guessed. The evidence
+file hashes authored observations, not remote HTML bytes. Local 32768/4096 caps
+remain `benchmark_extension_provisional_common_cap`, independent of service maxima.
+
+`zai-glm-5-3` is absent from this owner catalog. Its former root config is retired;
+NVIDIA/Mistral GLM 5.3 is historical/planned, **not currently executable** for this
+account. NVIDIA retains `z-ai/glm-5.3` ([Build evidence](https://build.nvidia.com/z-ai/glm-5-3?section=deploy)).
+The direct account has no fixed Small 3.2 ID: do not fabricate a three-provider
+Small 3.2 comparison. `opencode.medium.json` moved into the Medium directory with
+identical bytes and recorded migration hashes.
 
 ## Preparation and qualification
 
@@ -127,18 +179,24 @@ python scripts/create_workspace.py --benchmark toy --provider aristote \
   --model qwen-3.6-35b-instruct --run-id aristote-preflight-001
 ```
 
-Mistral Medium requires `--config providers/mistral/opencode.medium.json` and
-`--model mistral-medium-3-5`. Default Mistral is `zai-glm-5-3`. Default Aristote is
+Mistral automatically resolves `mistral-medium-3-5`, `mistral-small-2603` and
+`codestral-2508` into their model directories. Its default candidate is Medium.
+Unknown, floating, excluded and non-preferred returned IDs fail closed, even with
+an explicit config override. Default Aristote is
 `qwen-3.6-35b-instruct`. Preparing a workspace establishes no runtime readiness.
 
 [Preflight representation](../docs/preflight.md) separates configuration loading,
 provider/model appearance, inference, conversation, tool calling, permissions,
-context/output acceptance and routing. Aristote checks remain unperformed. The
+context/output acceptance and routing. Mistral's template is unperformed. The
+owner reports Aristote standard Qwen basic loading, trivial inference and file
+creation worked, while a `pwd` request used permitted file/search tools without
+shell execution/stdout. This is a basic restricted observation, not complete
+permission/routing proof. The
 owner reports Albert Qwen3 Coder basic inference and file editing succeeded in the
 restricted condition; dates, runtime pins and sanitized evidence are not yet
 recorded, so this is a separate owner observation, not a completed formal record.
-The blank Albert template remains unperformed; no checks were marked passed by
-Codex. Both providers remain `scored_ready: false`. Catalog qualification
+The blank formal templates remain unperformed; no checks were marked passed by
+Codex. All providers remain `scored_ready: false`. Catalog qualification
 alone is not `scored_ready`. Unknown measurements are null, never inferred from a
 connected icon. Current local 32768/4096 caps are provisional benchmark choices,
 not service maxima; Aristote's documentation applied those local caps to specific
@@ -150,3 +208,8 @@ configuration, inspect effective secret-free settings, pin the release and verif
 egress and permission behavior. [Runtime design](../docs/runtime.md) separates
 inference transport from model-controlled commands. Metadata also keeps deployment,
 hosting, verified certification and retention evidence separate from capability.
+
+
+For the first owner-only Mistral restricted smoke observation, use the
+[exact manual steps](../docs/preflight-mistral.md). This is not a scored campaign
+or a substitute for the reviewed OS boundary and complete formal qualification.

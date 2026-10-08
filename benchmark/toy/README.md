@@ -38,8 +38,10 @@ Never start OpenCode in the benchmark repository. For actual runs, mount only
 the selected workspace into an isolated runtime, with no access to the benchmark
 repository, evaluator or oracle through parent directories, Git objects or tools.
 Directory separation alone is not a security boundary; runtime enforcement is
-not implemented by workspace preparation. No OpenCode run should start until
-that isolation exists.
+not implemented by workspace preparation. No scored or automated benchmark run
+should start until that isolation exists. Owner-only non-scored restricted smoke
+observations are recorded separately under [the manual preflight protocol](../../docs/preflight-mistral.md);
+they cannot establish isolation or scored readiness.
 
 ## Workflow and prompts
 

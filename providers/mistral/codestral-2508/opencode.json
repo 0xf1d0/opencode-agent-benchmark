@@ -52,8 +52,8 @@
     "lsp": "deny",
     "external_directory": "deny"
   },
-  "model": "mistral/zai-glm-5-3",
-  "small_model": "mistral/zai-glm-5-3",
+  "model": "mistral/codestral-2508",
+  "small_model": "mistral/codestral-2508",
   "enabled_providers": [
     "mistral"
   ],
@@ -65,8 +65,8 @@
         "baseURL": "https://api.mistral.ai/v1"
       },
       "models": {
-        "zai-glm-5-3": {
-          "name": "zai-glm-5-3",
+        "codestral-2508": {
+          "name": "codestral-2508",
           "limit": {
             "context": 32768,
             "output": 4096

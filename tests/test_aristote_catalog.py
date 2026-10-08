@@ -133,6 +133,17 @@ class AristoteCatalogTests(unittest.TestCase):
         self.assertEqual(comparison["model_id"], "mistral-small-3-2-24b-instruct-2506")
         self.assertIsNone(comparison["exact_checkpoint_identity"])
 
+    def test_owner_restricted_observation_is_not_formal_permission_or_routing_proof(self):
+        observation = self.metadata["qualification"]["owner_observation"]
+        self.assertEqual(observation["model_id"], PRIMARY[0])
+        self.assertEqual(observation["protocol_track"], "restricted")
+        self.assertEqual(observation["pwd_request"], "owner_reported_no_shell_execution_or_shell_stdout")
+        self.assertEqual(observation["file_creation"], "owner_reported_success")
+        for field in ("observed_at", "evidence_sha256", "runtime_lock_sha256", "effective_configuration_sha256", "routing_proof"):
+            self.assertIsNone(observation[field])
+        self.assertFalse(observation["formal_preflight_complete"])
+        self.assertFalse(self.metadata["qualification"]["scored_ready"])
+
     def test_runtime_lock_and_preflight_template_preserve_unqualified_status(self):
         lock = build_lock(provider="aristote", model=PRIMARY[0], prompt_id="01_bugfix", run_id="synthetic", campaign_id="infrastructure-test", opencode_version="1.2.3")
         self.assertEqual(lock["catalog_snapshot_sha256"], self.sha)

@@ -40,15 +40,18 @@ comparisons are useful where supported, but do not prove identical checkpoints.
 | Provider | Current candidates | Qualification |
 | --- | --- | --- |
 | NVIDIA Build | `z-ai/glm-5.3` | Documented identifier; runtime unqualified |
-| Mistral AI direct | `zai-glm-5-3`, `mistral-medium-3-5` | Documented identifiers; runtime unqualified |
+| Mistral AI direct | `mistral-medium-3-5`, `mistral-small-2603`, `codestral-2508` | Owner catalog qualified; 46 records clustered; runtime preflight unperformed |
 | Albert | Qwen3 Coder first, GPT OSS, DeepSeek V4 Flash, Mistral Small 3.2 | Owner catalog qualified; Qwen3 Coder basic inference/editing owner-observed; formal qualification incomplete |
-| Aristote | Standard/reasoning-high Qwen 3.6, Qwen 3.8, Mistral Small 3.2/4 | Owner-authenticated catalog qualified at 2026-10-08; runtime preflight unperformed |
+| Aristote | Standard/reasoning-high Qwen 3.6, Qwen 3.8, Mistral Small 3.2/4 | Owner catalog qualified; basic restricted inference/file creation owner-observed; formal qualification incomplete |
 
-NVIDIA/Mistral GLM 5.3 is a family-only pairing. Albert no longer has an active
-Mistral Medium configuration. Albert/Aristote Mistral Small 3.2 is another
+NVIDIA/Mistral GLM 5.3 is **not currently executable** for the owner account:
+`zai-glm-5-3` is absent from its Mistral snapshot. Mistral/Aristote Small 4 is a
+supported **model-family-only** pairing; no served equivalence is established.
+Albert no longer has an active Mistral Medium configuration. Albert/Aristote Mistral Small 3.2 is another
 **model-family-only** candidate pairing: catalog names do not establish identical
-checkpoints. Aristote's `mistral-medium-latest` is floating and not eligible as a
-pinned Medium 3.5 match. Albert and Aristote remain separate deployments.
+checkpoints. There is no fixed Mistral Small 3.2 ID in the direct catalog, so this
+is not a three-provider comparison. Aristote's `mistral-medium-latest` is floating
+and not eligible as a pinned Medium 3.5 match. Albert and Aristote remain separate deployments.
 French ownership, hosting, certification and retention require separate evidence;
 sovereignty is not a capability score. See [provider metadata](providers/README.md).
 **No provider/model cell is scored-ready.**
@@ -72,6 +75,8 @@ python scripts/create_workspace.py --benchmark toy --provider albert \
   --model qwen3-coder-30b-a3b-instruct --run-id preparation-001
 python scripts/create_workspace.py --benchmark toy --provider aristote \
   --model qwen-3.6-35b-instruct --run-id aristote-preflight-001
+python scripts/create_workspace.py --benchmark toy --provider mistral \
+  --model mistral-medium-3-5 --run-id mistral-preflight-001
 ```
 
 Only fixture code, public tests, selected config and a new Git baseline enter the
@@ -88,8 +93,10 @@ test execution. An `agentic` track with local Python/pytest/Git is designed only
 its OS sandbox requires architecture review before implementation. See
 [runtime design](docs/runtime.md) and [runtime locks](docs/runtime-pinning.md).
 
-Before preflight: select and pin an exact OpenCode release, review the isolation
-boundary and implement/audit the required runtime. Before scoring: complete
+For an owner-only non-scored smoke observation, follow the
+[manual Mistral steps](docs/preflight-mistral.md); Codex does not execute them.
+Formal preflight requires selecting and pinning an exact release, reviewing the isolation
+boundary and implementing/auditing the required runtime. Before scoring: complete
 owner-driven per-cell qualification, freeze budgets/task manifests, implement
 external collection/evaluation, review oracles/rubrics and resolve release rights.
 Threats include public-task contamination, incomplete oracles, provider drift,

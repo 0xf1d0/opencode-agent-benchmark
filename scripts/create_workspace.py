@@ -262,7 +262,7 @@ def create_workspace(*, benchmark, provider, model, run_id, config_path=None,
         raise WorkspaceError("Codex must not participate in benchmark runs.")
     repository_root = Path(repository_root).resolve()
     catalog_sha256 = None
-    if provider in {"albert", "aristote"}:
+    if provider in {"albert", "aristote", "mistral"}:
         catalog_module = importlib.import_module(("scripts." if __package__ else "") + provider + "_catalog")
         catalog_models, catalog_sha256 = catalog_module.read_catalog(
             repository_root / "providers" / provider / "catalog-snapshots/2026-10-08.json"
@@ -363,7 +363,7 @@ def main(argv=None):
     parser.add_argument("--provider", required=True)
     parser.add_argument("--model", required=True)
     parser.add_argument("--run-id", required=True)
-    parser.add_argument("--config", type=Path, help="Secret-free OpenCode v1 JSON; Albert/Aristote default to providers/<provider>/<canonical-model>/opencode.json, others to providers/<provider>/opencode.json")
+    parser.add_argument("--config", type=Path, help="Secret-free OpenCode v1 JSON; catalog-backed providers default to providers/<provider>/<preferred-model>/opencode.json, NVIDIA to providers/nvidia/opencode.json")
     parser.add_argument("--output-root", type=Path, help="External output directory; defaults to the system temporary directory/opencode-benchmark-workspaces")
     args = parser.parse_args(argv)
     try:

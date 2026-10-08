@@ -14,7 +14,7 @@ Implement Level 1 only; Level 2 and Level 3 remain design proposals.
 - `benchmark/toy/oracle/`: evaluator-only checks; never copy into agent workspaces.
 - `benchmark/toy/prompts/`: exact UTF-8 requests, versions, hashes and TP provenance.
 - `providers/`: secret-free configurations, candidate metadata and owner-supplied
-  catalog snapshots. Albert/Aristote model IDs must be canonical snapshot `id` values.
+  catalog snapshots. Catalog-backed model IDs must be exact preferred snapshot `id` values.
 - `scripts/`: offline workspace preparation, catalog validation and runtime locks.
 - `schemas/` and `docs/`: data contracts, field references and reproduction guidance.
 - `tests/`: deterministic infrastructure checks; `.github/workflows/` runs them.

@@ -412,7 +412,11 @@ Its five priority IDs have restricted profiles; standard Qwen 3.6 is the first
 preflight candidate and reasoning-high is independent. Gemma/Llama are secondary;
 embedding/rerank modes excluded. Floating `mistral-medium-latest` is ineligible
 until independent immutable serving evidence exists, not a Medium 3.5 match.
-All Aristote runtime preflight checks remain `not_run`. No cell is scored-ready.
+Formal Aristote check fields remain `not_run`. The owner separately observed
+loading, trivial inference, file creation and no shell execution/stdout on a `pwd`
+request, using permitted file/search tools. Record that restricted smoke observation
+without fabricating timestamps, hashes, runtime linkage or routing proof; it does
+not establish full permissions or OS isolation. No cell is scored-ready.
 
 Keep API `owned_by` and `created` as raw fields with no inferred upstream ownership
 or release chronology. Missing mode remains null. Conversation service limits,
@@ -489,3 +493,42 @@ unimplemented. Architecture review and release pinning precede sandbox work;
 owner preflight follows audited isolation; frozen budgets/tasks/rubrics, external
 evaluation and rights review precede a scored/public campaign. Levels 2/3 are
 future designs only and receive no implementation in this phase.
+
+
+### Mistral owner catalog and alias policy
+
+The owner-authenticated Mistral snapshot dated 2026-10-08 contains 46 records,
+SHA-256 `4246145d5629c7106aaefe4e0831cd4d9e9178e868f3c3b9c5feaced36178373`.
+Retain all raw fields. Alias names may themselves be returned IDs; do not apply
+Albert's alias/ID collision rejection to this provider. Seventeen reciprocal alias
+components have consistent shared card fields; billing names alone are insufficient
+for grouping. These are apparent card relationships, not served-weight attestations.
+Inconsistent alias/card evidence fails closed pending human review.
+
+Only preferred initial IDs become cells: `mistral-medium-3-5`,
+`mistral-small-2603`, `codestral-2508`. Neither `*-latest` nor other alternate
+returned IDs create extra repetitions or model conditions. The four fixed optional
+models stay outside the initial matrix without a declared experimental reason.
+Leanstral's formal-proof specialization must be reported if later included.
+Exclusions use `completion_chat: false` and specific advertised service capability
+flags, rather than names alone. Audio-chat records are preserved outside this
+initial general coding selection. Unknown serving/tokenizer/decoding/pricing/runtime
+values stay null. Catalog function calling is not observed OpenCode reliability.
+
+The absent `zai-glm-5-3` retires the current direct GLM cell. NVIDIA/direct GLM is
+not currently executable for this owner; public documentation cannot override its
+account catalog. Small 4 direct/Aristote is a supported model-family-only pairing,
+with public evidence for the direct family. Small 3.2 Albert/Aristote remains
+separate, without a fabricated direct third cell. Floating Aristote Medium is
+not an established direct Medium 3.5 match.
+
+Codestral's catalog value 256000 and public card label 128k are explicit unresolved
+evidence conflict entries, not silently reconciled or converted. Keep source dates,
+exact snapshot digests and public evidence URLs. Raw API `created` values have
+unverified chronology semantics. Benchmark 32768/4096 caps remain independent.
+
+The new Mistral restricted template is wholly `not_run`, `scored_ready: false`.
+[Owner-only manual smoke steps](docs/preflight-mistral.md) use non-task prompts and
+no shell execution, scoring or hidden tests. Such observations remain separate
+from full formal qualification until runtime, evidence, routing, permissions and
+all campaign gates are established. Codex neither performs nor grades the preflight.

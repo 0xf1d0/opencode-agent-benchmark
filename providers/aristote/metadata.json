@@ -362,9 +362,29 @@
   ],
   "track": "restricted",
   "qualification": {
-    "status": "catalog_qualified_inference_unqualified",
+    "status": "owner_observed_basic_restricted_formal_incomplete",
     "preflight_record": null,
-    "scored_ready": false
+    "scored_ready": false,
+    "owner_observation": {
+      "model_id": "qwen-3.6-35b-instruct",
+      "protocol_track": "restricted",
+      "workspace_kind": "generated_restricted",
+      "provider_model_loading": "owner_reported_success",
+      "trivial_inference": "owner_reported_expected_response",
+      "file_creation": "owner_reported_success",
+      "pwd_request": "owner_reported_no_shell_execution_or_shell_stdout",
+      "tools_used_instead": "owner_reported_permitted_search_and_file_tools",
+      "source_kind": "repository_owner_statement",
+      "observed_at": null,
+      "evidence_sha256": null,
+      "runtime_lock_sha256": null,
+      "effective_configuration_sha256": null,
+      "routing_proof": null,
+      "opencode_version": null,
+      "formal_preflight_complete": false,
+      "scored_ready": false,
+      "limits": "One observed request does not prove all permission paths or OS isolation."
+    }
   },
   "sovereignty": {
     "provider_operator": null,
@@ -537,6 +557,14 @@
       "status": "model-family-only",
       "exact_checkpoint_identity": null,
       "basis": "Related family labels in both owner catalogs; no served-weight identity evidence."
+    },
+    {
+      "local_model_id": "mistral-small-4-119b",
+      "provider": "mistral",
+      "model_id": "mistral-small-2603",
+      "status": "model-family-only",
+      "exact_checkpoint_identity": null,
+      "basis": "Direct public Small 4 card and owner catalog labels; served equivalence unverified."
     }
   ]
 }

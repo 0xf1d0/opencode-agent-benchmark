@@ -14,7 +14,16 @@ The first Aristote cell is `aristote/qwen-3.6-35b-instruct`, also `restricted`.
 [Its template](../runtime/preflight.aristote.example.json) leaves every check
 `not_run` and `scored_ready: false`. The exact owner-authenticated Aristote catalog
 is now archived and hashed in provider metadata; no Aristote runtime checks have
-been performed by Codex. Both providers remain short of full scored qualification.
+been performed by Codex. The owner has now observed Aristote loading, trivial inference
+and file creation, plus a `pwd` request that produced no shell execution/stdout and
+used permitted file/search tools. This is recorded separately in provider metadata,
+with missing times/hashes/linkage/routing proof null, not formal passed checks.
+
+The first Mistral cell is `mistral/mistral-medium-3-5`, `restricted`.
+[Its unperformed template](../runtime/preflight.mistral.example.json) keeps every
+check `not_run` and `scored_ready: false`. Follow the
+[manual owner instructions](preflight-mistral.md) for a basic non-scored observation.
+All three catalog-backed providers remain short of full scored qualification.
 
 Authentication is external OpenCode-managed persistent state. Project provider
 IDs remain fixed. Loading a custom provider definition may be necessary for it to
@@ -28,7 +37,7 @@ Schema: [`preflight.schema.json`](../schemas/preflight.schema.json).
 | Field | Meaning |
 | --- | --- |
 | `schema_version` | Preflight contract version 1.0.0. |
-| `provider`, `model_id`, `protocol_track` | Exact canonical cell and restricted/agentic policy. Never use aliases or normalize Albert/Aristote IDs. |
+| `provider`, `model_id`, `protocol_track` | Exact canonical cell and restricted/agentic policy. Use exact preferred IDs; never normalize IDs or select floating/alternative aliases. |
 | `runtime_lock_sha256` | SHA-256 of exact tested runtime-lock bytes, null before a lock is selected. |
 | `performed_by` | repository_owner after human qualification, null before execution. |
 | `authentication.mode` | Always opencode_managed_persistent_credential. |

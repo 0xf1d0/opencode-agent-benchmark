@@ -166,9 +166,26 @@ reranking, ASR and OCR models are excluded with reasons in provider metadata.
 Aliases are provenance only; workspace selection never resolves an alias.
 
 `Mistral-Medium-3.5-128B` is retired from Albert because it is absent from that
-snapshot. Mistral direct retains both `zai-glm-5-3` and `mistral-medium-3-5`.
-NVIDIA retains `z-ai/glm-5.3`; the NVIDIA/Mistral GLM comparison is family-only
-until independently established checkpoint equivalence.
+snapshot. Mistral's owner catalog now excludes `zai-glm-5-3`; its former config
+is retired. NVIDIA retains `z-ai/glm-5.3`, but that cross-provider GLM comparison
+is historical/planned and not executable for the current owner account.
+
+Mistral's exact owner snapshot contains 46 records, SHA-256
+`4246145d5629c7106aaefe4e0831cd4d9e9178e868f3c3b9c5feaced36178373`.
+Preferred cells are `mistral-medium-3-5`, `mistral-small-2603`, `codestral-2508`.
+Seventeen alias-linked apparent card groups preserve returned IDs/aliases without
+claiming checkpoint equivalence. Stable preferred IDs only enter the initial
+matrix; 19 non-chat service records are excluded by capabilities and two audio-chat
+records are not initial candidates. Four fixed optional models remain unconfigured,
+including specialized Leanstral. Raw creation timestamps have unverified semantics.
+
+Direct Small 4 / Aristote `mistral-small-4-119b` is model-family-only, supported by
+[public direct-model evidence](https://docs.mistral.ai/models/mistral-small-4-0-26-03).
+It does not establish identical served weights. Albert/Aristote Small 3.2 is a
+separate pairing; the direct catalog has no fixed Small 3.2 candidate. Codestral's
+catalog context 256000 conflicts with the public model card's 128k label; preserve
+both sources without choosing a ceiling. The common 32768/4096 cap remains an
+explicit benchmark extension. See [the evidence inventory](docs/mistral-review.md).
 
 Aristote now has its own exact owner-authenticated snapshot dated 2026-10-08,
 SHA-256 `ace8258a30778b5a7eaef0ce22e20bbe2c95c15ba1c4c9b495b7589586312e69`.
@@ -186,8 +203,12 @@ Small 3.2 remains **model-family-only**; no checkpoint identity is established.
 
 The owner reports Albert Qwen3 Coder restricted basic inference and file editing
 succeeded. This is an owner observation with missing dated evidence/runtime pins,
-not full formal qualification. Aristote has catalog evidence only and an
-unperformed restricted preflight template. Neither provider is scored-ready.
+not full formal qualification. The owner also reports Aristote standard Qwen
+loading, trivial inference and file creation succeeded; a `pwd` request produced
+no shell execution/stdout and used permitted file/search tools. No evidence hash,
+time, runtime linkage or routing proof is inferred. Formal templates remain
+unperformed. Mistral has catalog evidence and its own unperformed Medium template.
+No provider is scored-ready.
 
 Authentication for all four IDs is `opencode_managed_persistent_credential`.
 The owner reports that project-defined `albert` and `aristote` must be loaded for

@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "record_type": "authored_public_documentation_observations",
+  "reviewed_at": "2026-10-08",
+  "exact_remote_page_bytes_archived": false,
+  "notes": "These are sourced observations, not hashes/archives of remote HTML or serving attestation.",
+  "models": {
+    "mistral-medium-3-5": {
+      "source_url": "https://docs.mistral.ai/models/mistral-medium-3-5-26-04",
+      "published_api_id": "mistral-medium-3-5",
+      "model_family": "Mistral Medium 3.5",
+      "selection_decision": "Retain the owner-requested preferred ID; the public card supports this spelling."
+    },
+    "mistral-small-2603": {
+      "source_url": "https://docs.mistral.ai/models/mistral-small-4-0-26-03",
+      "published_api_id": "mistral-small-2603",
+      "model_family": "Mistral Small 4",
+      "total_parameters_label": "119B",
+      "active_parameters_label": "6.5B",
+      "served_checkpoint_equivalence_to_aristote": null
+    },
+    "codestral-2508": {
+      "source_url": "https://docs.mistral.ai/models/codestral-25-08",
+      "published_api_id": "codestral-2508",
+      "context_label": "128k",
+      "exact_context_tokens": null
+    }
+  },
+  "evidence_conflicts": [
+    {
+      "model_id": "codestral-2508",
+      "field": "context_length",
+      "owner_catalog_value": 256000,
+      "owner_catalog_field": "max_context_length",
+      "owner_catalog_snapshot_sha256": "4246145d5629c7106aaefe4e0831cd4d9e9178e868f3c3b9c5feaced36178373",
+      "public_documentation_value_raw": "128k",
+      "public_documentation_exact_tokens": null,
+      "public_source_url": "https://docs.mistral.ai/models/codestral-25-08",
+      "status": "unresolved",
+      "resolution": null,
+      "benchmark_context_cap": 32768,
+      "notes": "Do not choose one ceiling or convert k by guessing; the local cap is independent."
+    }
+  ]
+}

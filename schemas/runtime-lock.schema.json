@@ -147,7 +147,7 @@
     },
     "model_id": {
       "type": "string",
-      "description": "Exact canonical provider model ID; Albert/Aristote aliases and floating candidates are forbidden.",
+      "description": "Exact preferred catalog provider model ID; floating and alternative alias candidates are forbidden.",
       "minLength": 1
     },
     "provider_config_path": {
