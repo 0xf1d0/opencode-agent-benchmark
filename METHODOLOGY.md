@@ -288,7 +288,12 @@ Report separate level/task-type outcomes; avoid a single unqualified leaderboard
 | Reliability | Delivery rate, termination reasons, recoverable errors, unavailable cells |
 | Critical errors | Evidence-linked taxonomy and reviewer decisions |
 
-Usage unavailable from a provider is `unknown`, not zero. Keep billed usage,
+The proposed [result schema](schemas/result.schema.json) and
+[field reference](docs/result-schema.md) define the Level 1 journal, artifacts,
+measurements and failure records. Missing measurements use JSON `null`, never
+guessed values or the string `unknown`.
+
+Usage unavailable from a provider is `null`, not zero. Keep billed usage,
 OpenCode estimates and local token estimates distinguishable. Costs need a dated
 price source or invoice evidence; promotional credits are not general market
 prices. Report timeouts as censored durations rather than completed-task latency.

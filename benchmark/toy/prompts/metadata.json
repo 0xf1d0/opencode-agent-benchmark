@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "prompt_set_version": "1.0.0",
+  "language": "fr",
+  "encoding": "UTF-8",
+  "hash_definition": "SHA-256 of exact file bytes, including the final LF newline.",
+  "delivery_policy": "Deliver the prompt file verbatim; metadata and evaluator files are not prompt content.",
+  "versioning_policy": "Keep wording in Git; any byte change requires new hashes and a new prompt-set version. Record version and hash with every run.",
+  "sources": {
+    "tp": {
+      "path": "references/tp/TP_IA_INTRO_26_27.pdf",
+      "sha256": "6089bc8bdb09fbaaedabba8a1c8919908882cc238e531c7740573c60468ab53f",
+      "section": "3.2",
+      "pages": [
+        4,
+        5
+      ],
+      "page_numbering": "PDF pages"
+    },
+    "exercise_archive": {
+      "path": "references/tp/TutoOpenCode.zip",
+      "sha256": "2ac1cf75d503e358b913fa7b3942d2272d4e5d9c1034dd8624a9ec37dc459558",
+      "workflow_member": "bac-a-sable/README.md"
+    }
+  },
+  "origin_definitions": {
+    "tp_methodology": "The activity and requirements come directly from TP section 3.2; wording_relation specifies whether the actual text is normalized or newly phrased.",
+    "tp_with_benchmark_extensions": "A TP activity with extra benchmark-specific requirements explicitly listed in benchmark_extensions."
+  },
+  "prompt_order": [
+    "01_bugfix",
+    "02_word_frequency_minimal",
+    "03_word_frequency_intermediate",
+    "04_word_frequency_explicit",
+    "05_generate_tests",
+    "06_underspecified_optimization",
+    "07_celsius"
+  ],
+  "execution_notes": [
+    "The three word-frequency variants are alternatives for independent comparisons, not mandatory consecutive edits. Start each from the same declared snapshot.",
+    "Generate-tests follows a declared word-frequency implementation/specification; the full oracle applies only to the explicit variant.",
+    "Optimization is intentionally underspecified. Assess assumptions and behavior preservation; do not add hidden performance requirements.",
+    "Apply native undo after optimization as a workflow command, not an ordinary inference prompt.",
+    "Temperature comparisons must use identical starting snapshots and exact prompt bytes."
+  ],
+  "prompts": [
+    {
+      "id": "01_bugfix",
+      "file": "01_bugfix.txt",
+      "sha256": "23b6049129dee886c1203609b9728d323f2702e5cc149f070433cba6263806b2",
+      "origin": "tp_methodology",
+      "tp_reference": {
+        "source": "tp",
+        "section": "3.2",
+        "pdf_page": 4,
+        "activity": "Task 1: diagnose and repair is_palindrome"
+      },
+      "wording_relation": "TP example with normalized punctuation",
+      "benchmark_extensions": [],
+      "oracle_file_relative_to_toy": "oracle/test_palindrome.py"
+    },
+    {
+      "id": "02_word_frequency_minimal",
+      "file": "02_word_frequency_minimal.txt",
+      "sha256": "e2999f80e47b10401592f0ad43dd153bce48992afd623f5ce37a21bd7c0b5421",
+      "origin": "tp_methodology",
+      "tp_reference": {
+        "source": "tp",
+        "section": "3.2",
+        "pdf_page": 4,
+        "activity": "Task 2: minimal specification"
+      },
+      "wording_relation": "TP example with a final full stop",
+      "benchmark_extensions": [],
+      "oracle_file_relative_to_toy": null
+    },
+    {
+      "id": "03_word_frequency_intermediate",
+      "file": "03_word_frequency_intermediate.txt",
+      "sha256": "7d5cc9d9f9c4bd92a162c2391a99ca31bb07d42d157ec45e7ddb589621addad5",
+      "origin": "tp_methodology",
+      "tp_reference": {
+        "source": "tp",
+        "section": "3.2",
+        "pdf_page": 4,
+        "activity": "Task 2: word-to-count dictionary"
+      },
+      "wording_relation": "TP example with normalized spacing and punctuation",
+      "benchmark_extensions": [],
+      "oracle_file_relative_to_toy": null
+    },
+    {
+      "id": "04_word_frequency_explicit",
+      "file": "04_word_frequency_explicit.txt",
+      "sha256": "b614a7a965eb3157f052fdb8208e6d88fa4d919b3dd825258deaf7a8761a13f7",
+      "origin": "tp_with_benchmark_extensions",
+      "tp_reference": {
+        "source": "tp",
+        "section": "3.2",
+        "pdf_page": 4,
+        "activity": "Task 2: case-insensitive counts ignoring punctuation"
+      },
+      "wording_relation": "TP detailed example followed by benchmark-authored contract",
+      "benchmark_extensions": [
+        "ASCII punctuation and whitespace are word separators.",
+        "Apostrophes and hyphens are separators.",
+        "Lowercase normalization preserves accents and digits.",
+        "Empty or separator-only input returns an empty dictionary."
+      ],
+      "oracle_file_relative_to_toy": "oracle/test_word_frequency.py"
+    },
+    {
+      "id": "05_generate_tests",
+      "file": "05_generate_tests.txt",
+      "sha256": "dfcdacb93309f7f233a869feff01e371af3330acd10a07f280d2dc619536a1b6",
+      "origin": "tp_with_benchmark_extensions",
+      "tp_reference": {
+        "source": "tp",
+        "section": "3.2",
+        "pdf_page": 5,
+        "activity": "Task 3: generate tests and assess edge cases"
+      },
+      "wording_relation": "Benchmark-authored wording for a TP activity",
+      "benchmark_extensions": [
+        "Generated tests use a separate test_word_frequency.py file.",
+        "Implementation and existing tests must remain unchanged."
+      ],
+      "oracle_file_relative_to_toy": null
+    },
+    {
+      "id": "06_underspecified_optimization",
+      "file": "06_underspecified_optimization.txt",
+      "sha256": "fa3b9592dcbfe366d76239aa34e341b01504f11fe4dc854ef8203f18ae90380e",
+      "origin": "tp_methodology",
+      "tp_reference": {
+        "source": "tp",
+        "section": "3.2",
+        "pdf_page": 5,
+        "activity": "Task 4: intentionally underspecified optimization"
+      },
+      "wording_relation": "TP example with normalized capitalization and punctuation",
+      "benchmark_extensions": [],
+      "oracle_file_relative_to_toy": null
+    },
+    {
+      "id": "07_celsius",
+      "file": "07_celsius.txt",
+      "sha256": "2149b551ff489b5f606feea66e103db4525d87fe2e6cd1912bfd300fad985d09",
+      "origin": "tp_methodology",
+      "tp_reference": {
+        "source": "tp",
+        "section": "3.2",
+        "pdf_page": 5,
+        "activity": "Task 5: same-prompt comparison using temperature conversion"
+      },
+      "wording_relation": "Benchmark-authored provider-independent wording; TP names the task but gives no complete quoted prompt",
+      "benchmark_extensions": [],
+      "oracle_file_relative_to_toy": "oracle/test_temperature.py"
+    }
+  ],
+  "workflow_commands": [
+    {
+      "file": "00_init.txt",
+      "kind": "native_command",
+      "origin": "tp_methodology",
+      "tp_reference": {
+        "source": "tp",
+        "section": "3.2",
+        "pdf_page": 4,
+        "activity": "Repository initialization and AGENTS.md review"
+      },
+      "sha256": "760faddd663e6231e7232a61fee7017c00df6f0e3165414b0467cb219b0b6b6e",
+      "note": "Use the pinned runtime command interface; not part of the seven inference prompts."
+    },
+    {
+      "file": "05_undo.txt",
+      "kind": "native_command",
+      "origin": "tp_methodology",
+      "tp_reference": {
+        "source": "tp",
+        "section": "3.2",
+        "pdf_page": 5,
+        "activity": "Native undo after underspecified editing"
+      },
+      "sha256": "dda432c30b5d90e2beabba820c33f81ec3242365a3383cf197733b0456ab0158",
+      "note": "Use the pinned runtime command interface; not part of the seven inference prompts."
+    }
+  ]
+}

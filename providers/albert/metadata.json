@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "config_set_version": "1.0.0",
+  "provider_id": "albert",
+  "service_name": "Albert",
+  "reviewed_at": "2026-10-07",
+  "config_format": "opencode_v1",
+  "runtime_version_verified": null,
+  "default_model_id": "Mistral-Medium-3.5-128B",
+  "authentication": {
+    "default": "existing_opencode_connect",
+    "credential_fields_in_default": false,
+    "saved_connection_id": "albert",
+    "credentials_read_or_copied": false,
+    "environment_variant": "opencode.env.json",
+    "environment_variable": "ALBERT_API_KEY",
+    "user_reported_existing_connection": true
+  },
+  "endpoint": "https://albert.api.etalab.gouv.fr/v1",
+  "models": [
+    {
+      "model_id": "Mistral-Medium-3.5-128B",
+      "model_family": "Mistral Medium 3.5",
+      "api_identifier_status": "unverified_current_catalog",
+      "checkpoint_status": "model-family-only",
+      "checkpoint_revision": null,
+      "served_quantization": null,
+      "authenticated_availability": null,
+      "tool_call_verified": null,
+      "source_url": "https://github.com/etalab-ia/albert-code",
+      "source_kind": "government_repository_search_excerpt"
+    }
+  ],
+  "local_budget": {
+    "context_tokens": 32768,
+    "output_tokens": 4096,
+    "basis": "benchmark_extension_provisional_common_cap",
+    "service_context_limit": null,
+    "service_output_limit": null
+  },
+  "network_policy": {
+    "profile": "file_tools_only_no_web_v1",
+    "agent_shell_enabled": false,
+    "agent_web_tools_enabled": false,
+    "native_permissions_live_verified": null,
+    "os_egress_verified": null,
+    "scored_ready": false,
+    "test_execution": "external_harness_only"
+  },
+  "configs": {
+    "opencode.json": {
+      "sha256": "a46baa33529b30341d8ce0d1a83b425a2d77a0ace4d1ac754f69420edfcb9f7c",
+      "model_id": "Mistral-Medium-3.5-128B"
+    },
+    "opencode.env.json": {
+      "sha256": "2f5b5a05c6a603d19dddfa8409e33b806643a5527ccdfa59a41d1538771520dd",
+      "model_id": "Mistral-Medium-3.5-128B"
+    }
+  },
+  "notes": [
+    "Published API identifiers do not establish exact served weights or account-specific access.",
+    "Do not replace existing /connect credentials with empty environment references.",
+    "Require a pinned compatible runtime, effective-config audit and isolated authentication/network boundary before scored runs.",
+    "The model ID appears in the government repository search excerpt; the rendered page did not expose it and authenticated /v1/models was not queried. Treat current availability and checkpoint identity as unverified."
+  ]
+}

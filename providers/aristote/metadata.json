@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "config_set_version": "1.0.0",
+  "provider_id": "aristote",
+  "service_name": "Aristote",
+  "reviewed_at": "2026-10-07",
+  "config_format": "opencode_v1",
+  "runtime_version_verified": null,
+  "default_model_id": "qwen-3.6-35b-instruct",
+  "authentication": {
+    "default": "existing_opencode_connect",
+    "credential_fields_in_default": false,
+    "saved_connection_id": "aristote",
+    "credentials_read_or_copied": false,
+    "environment_variant": "opencode.env.json",
+    "environment_variable": "ARISTOTE_API_KEY",
+    "user_reported_existing_connection": true
+  },
+  "endpoint": "https://llm.aristote.education/v1",
+  "models": [
+    {
+      "model_id": "qwen-3.6-35b-instruct",
+      "model_family": "Qwen 3.6",
+      "api_identifier_status": "user_documented_current_catalog_unverified",
+      "checkpoint_status": "model-family-only",
+      "checkpoint_revision": null,
+      "served_quantization": null,
+      "authenticated_availability": null,
+      "tool_call_verified": null,
+      "source_url": null,
+      "source_kind": "user_supplied_official_documentation"
+    }
+  ],
+  "local_budget": {
+    "context_tokens": 32768,
+    "output_tokens": 4096,
+    "basis": "benchmark_extension_provisional_common_cap",
+    "service_context_limit": null,
+    "service_output_limit": null
+  },
+  "network_policy": {
+    "profile": "file_tools_only_no_web_v1",
+    "agent_shell_enabled": false,
+    "agent_web_tools_enabled": false,
+    "native_permissions_live_verified": null,
+    "os_egress_verified": null,
+    "scored_ready": false,
+    "test_execution": "external_harness_only"
+  },
+  "configs": {
+    "opencode.json": {
+      "sha256": "1073e96e404ab837cfdce3629dc5b8c21fd91a88f17effc70ffe8d5bee00d51b",
+      "model_id": "qwen-3.6-35b-instruct"
+    },
+    "opencode.env.json": {
+      "sha256": "3209eb37e967534ba1acdd5983e3642b736d8dc2ec37aa750e2c2ff921277a69",
+      "model_id": "qwen-3.6-35b-instruct"
+    }
+  },
+  "notes": [
+    "Published API identifiers do not establish exact served weights or account-specific access.",
+    "Do not replace existing /connect credentials with empty environment references.",
+    "Require a pinned compatible runtime, effective-config audit and isolated authentication/network boundary before scored runs.",
+    "The user-supplied Détails techniques excerpt establishes this candidate API ID and endpoint. Its exact page URL/publication date and current account catalog are unavailable. DISI must confirm service ceilings; do not infer them from /v1/models or local limits."
+  ]
+}

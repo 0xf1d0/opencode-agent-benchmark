@@ -28,14 +28,17 @@ public-release gate as described in `METHODOLOGY.md`.
 ## Agent-visible workspace
 
 Only `fixture/toolbox.py` and `fixture/test_toolbox.py` are initial workspace
-inputs. Create a fresh directory outside the benchmark repository and copy
-these two files explicitly. Never copy
+code/test inputs. [`scripts/create_workspace.py`](../../scripts/create_workspace.py)
+now copies these immutable files and a validated secret-free OpenCode config into
+a new repository outside the benchmark root. It records preparation metadata
+outside that workspace; see [workspace preparation](../../docs/workspaces.md).
+Never copy
 `benchmark/toy/` recursively, the repository root, or `oracle/` into a workspace.
 Never start OpenCode in the benchmark repository. For actual runs, mount only
 the selected workspace into an isolated runtime, with no access to the benchmark
 repository, evaluator or oracle through parent directories, Git objects or tools.
 Directory separation alone is not a security boundary; runtime enforcement is
-not implemented in this fixture-only stage. No OpenCode run should start until
+not implemented by workspace preparation. No OpenCode run should start until
 that isolation exists.
 
 ## Workflow and prompts
@@ -43,25 +46,34 @@ that isolation exists.
 1. Run the public tests and inspect the intentional failing palindrome case.
 2. Invoke the initialization command from `prompts/00_init.txt` through the pinned
    OpenCode command interface; inspect generated `AGENTS.md` for factual accuracy.
-3. Deliver `01_fix_palindrome.txt`, review the diff, and rerun public tests.
-4. Deliver one `02_word_frequency_*.txt` variant. For matched specification
+3. Deliver `01_bugfix.txt`, review the diff, and rerun public tests.
+4. Deliver one of `02_word_frequency_minimal.txt`,
+   `03_word_frequency_intermediate.txt`, or `04_word_frequency_explicit.txt`.
+   For matched specification
    comparisons, restart each variant from the same declared snapshot. The fully
    specified variant adds an explicit ASCII-punctuation contract to resolve
    ambiguity; its hidden oracle must not grade the minimally specified variants.
-5. On the resulting implementation, deliver `03_generate_tests.txt` and run
+5. On the resulting implementation, deliver `05_generate_tests.txt` and run
    pytest. Generated tests are submissions, not the benchmark's correctness oracle.
-6. Deliver `04_underspecified_optimization.txt`, review assumptions and changes,
+6. Deliver `06_underspecified_optimization.txt`, review assumptions and changes,
    then invoke `05_undo.txt` through OpenCode's native command interface. Compare
    file contents and repository state before the edit and after undo. Do not
    substitute a harness reset for native undo.
-7. Deliver `06_compare_models.txt` from an identical declared snapshot for each
+7. Deliver `07_celsius.txt` from an identical declared snapshot for each
    model; retain the exact prompt. No model or provider is selected here.
 
 `/init` and `/undo` files contain command requests, not ordinary inference prompts.
 Compatibility with the pinned OpenCode release must be checked before execution.
 The workflow mirrors the TP; independent scoring and state resets are benchmark
-extensions. No unattended runner, provider configuration, mutant suite or scored
-run is implemented in this stage.
+extensions. [Provider profiles](../../providers/README.md) now exist and disable
+agent shell/web access; public test execution therefore needs an external harness.
+No unattended runner, mutant suite or scored run is implemented in this stage.
+
+The seven inference prompts are provider-independent. Their exact UTF-8 wording,
+order, provenance and SHA-256 hashes are recorded in
+[`prompts/metadata.json`](prompts/metadata.json). Consult
+[`prompts/README.md`](prompts/README.md) for the distinction between TP methodology
+and benchmark additions. Initialization and undo remain separate native commands.
 
 ## Test commands
 

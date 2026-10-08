@@ -1,0 +1,78 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "share": "disabled",
+  "compaction": {
+    "auto": false,
+    "prune": false
+  },
+  "mcp": {},
+  "plugin": [],
+  "lsp": false,
+  "formatter": false,
+  "tools": {
+    "webfetch": false,
+    "websearch": false,
+    "bash": false,
+    "task": false,
+    "skill": false,
+    "lsp": false
+  },
+  "permission": {
+    "*": "deny",
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*auth.json": "deny",
+      "*credentials*": "deny"
+    },
+    "edit": {
+      "*": "allow",
+      "*opencode.json": "deny",
+      "*opencode.jsonc": "deny",
+      ".opencode/*": "deny",
+      "*/.opencode/*": "deny",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*auth.json": "deny",
+      "*credentials*": "deny",
+      ".git/*": "deny",
+      "*/.git/*": "deny"
+    },
+    "glob": "allow",
+    "grep": "allow",
+    "todowrite": "allow",
+    "question": "allow",
+    "webfetch": "deny",
+    "websearch": "deny",
+    "bash": "deny",
+    "task": "deny",
+    "skill": "deny",
+    "lsp": "deny",
+    "external_directory": "deny"
+  },
+  "model": "mistral/mistral-medium-3-5",
+  "small_model": "mistral/mistral-medium-3-5",
+  "enabled_providers": [
+    "mistral"
+  ],
+  "provider": {
+    "mistral": {
+      "name": "Mistral AI direct",
+      "npm": "@ai-sdk/mistral",
+      "options": {
+        "baseURL": "https://api.mistral.ai/v1"
+      },
+      "models": {
+        "mistral-medium-3-5": {
+          "name": "Mistral Medium 3.5",
+          "limit": {
+            "context": 32768,
+            "output": 4096
+          }
+        }
+      }
+    }
+  }
+}

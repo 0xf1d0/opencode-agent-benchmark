@@ -8,8 +8,8 @@ guide and references. Level 1 materials are now being added under `benchmark/toy
 the owner-supplied unsolved fixture, source public tests from TutoOpenCode, prompts
 and separate oracle tests. Its public baseline is verified: two passes and the
 intended space-handling failure; see the [Level 1 status](benchmark/toy/README.md).
-Provider integration and scored runs
-remain unimplemented.
+Secret-free provider profiles and provenance now exist under `providers/`;
+live provider qualification and scored runs remain unimplemented.
 
 **System under evaluation:** a pinned OpenCode release operating with a declared
 model through a declared inference provider. Results describe that complete
@@ -200,7 +200,8 @@ broader languages and service-dependent tasks require new versioned strata.
 The tree below is the **proposed complete architecture**, rather than an inventory
 of implemented files. Current Level 1 materials use `benchmark/toy/fixture/`,
 `benchmark/toy/prompts/` and `benchmark/toy/oracle/`; adopting the generalized
-task registry below is future work. Provider configurations remain unimplemented.
+task registry below is future work. Provider profiles now exist under `providers/`;
+their live eligibility and effective runtime restrictions remain to be verified.
 
 ```text
 AGENTS.md                         contributor guide, outside task workspaces

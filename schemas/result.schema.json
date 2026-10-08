@@ -1,0 +1,1689 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Level 1 Benchmark Result",
+  "type": "object",
+  "description": "Proposed Level 1 result record: one scheduled task/deployment trial, preserving first and replacement attempts. No collection or scoring implementation is supplied.",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "result_id",
+    "experiment_id",
+    "trial_id",
+    "benchmark_level",
+    "task_id",
+    "task_version",
+    "prompt_set_version",
+    "provider",
+    "model_id",
+    "resolved_model_id",
+    "model_family",
+    "model_evidence",
+    "opencode_version",
+    "effective_config",
+    "number_of_attempts",
+    "attempts",
+    "missing_measurements"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "description": "Result contract version. A field/meaning change requires a new schema version."
+    },
+    "result_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier of this result document."
+    },
+    "experiment_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the frozen experiment manifest defining budgets, eligibility and scoring."
+    },
+    "trial_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique scheduled task/deployment/repetition identifier; a replacement attempt stays in this trial."
+    },
+    "benchmark_level": {
+      "const": 1,
+      "description": "Only Level 1 is currently supported by this result contract."
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable task/scenario identifier; independent of its prompt variant."
+    },
+    "task_version": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Exact task contract/fixture version; null if unavailable.",
+      "minLength": 1
+    },
+    "prompt_set_version": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Exact prompt-set version from prompts/metadata.json; null if unavailable.",
+      "minLength": 1
+    },
+    "provider": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Exact declared service/deployment identifier; no API key or credential material.",
+      "minLength": 1
+    },
+    "model_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Exact requested provider model identifier, including variant/alias spelling; never a display-name substitute.",
+      "minLength": 1
+    },
+    "resolved_model_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Immutable model revision returned or documented for this deployment if independently observed; null if an alias cannot be resolved.",
+      "minLength": 1
+    },
+    "model_family": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Upstream family based on recorded provider/model evidence; null when identity is unknown. Do not infer from display-name resemblance.",
+      "minLength": 1
+    },
+    "model_evidence": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "Dated catalog/model identity evidence supporting family and revision; null if unavailable.",
+      "items": {
+        "$ref": "#/$defs/artifact"
+      }
+    },
+    "opencode_version": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Exact observed OpenCode CLI version including build/prerelease information; null if not measured.",
+      "minLength": 1
+    },
+    "effective_config": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/artifact"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Secret-free effective runtime configuration, including inference settings and auxiliary-model routing."
+    },
+    "number_of_attempts": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Measured total whole-run attempts for this scheduled trial, not API retries, interactions or independent repetitions.",
+      "minimum": 0
+    },
+    "attempts": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "All execution attempts in chronological order, including failed/replaced attempts; null if history unavailable.",
+      "items": {
+        "$ref": "#/$defs/attempt"
+      }
+    },
+    "missing_measurements": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "Explanations for null/unavailable evidence; [] only when no explanation is needed or no reason is known.",
+      "items": {
+        "$ref": "#/$defs/missing_measurement"
+      }
+    }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "description": "Retained artifact descriptor. Null descriptor means the artifact is unavailable.",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "inline_text",
+        "redacted"
+      ],
+      "properties": {
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Artifact-relative path or durable archive URI; never an instruction to mount it into the agent workspace.",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "SHA-256 of the exact stored artifact bytes, including any redaction, not a guessed or original-content digest.",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "inline_text": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Exact retained UTF-8 text, including newlines; empty text is a known empty artifact. Null when not embedded."
+        },
+        "redacted": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "True if stored bytes were redacted, false if confirmed intact, null if provenance is unavailable."
+        }
+      }
+    },
+    "instruction_file": {
+      "type": "object",
+      "description": "An observed AGENTS.md file and its exact retained content.",
+      "additionalProperties": false,
+      "required": [
+        "workspace_path",
+        "artifact"
+      ],
+      "properties": {
+        "workspace_path": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Observed path of this AGENTS.md, relative to the task workspace, or its declared external instruction location.",
+          "minLength": 1
+        },
+        "artifact": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/artifact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Content/path/hash descriptor of the observed file; never substitute the benchmark contributor guide."
+        }
+      }
+    },
+    "agents_md": {
+      "type": "object",
+      "description": "Instruction state at attempt boundaries; generated instructions may vary by track.",
+      "additionalProperties": false,
+      "required": [
+        "policy",
+        "before",
+        "after"
+      ],
+      "properties": {
+        "policy": {
+          "enum": [
+            "absent",
+            "fixed",
+            "generated",
+            null
+          ],
+          "description": "Declared instruction policy. Null if the protocol record is unavailable."
+        },
+        "before": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "All observed applicable AGENTS.md files before the attempt; [] only when their absence was verified.",
+          "items": {
+            "$ref": "#/$defs/instruction_file"
+          }
+        },
+        "after": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "All observed applicable AGENTS.md files after the attempt; [] only when their absence was verified.",
+          "items": {
+            "$ref": "#/$defs/instruction_file"
+          }
+        }
+      }
+    },
+    "git": {
+      "type": "object",
+      "description": "Git provenance; fixture snapshots without Git commits use null commit fields.",
+      "additionalProperties": false,
+      "required": [
+        "benchmark_commit",
+        "benchmark_dirty",
+        "benchmark_changes",
+        "task_base_commit",
+        "submission_commit",
+        "task_snapshot_sha256"
+      ],
+      "properties": {
+        "benchmark_commit": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Full benchmark repository commit at preparation time; not the current branch name.",
+          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+        },
+        "benchmark_dirty": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Whether benchmark inputs had uncommitted changes; null when not checked."
+        },
+        "benchmark_changes": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/artifact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Retained dirty-input changes, including an archive/index for untracked inputs; null if unavailable or not applicable."
+        },
+        "task_base_commit": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Full task repository commit before this attempt; null for a fixture without Git history.",
+          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+        },
+        "submission_commit": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Full task commit after execution, if observed. Does not imply worktree changes were committed.",
+          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+        },
+        "task_snapshot_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Digest of the canonical prepared task snapshot; its hashing procedure must be declared in the experiment.",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "interaction": {
+      "type": "object",
+      "description": "One user prompt or native command and its associated response/review, following the TP journal.",
+      "additionalProperties": false,
+      "required": [
+        "interaction_id",
+        "timestamp",
+        "kind",
+        "prompt_id",
+        "prompt",
+        "prompt_hash",
+        "response_summary",
+        "response",
+        "decision",
+        "decision_justification",
+        "review_phase",
+        "reviewer_id"
+      ],
+      "properties": {
+        "interaction_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable identifier unique within this trial; not an inferred conversation turn."
+        },
+        "timestamp": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "UTC timestamp when this prompt/command was submitted, if recorded.",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?Z$"
+        },
+        "kind": {
+          "enum": [
+            "prompt",
+            "native_command",
+            null
+          ],
+          "description": "Whether this was inference input or a native command such as initialization/undo."
+        },
+        "prompt_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Version-controlled prompt identifier; null for an uncatalogued prompt.",
+          "minLength": 1
+        },
+        "prompt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Exact delivered UTF-8 prompt/command text, preserving whitespace; null if missing or withheld, never a paraphrase."
+        },
+        "prompt_hash": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "SHA-256 of exact delivered prompt bytes, including final newline. Must match the prompt-set digest for unchanged canonical prompts.",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "response_summary": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Evidence-grounded human or deterministic summary of the associated response. Null if no reliable summary exists; never Codex/LLM-generated during evaluation.",
+          "minLength": 1
+        },
+        "response": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/artifact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional retained raw response/transcript artifact; separate from its summary."
+        },
+        "decision": {
+          "enum": [
+            "accepted",
+            "modified",
+            "rejected",
+            null
+          ],
+          "description": "Human review decision about the AI suggestion, independent of tests; null means no recorded decision."
+        },
+        "decision_justification": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Evidence-grounded reason for the decision; mandatory non-null when a decision is recorded.",
+          "minLength": 1
+        },
+        "review_phase": {
+          "enum": [
+            "during_run",
+            "post_run",
+            null
+          ],
+          "description": "When the review decision was made. Primary protocol permits post_run review only."
+        },
+        "reviewer_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Pseudonymous human reviewer identifier; null when unavailable or no review occurred.",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "decision": {
+                "enum": [
+                  "accepted",
+                  "modified",
+                  "rejected"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "decision_justification": {
+                "type": "string",
+                "minLength": 1
+              },
+              "review_phase": {
+                "enum": [
+                  "during_run",
+                  "post_run"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "test_run": {
+      "type": "object",
+      "description": "One actual test command invocation. Counts describe this invocation, not an invented aggregate.",
+      "additionalProperties": false,
+      "required": [
+        "test_run_id",
+        "phase",
+        "suite_id",
+        "suite_sha256",
+        "command",
+        "status",
+        "exit_code",
+        "collected",
+        "passed",
+        "failed",
+        "errors",
+        "skipped",
+        "xfailed",
+        "xpassed",
+        "duration_seconds",
+        "report"
+      ],
+      "properties": {
+        "test_run_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier unique within the trial, used to distinguish repeated test executions."
+        },
+        "phase": {
+          "enum": [
+            "baseline",
+            "agent",
+            "evaluation",
+            null
+          ],
+          "description": "Baseline before execution, public feedback during agent execution, or evaluator after the agent stops."
+        },
+        "suite_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Declared suite or task-specific oracle identifier; null if unavailable.",
+          "minLength": 1
+        },
+        "suite_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Digest of immutable suite inputs under a declared hashing procedure; null when not recorded.",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "command": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Exact command argument vector; null if the invocation was not captured.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "error",
+            "timeout",
+            "not_run",
+            null
+          ],
+          "description": "Observed invocation outcome; null if unavailable. not_run requires null counts and exit code."
+        },
+        "exit_code": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Observed process exit code, including negative signal codes if used; null when no exit was observed."
+        },
+        "collected": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Measured number of collected test cases; null if unavailable.",
+          "minimum": 0
+        },
+        "passed": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Measured number of passed cases; null if unavailable.",
+          "minimum": 0
+        },
+        "failed": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Measured number of assertion-failed cases; null if unavailable.",
+          "minimum": 0
+        },
+        "errors": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Measured collection/setup/teardown errors in the test report; not API or tool error counts.",
+          "minimum": 0
+        },
+        "skipped": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Measured skipped cases; null if unavailable.",
+          "minimum": 0
+        },
+        "xfailed": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Measured expected failures; null if unavailable.",
+          "minimum": 0
+        },
+        "xpassed": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Measured unexpected passes; null if unavailable.",
+          "minimum": 0
+        },
+        "duration_seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Measured elapsed time for this test invocation; null if unavailable.",
+          "minimum": 0
+        },
+        "report": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/artifact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Retained machine-readable or textual test output; preserve evidence of failure."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "not_run"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "exit_code": {
+                "type": "null"
+              },
+              "collected": {
+                "type": "null"
+              },
+              "passed": {
+                "type": "null"
+              },
+              "failed": {
+                "type": "null"
+              },
+              "errors": {
+                "type": "null"
+              },
+              "skipped": {
+                "type": "null"
+              },
+              "xfailed": {
+                "type": "null"
+              },
+              "xpassed": {
+                "type": "null"
+              },
+              "duration_seconds": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "hidden_test_run": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/test_run"
+        },
+        {
+          "properties": {
+            "phase": {
+              "const": "evaluation"
+            }
+          }
+        }
+      ],
+      "description": "Hidden tests are evaluator-only and must have phase evaluation."
+    },
+    "tokens": {
+      "type": "object",
+      "description": "Reported token usage covering all inference calls for the attempt, including retries and auxiliary calls; no token estimates.",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "coverage",
+        "input_tokens",
+        "output_tokens",
+        "total_tokens",
+        "cache_read_tokens",
+        "cache_write_tokens",
+        "reasoning_tokens",
+        "evidence"
+      ],
+      "properties": {
+        "source": {
+          "enum": [
+            "provider_reported",
+            "opencode_reported",
+            "mixed",
+            null
+          ],
+          "description": "Source of observed usage counters. opencode_reported means relayed/reported usage, never a local estimate."
+        },
+        "coverage": {
+          "enum": [
+            "complete",
+            "partial",
+            null
+          ],
+          "description": "Whether all attempt inference calls have usage evidence; null when coverage is unknown."
+        },
+        "input_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Complete-attempt input count as reported; null if incomplete or missing.",
+          "minimum": 0
+        },
+        "output_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Complete-attempt output count as reported; null if incomplete or missing.",
+          "minimum": 0
+        },
+        "total_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Complete-attempt total as reported; never fill in an unreported total by assuming input/output accounting.",
+          "minimum": 0
+        },
+        "cache_read_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Complete-attempt cache-read tokens if separately reported; may overlap input tokens.",
+          "minimum": 0
+        },
+        "cache_write_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Complete-attempt cache-write tokens if separately reported; may overlap input tokens.",
+          "minimum": 0
+        },
+        "reasoning_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Complete-attempt reasoning tokens if separately reported; may overlap output tokens.",
+          "minimum": 0
+        },
+        "evidence": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Usage reports/request records with accounting semantics and retry coverage; [] only for verified no inference calls.",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "coverage": {
+                "enum": [
+                  "partial",
+                  null
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "input_tokens": {
+                "type": "null"
+              },
+              "output_tokens": {
+                "type": "null"
+              },
+              "total_tokens": {
+                "type": "null"
+              },
+              "cache_read_tokens": {
+                "type": "null"
+              },
+              "cache_write_tokens": {
+                "type": "null"
+              },
+              "reasoning_tokens": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "anyOf": [
+              {
+                "properties": {
+                  "input_tokens": {
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "output_tokens": {
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "total_tokens": {
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "cache_read_tokens": {
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "cache_write_tokens": {
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "reasoning_tokens": {
+                    "type": "integer"
+                  }
+                }
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "source": {
+                "enum": [
+                  "provider_reported",
+                  "opencode_reported",
+                  "mixed"
+                ]
+              },
+              "coverage": {
+                "const": "complete"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "duration": {
+      "type": "object",
+      "description": "Measured durations in seconds. Timeout/interruption durations are observed elapsed time, not time to solution.",
+      "additionalProperties": false,
+      "required": [
+        "preparation_seconds",
+        "agent_seconds",
+        "evaluation_seconds",
+        "total_seconds",
+        "agent_censored"
+      ],
+      "properties": {
+        "preparation_seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Preparation time measured separately from agent execution.",
+          "minimum": 0
+        },
+        "agent_seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Agent elapsed time including provider waits, rate-limit backoff and retries within this attempt.",
+          "minimum": 0
+        },
+        "evaluation_seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Elapsed evaluation time after the agent stops.",
+          "minimum": 0
+        },
+        "total_seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Measured attempt elapsed time including preparation/evaluation and orchestration overhead; not an inferred sum.",
+          "minimum": 0
+        },
+        "agent_censored": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "True if agent duration ended at timeout/interruption, false if observed to normal termination, null if unavailable."
+        }
+      }
+    },
+    "human_intervention": {
+      "type": "object",
+      "description": "An observed human action that could influence execution; post-run scoring alone is not an intervention.",
+      "additionalProperties": false,
+      "required": [
+        "intervention_id",
+        "timestamp",
+        "phase",
+        "actor_id",
+        "kind",
+        "description",
+        "evidence"
+      ],
+      "properties": {
+        "intervention_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable intervention identifier unique within the trial."
+        },
+        "timestamp": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Observed UTC action timestamp.",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?Z$"
+        },
+        "phase": {
+          "enum": [
+            "preparation",
+            "during_run",
+            "post_run",
+            null
+          ],
+          "description": "When the intervention occurred; post_run means an action affecting a replacement or derived submission, not routine scoring."
+        },
+        "actor_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Pseudonymous human actor identifier.",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "prompt_edit",
+            "clarification",
+            "code_edit",
+            "manual_retry",
+            "configuration_change",
+            "other",
+            null
+          ],
+          "description": "Observed intervention type; other requires explanation in description."
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "What the human changed or supplied and its effect, grounded in evidence.",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Prompt/code diff or trace establishing this action.",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        }
+      }
+    },
+    "ai_error": {
+      "type": "object",
+      "description": "Human-reviewed error/hallucination annotation; suspected and confirmed claims remain distinguishable.",
+      "additionalProperties": false,
+      "required": [
+        "error_id",
+        "interaction_id",
+        "category",
+        "description",
+        "assessment",
+        "reviewer_id",
+        "evidence"
+      ],
+      "properties": {
+        "error_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Annotation identifier unique within the trial."
+        },
+        "interaction_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Linked interaction ID, or null if no single interaction can be identified.",
+          "minLength": 1
+        },
+        "category": {
+          "enum": [
+            "invented_api_or_dependency",
+            "false_repository_or_test_claim",
+            "misunderstood_requirement",
+            "regression",
+            "unsafe_action",
+            "inadequate_tests",
+            "unsupported_sovereignty_claim",
+            "other",
+            null
+          ],
+          "description": "Evidence-based category; other requires explanation in description."
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Specific claim/action and why it is erroneous; a failed hypothesis is not automatically a hallucination.",
+          "minLength": 1
+        },
+        "assessment": {
+          "enum": [
+            "confirmed",
+            "suspected",
+            "disputed",
+            null
+          ],
+          "description": "Human assessment status; null if unreviewed."
+        },
+        "reviewer_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Pseudonymous reviewer identifier.",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Response, diff or test evidence supporting or disputing this annotation.",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        }
+      }
+    },
+    "tool_failure": {
+      "type": "object",
+      "description": "Observed OpenCode/tool failure, separate from an ordinary failing benchmark test.",
+      "additionalProperties": false,
+      "required": [
+        "failure_id",
+        "interaction_id",
+        "timestamp",
+        "tool_name",
+        "invocation_id",
+        "message",
+        "exit_code",
+        "evidence"
+      ],
+      "properties": {
+        "failure_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Failure identifier unique within the trial."
+        },
+        "interaction_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Associated interaction ID, if known.",
+          "minLength": 1
+        },
+        "timestamp": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Observed UTC failure timestamp.",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?Z$"
+        },
+        "tool_name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Exact failing tool name as observed.",
+          "minLength": 1
+        },
+        "invocation_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Tool invocation ID as recorded.",
+          "minLength": 1
+        },
+        "message": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Sanitized observed failure message; never a guessed diagnosis.",
+          "minLength": 1
+        },
+        "exit_code": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Observed tool process exit code, if applicable."
+        },
+        "evidence": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Trace establishing the failure and its context.",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        }
+      }
+    },
+    "api_error": {
+      "type": "object",
+      "description": "One failed API request, including retries as distinct events. A 429 can also have a linked rate-limit event.",
+      "additionalProperties": false,
+      "required": [
+        "error_id",
+        "interaction_id",
+        "timestamp",
+        "request_id",
+        "http_status",
+        "code",
+        "message",
+        "retryable",
+        "retry_after_seconds",
+        "evidence"
+      ],
+      "properties": {
+        "error_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "API error identifier unique within the trial."
+        },
+        "interaction_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Associated interaction ID; auxiliary calls may have no interaction.",
+          "minLength": 1
+        },
+        "timestamp": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Observed UTC error timestamp.",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?Z$"
+        },
+        "request_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Provider/transport request identifier; null if not exposed.",
+          "minLength": 1
+        },
+        "http_status": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Observed HTTP error status; null for transport failures without a response.",
+          "minimum": 400,
+          "maximum": 599
+        },
+        "code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Exact provider/transport error code, if supplied.",
+          "minLength": 1
+        },
+        "message": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Sanitized actual error message.",
+          "minLength": 1
+        },
+        "retryable": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Recoverability according to the frozen retry policy, not an inferred eventual success."
+        },
+        "retry_after_seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Observed numeric Retry-After or equivalent hint; null if absent or not interpretable.",
+          "minimum": 0
+        },
+        "evidence": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Sanitized error/response evidence without credentials.",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        }
+      }
+    },
+    "rate_limit": {
+      "type": "object",
+      "description": "Observed throttling/quota event. Never infer quota values from generic error wording.",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "timestamp",
+        "request_id",
+        "api_error_id",
+        "unit",
+        "limit",
+        "remaining",
+        "window_seconds",
+        "reset_at",
+        "retry_after_seconds",
+        "wait_seconds",
+        "evidence"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Rate-limit event identifier unique within the trial."
+        },
+        "timestamp": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Observed UTC event timestamp.",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?Z$"
+        },
+        "request_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Request identifier, if supplied.",
+          "minLength": 1
+        },
+        "api_error_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Linked API error ID for the same event, if captured; avoids double-counting 429 events.",
+          "minLength": 1
+        },
+        "unit": {
+          "enum": [
+            "requests",
+            "tokens",
+            null
+          ],
+          "description": "Quota unit explicitly reported; null when unknown."
+        },
+        "limit": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Non-negative limit explicitly reported for the reported quota window/unit; null when absent.",
+          "minimum": 0
+        },
+        "remaining": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Non-negative remaining quota explicitly reported; null when absent.",
+          "minimum": 0
+        },
+        "window_seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Quota-window length explicitly reported in seconds; null when absent.",
+          "minimum": 0
+        },
+        "reset_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Explicit UTC reset instant or unambiguous conversion of a reported timestamp; null otherwise.",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?Z$"
+        },
+        "retry_after_seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Observed retry delay hint; null when absent.",
+          "minimum": 0
+        },
+        "wait_seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Actual measured delay imposed by the client; not the requested retry delay.",
+          "minimum": 0
+        },
+        "evidence": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Sanitized headers or throttling event evidence.",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        }
+      }
+    },
+    "attempt": {
+      "type": "object",
+      "description": "One execution attempt. Restarts have new IDs; transport retries remain within the same attempt.",
+      "additionalProperties": false,
+      "required": [
+        "attempt_id",
+        "attempt_number",
+        "retry_of_attempt_id",
+        "started_at",
+        "finished_at",
+        "capture_status",
+        "termination_reason",
+        "functional_success",
+        "git",
+        "agents_md",
+        "patch",
+        "interaction_count",
+        "interactions",
+        "public_tests",
+        "hidden_tests",
+        "human_intervention_count",
+        "human_interventions",
+        "ai_errors",
+        "tool_failures",
+        "api_errors",
+        "rate_limits",
+        "api_request_count",
+        "duration",
+        "tokens",
+        "trace"
+      ],
+      "properties": {
+        "attempt_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable unique execution ID, retained even if the attempt failed."
+        },
+        "attempt_number": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "One-based order within the scheduled trial; 1 is the primary first-attempt result."
+        },
+        "retry_of_attempt_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Previous failed attempt ID when this is a whole-run replacement; null for the first attempt.",
+          "minLength": 1
+        },
+        "started_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Observed UTC start of attempt preparation.",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?Z$"
+        },
+        "finished_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Observed UTC end of attempt, including evaluation if performed.",
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?Z$"
+        },
+        "capture_status": {
+          "enum": [
+            "complete",
+            "partial",
+            "unavailable",
+            null
+          ],
+          "description": "Completeness of execution-event capture; null if not assessed. Completeness does not imply every provider measurement is exposed."
+        },
+        "termination_reason": {
+          "enum": [
+            "completed",
+            "budget_exhausted",
+            "provider_failure",
+            "opencode_or_tool_failure",
+            "harness_or_evaluator_failure",
+            "invalid_task",
+            "protocol_violation",
+            "interrupted",
+            null
+          ],
+          "description": "Observed reason execution ended; completed does not imply functional success."
+        },
+        "functional_success": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "External task contract outcome: true/false only when evaluation supports it; null if unavailable, unrun or inapplicable."
+        },
+        "git": {
+          "$ref": "#/$defs/git",
+          "description": "Git/input provenance specific to this attempt."
+        },
+        "agents_md": {
+          "$ref": "#/$defs/agents_md",
+          "description": "Observed instruction state before and after this attempt."
+        },
+        "patch": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/artifact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Final frozen unified diff against the declared starting snapshot; known no change uses empty text. Include generated/untracked changes, not just tracked git diff."
+        },
+        "interaction_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Measured number of submitted user prompts/native commands, not model messages or tool calls; null when incomplete.",
+          "minimum": 0
+        },
+        "interactions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Ordered prompt journal; [] only for verified zero interactions. Partial journals require partial capture status.",
+          "items": {
+            "$ref": "#/$defs/interaction"
+          }
+        },
+        "public_tests": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Recorded public test invocations before/during/after execution; [] only when verified none ran.",
+          "items": {
+            "$ref": "#/$defs/test_run"
+          }
+        },
+        "hidden_tests": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Evaluator-only oracle invocations after stopping the agent; [] for verified none. Never copy tests/reports into the agent workspace.",
+          "items": {
+            "$ref": "#/$defs/hidden_test_run"
+          }
+        },
+        "human_intervention_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Measured count of execution-influencing human actions; post-run review decisions alone are excluded.",
+          "minimum": 0
+        },
+        "human_interventions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Observed interventions; [] only when absence was verified.",
+          "items": {
+            "$ref": "#/$defs/human_intervention"
+          }
+        },
+        "ai_errors": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Evidence-backed error annotations; [] only after completed review finds none, null if unreviewed/unavailable.",
+          "items": {
+            "$ref": "#/$defs/ai_error"
+          }
+        },
+        "tool_failures": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Observed tool failure events; [] only for verified none.",
+          "items": {
+            "$ref": "#/$defs/tool_failure"
+          }
+        },
+        "api_errors": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Observed failed API request events; no silent omission of transport retries.",
+          "items": {
+            "$ref": "#/$defs/api_error"
+          }
+        },
+        "rate_limits": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Observed rate-limit events and quota metadata; [] only for verified none.",
+          "items": {
+            "$ref": "#/$defs/rate_limit"
+          }
+        },
+        "api_request_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Actual inference HTTP/transport request attempts, including retries and auxiliary inference; null when unmeasured.",
+          "minimum": 0
+        },
+        "duration": {
+          "$ref": "#/$defs/duration",
+          "description": "Measured phase durations and censoring."
+        },
+        "tokens": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/tokens"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Measured/reported token counts. Entire object is null if no reliable usage evidence exists."
+        },
+        "trace": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/artifact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Full retained execution-event transcript; may be private or redacted for publication."
+        }
+      }
+    },
+    "missing_measurement": {
+      "type": "object",
+      "description": "Explicit explanation of unavailable, inapplicable or withheld evidence.",
+      "additionalProperties": false,
+      "required": [
+        "field",
+        "reason",
+        "details"
+      ],
+      "properties": {
+        "field": {
+          "type": "string",
+          "minLength": 1,
+          "description": "JSON Pointer to the affected field in this result, for example /attempts/0/tokens.",
+          "pattern": "^/"
+        },
+        "reason": {
+          "enum": [
+            "not_exposed",
+            "not_captured",
+            "not_run",
+            "not_applicable",
+            "withheld",
+            "partial_capture",
+            "unknown"
+          ],
+          "description": "Observed reason the field is null; unknown if the reason itself is not established."
+        },
+        "details": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Additional evidenced explanation; null if none is known.",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

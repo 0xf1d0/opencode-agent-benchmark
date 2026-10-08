@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "config_set_version": "1.0.0",
+  "provider_id": "nvidia",
+  "service_name": "NVIDIA Build",
+  "reviewed_at": "2026-10-07",
+  "config_format": "opencode_v1",
+  "runtime_version_verified": null,
+  "default_model_id": "z-ai/glm-5.3",
+  "authentication": {
+    "default": "existing_opencode_connect",
+    "credential_fields_in_default": false,
+    "saved_connection_id": "nvidia",
+    "credentials_read_or_copied": false,
+    "environment_variant": null,
+    "environment_variable": null,
+    "user_reported_existing_connection": true
+  },
+  "endpoint": "https://integrate.api.nvidia.com/v1",
+  "models": [
+    {
+      "model_id": "z-ai/glm-5.3",
+      "model_family": "GLM 5.3",
+      "api_identifier_status": "documented_authoritative",
+      "checkpoint_status": "model-family-only",
+      "checkpoint_revision": null,
+      "served_quantization": null,
+      "authenticated_availability": null,
+      "tool_call_verified": null,
+      "source_url": "https://build.nvidia.com/z-ai/glm-5-3?section=deploy",
+      "source_kind": "provider_model_documentation"
+    }
+  ],
+  "local_budget": {
+    "context_tokens": 32768,
+    "output_tokens": 4096,
+    "basis": "benchmark_extension_provisional_common_cap",
+    "service_context_limit": null,
+    "service_output_limit": null
+  },
+  "network_policy": {
+    "profile": "file_tools_only_no_web_v1",
+    "agent_shell_enabled": false,
+    "agent_web_tools_enabled": false,
+    "native_permissions_live_verified": null,
+    "os_egress_verified": null,
+    "scored_ready": false,
+    "test_execution": "external_harness_only"
+  },
+  "configs": {
+    "opencode.json": {
+      "sha256": "859dfc2485a0c475d966684b035e1d9669969cc51748177c1cc3533b01ff4149",
+      "model_id": "z-ai/glm-5.3"
+    }
+  },
+  "notes": [
+    "Published API identifiers do not establish exact served weights or account-specific access.",
+    "Do not replace existing /connect credentials with empty environment references.",
+    "Require a pinned compatible runtime, effective-config audit and isolated authentication/network boundary before scored runs."
+  ]
+}
